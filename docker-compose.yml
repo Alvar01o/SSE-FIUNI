@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  sse-web:
+    dns: 8.8.8.8
+    build:
+      context: ./
+    restart: "no"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/mainroot
+#      - ./docker/eleap-cms:/var/www/html/cms
+#      - ./docker/webserver/webserver/logs/apache:/var/log/apache2
+    depends_on:
+      - db
+    extra_hosts:
+      - "sse.loc:127.0.0.1"
+  db:
+    image: mariadb
+    restart: "no"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: "no"
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
