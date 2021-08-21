@@ -59,6 +59,3 @@ RUN apt-get -y install apache2-dev
 
 #copy configuration
 COPY ./000-default.conf /etc/apache2/sites-available/
-#config
-CMD ["sh", "/var/www/html/webserver/build.sh"]
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]

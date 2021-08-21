@@ -58,6 +58,3 @@ RUN docker-php-ext-configure opcache --enable-opcache && docker-php-ext-install 
 RUN apt-get -y install apache2-dev
 #add apache-dev
 RUN apt-get -y install apache2-dev
-
-CMD ["sh", "/var/www/html/jobs/build.sh"]
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
