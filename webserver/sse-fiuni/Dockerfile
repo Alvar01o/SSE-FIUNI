@@ -15,7 +15,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Other PHP7 Extensions
 RUN apt-get -y install libsqlite3-dev libsqlite3-0
 RUN docker-php-ext-install pdo_mysql
-RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install mysqli && a2enmod rewrite
 
 RUN apt-get -y install zlib1g-dev
 RUN docker-php-ext-install zip

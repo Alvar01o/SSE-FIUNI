@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EgresadoController;
+use App\Http\Controllers\EmpleadorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('admin', AdminController::class);
+Route::resource('egresado', EgresadoController::class);
+Route::resource('empleador', EmpleadorController::class);
