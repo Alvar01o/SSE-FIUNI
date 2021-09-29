@@ -22,5 +22,5 @@ Documentacion de Laravel: https://laravel.com/docs/8.x
 # Comandos utiles.
 
 ## Migraciones
-php artisan make:migration <migrationName> (Crear migraciones)
-php artisan migrate (correr migraciones)
+ - php artisan make:migration <migrationName> (Crear migraciones)
+ - php artisan migrate (correr migraciones)
