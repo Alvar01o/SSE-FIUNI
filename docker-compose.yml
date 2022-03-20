@@ -6,13 +6,15 @@ services:
     build:
       context: ./jobserver/sse-fiuni-jobs/
     restart: "no"
+    ports:
+      - "8081:80"
     volumes:
       - ./:/mainroot
       - ./jobserver/sse-fiuni-jobs:/var/www/html/jobs
     depends_on:
       - db
     extra_hosts:
-      - "sse.loc:127.0.0.1"
+      - "ssej.loc:127.0.0.1"
   sse-web:
     dns: 8.8.8.8
     build:
