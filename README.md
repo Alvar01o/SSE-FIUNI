@@ -20,7 +20,7 @@ Documentacion de Laravel: https://laravel.com/docs/8.x
 Relaciones en migraciones: https://stackoverflow.com/questions/26437342/laravel-migration-best-way-to-add-foreign-key/26437697
 <https://spatie.be/docs/laravel-permission/v5/introduction>
 <https://docs.laravel-excel.com/3.1/imports/custom-csv-settings.html>
-# Comandos utiles.
+# Comandos utiles
 
 ## Migraciones
  - php artisan make:migration <migrationName> (Crear migraciones)
