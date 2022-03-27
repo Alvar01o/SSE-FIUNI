@@ -1,0 +1,8 @@
+body {
+  background-color: aliceblue;
+}
+
+#side_menu {
+  background-color: white;
+  border-right: 1px solid #cccccc73;
+}

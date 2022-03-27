@@ -5,6 +5,8 @@
     <title>SSE FIUNI</title>
     <!-- bootstrap import-->
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/main.css')}}" rel="stylesheet">
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
     <!-- bootstrap import-->
 </head>
