@@ -45,6 +45,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 ```
 root@a1ab67e67d7e:/var/www/html/webserver# php artisan config:clear
 root@a1ab67e67d7e:/var/www/html/webserver# php artisan migrate:install
+root@a1ab67e67d7e:/var/www/html/webserver# php artisan migrate
 ```
 
 ## URLs utiles
