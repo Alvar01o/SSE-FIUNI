@@ -31,10 +31,13 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo(Permission::all());
 
         $role = Role::create(['name' => 'egresado']);
-        $role->givePermissionTo(Permission::all());
+        $role->givePermissionTo(Permission::create(['name' => 'Administrar Perfil de Egresados']));
+        $role->givePermissionTo(Permission::create(['name' => 'Completar Encuesta de Egresados']));
+
 
         $role = Role::create(['name' => 'empleador']);
-        $role->givePermissionTo(Permission::all());
+        $role->givePermissionTo(Permission::create(['name' => 'Completar Encuesta de Empleador']));
+
         //usuario - administrador para pruebas
         $user = User::create([
                 'name' => 'Admin',
