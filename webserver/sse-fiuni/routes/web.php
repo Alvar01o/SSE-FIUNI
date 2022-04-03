@@ -16,7 +16,7 @@ use App\Http\Controllers\EmpleadorController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 Route::resource('admin', AdminController::class);
 Route::resource('egresado', EgresadoController::class);
