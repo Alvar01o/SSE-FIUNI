@@ -1,34 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSE FIUNI</title>
-    <!-- bootstrap import-->
-    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{asset('css/main.css')}}" rel="stylesheet">
-    <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('js/main.js')}}"></script>
-    <!-- bootstrap import-->
-</head>
-<body class="container-fluid col-10 mt-4">
-    <div class="col-12 row">
-        <div class="col-lg-10 float-right">
-            <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+@extends('layouts.basic')
+@section('content')
+<div class="col-12 row justify-content-center">
+    <h2 class="text-center py-5">Sistema de Seguimiento de Egresados</h2>
+        <form class="login_form p-5 shadow col-5" action="/login" method="POST">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="justify-content-center login_img">
+                <img class="" src="https://i0.wp.com/www.fiuni.edu.py/wp-content/uploads/2021/08/logonuevo.jpeg?w=512&ssl=1" width="200" height="200">
             </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+            <div class="form-group py-3">
+                <label for="exampleInputEmail1">Correo</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
-
-</body>
-</html>
+            <div class="form-group  py-3">
+                <label for="exampleInputPassword1">Contraseña</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+</div>
+@endsection

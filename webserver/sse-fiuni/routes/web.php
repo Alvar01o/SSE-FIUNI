@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EgresadoController;
 use App\Http\Controllers\EmpleadorController;
+use App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,7 @@ use App\Http\Controllers\EmpleadorController;
 Route::get('/', function () {
     return view('login');
 });
+Route::post('/login', LoginController::class);
 Route::resource('admin', AdminController::class);
 Route::resource('egresado', EgresadoController::class);
 Route::resource('empleador', EmpleadorController::class);

@@ -1,8 +1,18 @@
 body {
-  background-color: aliceblue;
+  background-color: white;
+    font-family: 'Inter',
+    sans-serif;
 }
 
 #side_menu {
   background-color: white;
   border-right: 1px solid #cccccc73;
+}
+
+.login_form {
+    background-color:#f7f7f7;
+    border-radius: 20px;
+}
+.login_img {
+    text-align-last: center;
 }

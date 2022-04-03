@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,15 +20,13 @@ class DatabaseSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // create permissions
+        // ejemplo de como crear permiso
         Permission::create(['name' => 'edit articles']);
         // create roles and assign created permissions
 
-        // this can be done as separate statements
         $role = Role::create(['name' => 'visitante']);
-        $role->givePermissionTo(Permission::all());
 
-        // or may be done by chaining
+        // roles y permisos
         $role = Role::create(['name' => 'administrador']);
         $role->givePermissionTo(Permission::all());
 
@@ -35,8 +35,29 @@ class DatabaseSeeder extends Seeder
 
         $role = Role::create(['name' => 'empleador']);
         $role->givePermissionTo(Permission::all());
+        //usuario - administrador para pruebas
+        $user = User::create([
+                'name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('admin'),
+        ]);
+        $user->assignRole(User::ROLE_ADMINISTRADOR);
 
+        //usuario - Egresado para pruebas
+        $user = User::create([
+                'name' => 'Egresado',
+                'email' => 'egresado@gmail.com',
+                'password' => bcrypt('egresado'),
+        ]);
+        $user->assignRole(User::ROLE_EGRESADO);
 
+        //usuario - Empleador para pruebas
+        $user = User::create([
+                'name' => 'Empleador',
+                'email' => 'empleador@gmail.com',
+                'password' => bcrypt('empleador'),
+        ]);
+        $user->assignRole(User::ROLE_EMPLEADOR);
 
     }
 }

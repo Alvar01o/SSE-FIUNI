@@ -2,12 +2,7 @@
 <html lang="en">
 <x-header/>
 <body class="container-fluid col-10 mt-4">
-    <div class="col-12 row">
-        <div class="col-lg-10 float-right">
-            @yield('content')
-        </div>
-    </div>
+    @yield('content')
 <x-footer/>
-
 </body>
 </html>
