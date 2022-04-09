@@ -16,7 +16,7 @@ class Direcciones extends Migration
         Schema::create('direcciones', function (Blueprint $table) {
             $table->id();
             $table->string('direccion');
-            $table->integer('id_usuario');
+            $table->integer('id_user');
             $table->timestamps();
         });
     }

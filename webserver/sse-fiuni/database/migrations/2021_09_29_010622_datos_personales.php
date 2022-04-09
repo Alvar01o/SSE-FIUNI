@@ -20,7 +20,7 @@ class DatosPersonales extends Migration
             $table->integer('ci')->unique();
             $table->string('apellido');
             $table->integer('id_carrera');
-            $table->integer('id_usuario');
+            $table->integer('id_user');
             $table->dateTime('egreso');
             $table->timestamps();
         });
