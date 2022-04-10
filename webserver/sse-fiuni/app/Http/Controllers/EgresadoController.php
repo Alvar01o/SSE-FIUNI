@@ -10,9 +10,7 @@ class EgresadoController extends Controller
     public function __construct()
     {
         parent::__construct();
-        if () {
 
-        }
     }
 
     /**
