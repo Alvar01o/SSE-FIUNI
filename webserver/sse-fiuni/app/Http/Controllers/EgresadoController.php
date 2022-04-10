@@ -6,6 +6,15 @@ use Illuminate\Http\Request;
 
 class EgresadoController extends Controller
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        if () {
+
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *

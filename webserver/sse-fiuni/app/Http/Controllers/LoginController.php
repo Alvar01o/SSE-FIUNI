@@ -19,7 +19,6 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::user();
@@ -35,7 +34,7 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput(['email']);
+            'email' => 'Credenciales no autorizadas.'
+        ]);
     }
 }

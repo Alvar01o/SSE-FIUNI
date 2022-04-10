@@ -20,23 +20,26 @@ class DatabaseSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // ejemplo de como crear permiso
-        Permission::create(['name' => 'edit articles']);
+
         // create roles and assign created permissions
 
         $role = Role::create(['name' => 'visitante']);
 
         // roles y permisos
-        $role = Role::create(['name' => 'administrador']);
-        $role->givePermissionTo(Permission::all());
+        $role = Role::create(['name' => User::ROLE_ADMINISTRADOR]);
+        $role->givePermissionTo(Permission::create(['name' => 'Generar Reportes']));
+        $role->givePermissionTo(Permission::create(['name' => 'Administrar Empleador']));
+        $role->givePermissionTo(Permission::create(['name' => 'Administrar Egresados']));
+//        $role->givePermissionTo(Permission::all());
 
-        $role = Role::create(['name' => 'egresado']);
+        $role = Role::create(['name' => User::ROLE_EGRESADO]);
         $role->givePermissionTo(Permission::create(['name' => 'Administrar Perfil de Egresados']));
         $role->givePermissionTo(Permission::create(['name' => 'Completar Encuesta de Egresados']));
 
 
-        $role = Role::create(['name' => 'empleador']);
+        $role = Role::create(['name' => User::ROLE_EMPLEADOR]);
         $role->givePermissionTo(Permission::create(['name' => 'Completar Encuesta de Empleador']));
+
 
         //usuario - administrador para pruebas
         $user = User::create([
@@ -44,6 +47,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('admin'),
         ]);
+
         $user->assignRole(User::ROLE_ADMINISTRADOR);
 
         //usuario - Egresado para pruebas
@@ -60,7 +64,8 @@ class DatabaseSeeder extends Seeder
                 'email' => 'empleador@gmail.com',
                 'password' => bcrypt('empleador'),
         ]);
-        $user->assignRole(User::ROLE_EMPLEADOR);
+        //final de usuarios de prueba
 
+        $user->assignRole(User::ROLE_EMPLEADOR);
     }
 }
