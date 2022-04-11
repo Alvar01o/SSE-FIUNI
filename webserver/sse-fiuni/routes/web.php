@@ -5,6 +5,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EgresadoController;
 use App\Http\Controllers\EmpleadorController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,9 +18,9 @@ use App\Http\Controllers\LoginController;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+Route::get('/', LoginController::class);
+Route::get('/login', LoginController::class);
+Route::get('/logout', LogoutController::class);
 Route::post('/login', LoginController::class);
 Route::resource('admin', AdminController::class);
 Route::resource('egresado', EgresadoController::class);

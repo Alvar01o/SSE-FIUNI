@@ -22,6 +22,7 @@
                   <div class="col-auto fs--1 text-600"><span class="mb-0 undefined">o</span> <span><a href="#">Crear una cuenta</a></span></div>
                 </div>
                 <form action="/login" method="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 @if ($errors->any())
                     <div class="alert alert-danger mt-4">
                         <ul>
