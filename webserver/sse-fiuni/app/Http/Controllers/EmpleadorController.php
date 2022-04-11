@@ -13,7 +13,9 @@ class EmpleadorController extends Controller
      */
     public function index()
     {
-        //
+        return view('empleador.index', [
+            1, 2, 3
+        ]);
     }
 
     /**

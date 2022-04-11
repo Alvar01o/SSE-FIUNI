@@ -7,12 +7,6 @@ use Illuminate\Http\Request;
 class EgresadoController extends Controller
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +14,9 @@ class EgresadoController extends Controller
      */
     public function index()
     {
-        //
+        return view('egresado.index', [
+            1, 2, 3
+        ]);
     }
 
     /**

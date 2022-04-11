@@ -14,6 +14,6 @@ class Controller extends BaseController
     public function getUser()
     {
         return Auth::user();
-    } 
+    }
 
 }

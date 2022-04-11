@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US" dir="ltr">
+
 <x-header/>
-<body class="container-fluid col-10 mt-4">
+  <body>
     @yield('content')
-<x-footer/>
-</body>
+    <x-footer/>
+  </body>
 </html>
