@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EgresadoController;
 use App\Http\Controllers\EmpleadorController;
+use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,9 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/registro', RegistroController::class);
+Route::post('/registro', RegistroController::class);
 
 Route::get('/', LoginController::class);
 Route::get('/login', LoginController::class);
