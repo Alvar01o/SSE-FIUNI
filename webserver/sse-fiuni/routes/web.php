@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EgresadoController;
 use App\Http\Controllers\EmpleadorController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ReportesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,8 @@ Route::get('/', LoginController::class);
 Route::get('/login', LoginController::class);
 Route::get('/logout', LogoutController::class);
 Route::post('/login', LoginController::class);
+
+Route::resource('reportes', ReportesController::class);
 Route::resource('admin', AdminController::class);
 Route::resource('egresado', EgresadoController::class);
 Route::resource('empleador', EmpleadorController::class);

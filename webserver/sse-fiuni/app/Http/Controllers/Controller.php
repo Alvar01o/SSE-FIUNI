@@ -11,6 +11,10 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * Funcion para obtener usuario logeado
+     *
+     */
     public function getUser()
     {
         return Auth::user();
