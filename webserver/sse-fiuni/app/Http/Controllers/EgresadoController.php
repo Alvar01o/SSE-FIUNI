@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class EgresadoController extends Controller
 {
 
+    public function lista()
+    {
+        if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
+            $users = User::role('egresado')->get();
+            return view('egresado.lista', ['egresados' => $users]);
+        } else {
+            return view('error_permisos');
+        }
+
+    }
     /**
      * Display a listing of the resource.
      *

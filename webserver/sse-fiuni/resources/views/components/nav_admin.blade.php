@@ -7,7 +7,7 @@
             <hr class="mb-0 navbar-vertical-divider" />
         </div>
     </div>
-    <a class="nav-link" href="#" role="button" data-bs-toggle="" aria-expanded="false">
+    <a class="nav-link" href="/egresado/lista" role="button" data-bs-toggle="" aria-expanded="false">
         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calendar-alt"></span></span><span class="nav-link-text ps-1">Egresados</span>
         </div>
     </a>
@@ -22,7 +22,7 @@
         <div class="col-auto navbar-vertical-label">Administrar Empleadores
         </div>
         <div class="col ps-0">
-            <hr class="mb-0 navbar-vertical-divider" />
+            <hr class="mb-0 navbar-vertical-divider"/>
         </div>
     </div>
     <a class="nav-link" href="#" role="button" data-bs-toggle="" aria-expanded="false">

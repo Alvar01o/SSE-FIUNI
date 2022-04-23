@@ -27,6 +27,10 @@ Route::get('/', LoginController::class);
 Route::get('/login', LoginController::class);
 Route::get('/logout', LogoutController::class);
 Route::post('/login', LoginController::class);
+/**
+ * Rutas personalizadas de administrador
+ */
+Route::get('/egresados', [EgresadoController::class, 'lista'])->name('egresado.lista');
 
 Route::resource('reportes', ReportesController::class);
 Route::resource('admin', AdminController::class);
