@@ -3,22 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Carreras;
-class EgresadoController extends Controller
+
+class CarrerasController extends Controller
 {
-
-    public function lista()
-    {
-        if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
-            $users = User::role('egresado')->get();
-            $carreras = Carreras::get();
-            return view('egresado.lista', ['egresados' => $users, 'carreras' => $carreras]);
-        } else {
-            return view('error_permisos');
-        }
-
-    }
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +13,8 @@ class EgresadoController extends Controller
      */
     public function index()
     {
-        return view('egresado.index', [
-            1, 2, 3
-        ]);
+        //obtener las carreras de la base de datos
+        return view('carreras.index', ['carreras' => []]);
     }
 
     /**

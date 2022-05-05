@@ -9,6 +9,7 @@ use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\CarrerasController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,9 +31,10 @@ Route::post('/login', LoginController::class);
 /**
  * Rutas personalizadas de administrador
  */
-Route::get('/egresados', [EgresadoController::class, 'lista'])->name('egresado.lista');
+Route::get('/egresado/lista', [EgresadoController::class, 'lista'])->name('egresado.lista');
 
 Route::resource('reportes', ReportesController::class);
 Route::resource('admin', AdminController::class);
 Route::resource('egresado', EgresadoController::class);
 Route::resource('empleador', EmpleadorController::class);
+Route::resource('carreras', CarrerasController::class);

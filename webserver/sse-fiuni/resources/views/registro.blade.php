@@ -21,40 +21,52 @@
                   <div class="col-auto fs--1 text-600"><span class="mb-0 undefined">Ya tiene una cuenta?</span> <span><a href="/login">Acceda aqui</a></span></div>
                 </div>
                 <form action="/registro" method="POST" class="needs-validation" novalidate>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        @foreach ($errors->all() as $error)
-                            <div class="alert alert-danger">{{ $error }}</div>
-                        @endforeach
-                    </div>
-                @endif
-                <div class="mb-3">
-                    <input class="form-control" type="text" autocomplete="on" placeholder="Nombre" name="name" required/>
-                    <div class="invalid-feedback">
-                        Campo Requerido.
-                    </div>
-                </div>
-                  <div class="mb-3">
-                    <input class="form-control" type="email" autocomplete="on" placeholder="Correo" name="email" required/>
-                    <div class="invalid-feedback">
-                        Campo Requerido.
-                    </div>
-                </div>
-                  <div class="row gx-2">
-                    <div class="mb-3 col-sm-6">
-                      <input class="form-control" type="password" autocomplete="on" placeholder="Contraseña" name="password" required/>
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                <div class="alert alert-danger">{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
+                    <div class="mb-3">
+                        <input class="form-control" type="text" autocomplete="on" placeholder="Nombre" name="nombre" required/>
                         <div class="invalid-feedback">
                             Campo Requerido.
                         </div>
                     </div>
-                    <div class="mb-3 col-sm-6">
-                      <input class="form-control" type="password" autocomplete="on" placeholder="Confirmar Contraseña" name="password_confirmation"/>
+                    <div class="mb-3">
+                        <input class="form-control" type="text" autocomplete="on" placeholder="Apellido" name="apellido" required/>
+                        <div class="invalid-feedback">
+                            Campo Requerido.
+                        </div>
                     </div>
-                  </div>
-                  <div class="mb-3">
-                    <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">Crear Cuenta</button>
-                  </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="number" autocomplete="on" placeholder="C.I:" name="ci" required/>
+                        <div class="invalid-feedback">
+                            Campo Requerido.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="email" autocomplete="on" placeholder="Correo" name="email" required/>
+                        <div class="invalid-feedback">
+                            Campo Requerido.
+                        </div>
+                    </div>
+                    <div class="row gx-2">
+                        <div class="mb-3 col-sm-6">
+                        <input class="form-control" type="password" autocomplete="on" placeholder="Contraseña" name="password" required/>
+                            <div class="invalid-feedback">
+                                Campo Requerido.
+                            </div>
+                        </div>
+                        <div class="mb-3 col-sm-6">
+                        <input class="form-control" type="password" autocomplete="on" placeholder="Confirmar Contraseña" name="password_confirmation"/>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">Crear Cuenta</button>
+                    </div>
                 </form>
               </div>
              </div>

@@ -22,7 +22,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'nombre',
+        'apellido',
+        'ci',
+        'carrera_id',
         'email',
         'password',
     ];
@@ -46,13 +49,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function carrera()
+    {
+        return $this->belongsTo(Carreras::class);
+    }
+
     public function getName()
     {
-        return $this->name;
+        return $this->nombre;
     }
 
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function getIniciales()
+    {
+        $n = $this->nombre[0];
+        $a = $this->apellido[0];
+        return strtoupper("{$n}{$a}");
     }
 }
