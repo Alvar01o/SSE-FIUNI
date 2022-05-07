@@ -19,7 +19,7 @@
                   <div class="col-auto">
                     <h5>Ingresar</h5>
                   </div>
-                  <div class="col-auto fs--1 text-600"><span class="mb-0 undefined">o</span> <span><a href="#">Crear una cuenta</a></span></div>
+                  <div class="col-auto fs--1 text-600"><span class="mb-0 undefined">o</span> <span><a href="/registro">Crear una cuenta</a></span></div>
                 </div>
                 <form action="/login" method="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -33,10 +33,10 @@
                     </div>
                 @endif
                 <div class="mb-3">
-                    <input class="form-control" name="email" type="email" placeholder="Email address" />
+                    <input class="form-control" name="email" type="email" placeholder="Correo" />
                   </div>
                   <div class="mb-3">
-                    <input class="form-control"  name="password" type="password" placeholder="Password" />
+                    <input class="form-control"  name="password" type="password" placeholder="Contraseña" />
                   </div>
                   <div class="row flex-between-center">
 

@@ -53,6 +53,17 @@
                             Campo Requerido.
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option selected="">Seleccione Carrera</option>
+                            @foreach ($carreras as $carrera)
+                                <option value="{{ $carrera->id }}">{{ $carrera->carrera }}</option>
+                            @endforeach
+                        </select>
+                        <div class="invalid-feedback">
+                            Campo Requerido.
+                        </div>
+                    </div>
                     <div class="row gx-2">
                         <div class="mb-3 col-sm-6">
                         <input class="form-control" type="password" autocomplete="on" placeholder="Contraseña" name="password" required/>

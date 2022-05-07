@@ -31,7 +31,6 @@
             <td class="text-nowrap">{{ $user->getEmail() }}</td>
             <td class="text-nowrap">{{ $user->carrera->carrera }}</td>
             <td class="text-nowrap"> - </td>
-
         </tr>
     @endforeach
 

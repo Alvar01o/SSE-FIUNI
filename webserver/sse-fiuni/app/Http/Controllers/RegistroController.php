@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+use App\Models\Carreras;
 class RegistroController extends Controller
 {
     /**
@@ -29,7 +29,8 @@ class RegistroController extends Controller
                     return redirect()->intended('empleador');
                 }
             } else {
-                return view('registro');
+                $carreras = Carreras::get();
+                return view('registro', ['carreras' => $carreras]);
             }
         } else {
             $validator = Validator::make($request->all(), [

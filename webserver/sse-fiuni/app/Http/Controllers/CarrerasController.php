@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Carreras;
 use Illuminate\Http\Request;
 
 class CarrerasController extends Controller
@@ -13,8 +13,9 @@ class CarrerasController extends Controller
      */
     public function index()
     {
+        $carreras = Carreras::get();
         //obtener las carreras de la base de datos
-        return view('carreras.index', ['carreras' => []]);
+        return view('carreras.index', ['carreras' => $carreras]);
     }
 
     /**
@@ -35,7 +36,10 @@ class CarrerasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Carreras::create([
+            'carrera' => $request->input('carrera')
+        ]);
+        return redirect()->intended('carreras');
     }
 
     /**
@@ -69,7 +73,7 @@ class CarrerasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        echo "asdasd";die;
     }
 
     /**
@@ -80,6 +84,11 @@ class CarrerasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //ver si existen usuarios en esta carrera tirar error.
+        $carrera = Carreras::find($id);
+        if ($carrera) {
+            $carrera->delete();
+        }
+        return redirect()->intended('carreras');
     }
 }
