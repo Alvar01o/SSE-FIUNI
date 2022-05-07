@@ -36,6 +36,7 @@
     <link href="{{asset('css/theme.min.css')}}" rel="stylesheet" id="style-default">
     <link href="{{asset('css/user-rtl.min.css')}}" rel="stylesheet" id="user-style-rtl">
     <link href="{{asset('css/user.min.css')}}" rel="stylesheet" id="user-style-default">
+    <link href="{{asset('css/main.css')}}" rel="stylesheet" id="user-style-default">
     <script>
       var isRTL = JSON.parse(localStorage.getItem('isRTL'));
       if (isRTL) {

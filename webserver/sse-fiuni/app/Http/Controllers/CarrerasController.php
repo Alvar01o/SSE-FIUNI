@@ -84,11 +84,16 @@ class CarrerasController extends Controller
      */
     public function destroy($id)
     {
-        //ver si existen usuarios en esta carrera tirar error.
         $carrera = Carreras::find($id);
-        if ($carrera) {
-            $carrera->delete();
+        if ($carrera->tieneUsuarios()) { //verifica si existen usuarios
+            return back()->withErrors([
+                'id' => 'Esta Carrera Tienes usuarios asignados. '
+            ]);
+        } else { //si no, elimina la carrera
+            if ($carrera) {
+                $carrera->delete();
+            }
+            return redirect()->intended('carreras');
         }
-        return redirect()->intended('carreras');
     }
 }

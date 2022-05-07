@@ -1,18 +1,5 @@
-body {
-  background-color: white;
-    font-family: 'Inter',
-    sans-serif;
+.eliminarCarreraForm {
+max-width: 15px !important;
+color: #d43737de;
 }
-
-#side_menu {
-  background-color: white;
-  border-right: 1px solid #cccccc73;
-}
-
-.login_form {
-    background-color:#f7f7f7;
-    border-radius: 20px;
-}
-.login_img {
-    text-align-last: center;
-}
+    

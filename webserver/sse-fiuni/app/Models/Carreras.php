@@ -11,4 +11,10 @@ class Carreras extends Model
     protected $fillable = [
         'carrera'
     ];
+
+    public function tieneUsuarios() {
+        $siEncuentraAlmenosUno = false;
+        $users = User::where('carrera_id', $this->id)->get();
+        return $users->count() == 0 ? false : true;
+    }
 }

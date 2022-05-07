@@ -11,7 +11,7 @@ class EgresadoController extends Controller
     public function lista()
     {
         if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
-            $users = User::role('egresado')->get();
+            $users = User::role('egresado')->paginate(25);
             $carreras = Carreras::get();
             return view('egresado.lista', ['egresados' => $users, 'carreras' => $carreras]);
         } else {
