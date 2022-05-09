@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('carrera_id')->default(0);
             $table->string('password');
+            $table->string('token_invitacion')->nullable();
+            $table->boolean('confirmado')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

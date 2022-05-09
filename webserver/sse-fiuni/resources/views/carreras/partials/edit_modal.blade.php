@@ -6,15 +6,15 @@
         <h5 class="modal-title" id="editCarreraModalLabel">Editar Carrera</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-    <form method="PUT" id="editCarreraForm" action="">
+    <form method="POST" id="editCarreraForm" action="" class="needs-validation" novalidate>
       <div class="modal-body">
-
+          <input type="hidden" name="_method" value="PUT">
           <input type="hidden" name="id" value=""/>
           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <div class="mb-3">
-                <input class="form-control" type="text" autocomplete="on" placeholder="Nombre Carrera" name="carrera" required/>
+                <input class="form-control" type="text" pattern=".{9,100}" minlength="9" maxlength="100" autocomplete="on" placeholder="Nombre Carrera" name="carrera" required/>
                 <div class="invalid-feedback">
-                    Campo Requerido.
+                    Valor invalido, longitud requerida entre 9-100 caracteres.
                 </div>
             </div>
 
@@ -33,7 +33,6 @@
                 let element = jQuery(elem.currentTarget);
                 let index = element.attr('data-index');
                 carrera = carreras[index];
-                console.log(carreras[index]);
                 jQuery('#editCarreraModal').modal('show')
                 jQuery('#editCarreraModal').find('input[name="carrera"]').val(carreras[index].carrera)
                 jQuery('#editCarreraModal').find('input[name="id"]').val(carreras[index].id)

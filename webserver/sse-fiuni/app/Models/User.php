@@ -28,6 +28,7 @@ class User extends Authenticatable
         'carrera_id',
         'email',
         'password',
+        'token_invitacion'
     ];
 
     /**

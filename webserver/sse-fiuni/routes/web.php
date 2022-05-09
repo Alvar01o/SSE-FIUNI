@@ -38,5 +38,3 @@ Route::resource('admin', AdminController::class);
 Route::resource('egresado', EgresadoController::class);
 Route::resource('empleador', EmpleadorController::class);
 Route::resource('carreras', CarrerasController::class);
-Route::post('/carreras/store', [CarrerasController::class, 'store'])->name('carreras.store');
-Route::post('/carreras/destroy/{id}', [CarrerasController::class, 'destroy'])->name('carreras.destroy');

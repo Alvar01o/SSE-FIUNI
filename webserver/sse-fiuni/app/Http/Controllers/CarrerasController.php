@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Carreras;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class CarrerasController extends Controller
 {
     /**
@@ -36,10 +36,18 @@ class CarrerasController extends Controller
      */
     public function store(Request $request)
     {
-        Carreras::create([
-            'carrera' => $request->input('carrera')
-        ]);
-        return redirect()->intended('carreras');
+        $validator = Validator::make($request->all(), [
+            'carrera' => 'required|string|between:9,100'
+        ], ['required' => 'Campo :attribute es requerido', 'string' => 'Nombre de la Carrera en formato invalido.', 'between' => 'Longitud requerida entre 9-100 caracteres.']);
+        if($validator->fails()) {
+            return redirect('carreras')
+                        ->withErrors($validator);
+        } else {
+            Carreras::create([
+                'carrera' => $request->input('carrera')
+            ]);
+            return redirect()->intended('carreras');
+        }
     }
 
     /**
@@ -73,7 +81,19 @@ class CarrerasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        echo "asdasd";die;
+        $carrera = Carreras::find($id);
+        $validator = Validator::make($request->all(), [
+                'carrera' => 'required|string|between:9,100'
+            ], ['required' => 'Campo :attribute es requerido', 'string' => 'Nombre de la Carrera en formato invalido.', 'between' => 'Longitud requerida entre 9-100 caracteres.']);
+        if($validator->fails()) {
+            return redirect('carreras')
+                        ->withErrors($validator);
+        }
+        if ($carrera && !empty($request->input('carrera'))) {
+            $carrera->carrera = $request->input('carrera');
+            $carrera->save();
+        }
+        return redirect()->intended('carreras');
     }
 
     /**
@@ -86,8 +106,8 @@ class CarrerasController extends Controller
     {
         $carrera = Carreras::find($id);
         if ($carrera->tieneUsuarios()) { //verifica si existen usuarios
-            return back()->withErrors([
-                'id' => 'Esta Carrera Tienes usuarios asignados. '
+            return redirect()->withErrors([
+                'mensaje' => 'Esta Carrera Tienes usuarios asignados. '
             ]);
         } else { //si no, elimina la carrera
             if ($carrera) {

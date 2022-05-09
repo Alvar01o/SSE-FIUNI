@@ -38,7 +38,8 @@
             </td>
             <td class="text-end">
                 <a href="#" data-index="{{$index}}" class="editBtn"><span class="fas fa-pencil-alt"></span></a>
-                <form method="POST" action="/carreras/destroy/{{$carrera->id}}" class="eliminarCarreraForm d-inline">
+                <form method="POST" action="/carreras/{{$carrera->id}}" class="eliminarCarreraForm d-inline">
+                    <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <span id="deleteCarreraBtn{{$carrera->id}}" class="fas fa-trash-alt"></span>
                 </form>

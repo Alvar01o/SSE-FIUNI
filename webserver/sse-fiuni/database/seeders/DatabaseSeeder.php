@@ -42,7 +42,6 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo(Permission::create(['name' => 'Administrar Egresados']));
 
         //        $role->givePermissionTo(Permission::all());
-
         $role = Role::create(['name' => User::ROLE_EGRESADO]);
         $role->givePermissionTo(Permission::create(['name' => 'Administrar Perfil de Egresados']));
         $role->givePermissionTo(Permission::create(['name' => 'Completar Encuesta de Egresados']));
@@ -55,6 +54,8 @@ class DatabaseSeeder extends Seeder
         $user = User::create([
                 'nombre' => 'Admin',
                 'apellido' => '#1',
+                'ci' => 0000001,
+                'confirmado' => true,
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('admin'),
         ]);
@@ -65,6 +66,8 @@ class DatabaseSeeder extends Seeder
         $user = User::create([
                 'nombre' => 'Egresado',
                 'apellido' => '#1',
+                'ci' => 0000001,
+                'confirmado' => true,
                 'carrera_id' => $carrera1->id,
                 'email' => 'egresado@gmail.com',
                 'password' => bcrypt('egresado'),
@@ -76,6 +79,8 @@ class DatabaseSeeder extends Seeder
         $user = User::create([
                 'nombre' => 'Empleador',
                 'apellido' => '#1',
+                'ci' => 0000001,
+                'confirmado' => true,
                 'email' => 'empleador@gmail.com',
                 'password' => bcrypt('empleador'),
         ]);
@@ -89,6 +94,7 @@ class DatabaseSeeder extends Seeder
                     'apellido' => "#{$FourDigitRandomNumber}",
                     'carrera_id' => $carrera1->id,
                     'email' => "egresado{$FourDigitRandomNumber}@informatica.com",
+                    'token_invitacion' => base64_encode(bcrypt("egresado{$FourDigitRandomNumber}@informatica.com".time())),
                     'password' => bcrypt('egresado'),
             ]);
             $user->assignRole(User::ROLE_EGRESADO);
@@ -98,6 +104,7 @@ class DatabaseSeeder extends Seeder
                     'apellido' => "#{$FourDigitRandomNumber}",
                     'carrera_id' => $carrera2->id,
                     'email' => "egresado{$FourDigitRandomNumber}@electro.com",
+                    'token_invitacion' => base64_encode(bcrypt("egresado{$FourDigitRandomNumber}@electro.com".time())),
                     'password' => bcrypt('egresado'),
             ]);
             $user->assignRole(User::ROLE_EGRESADO);
@@ -107,6 +114,7 @@ class DatabaseSeeder extends Seeder
                     'apellido' => "#{$FourDigitRandomNumber}",
                     'carrera_id' => $carrera3->id,
                     'email' => "egresado{$FourDigitRandomNumber}@civil.com",
+                    'token_invitacion' => base64_encode(bcrypt("egresado{$FourDigitRandomNumber}@civil.com".time())),
                     'password' => bcrypt('egresado'),
             ]);
             $user->assignRole(User::ROLE_EGRESADO);
