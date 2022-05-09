@@ -7,7 +7,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>{{config('app.name')}} | Sistema de seguimiento de Egresados</title>
+    <title>{{config('app.name')}} | Sistema de Seguimiento de Egresados</title>
 
 
     <!-- ===============================================-->
