@@ -99,7 +99,8 @@ class EgresadoController extends Controller
      */
     public function show($id)
     {
-        //
+        $egresado = User::find($id);
+        return view('egresado.show', ['user' => $egresado]);
     }
 
     /**
@@ -113,12 +114,11 @@ class EgresadoController extends Controller
         $carreras = Carreras::get();
         $user = User::find($id);
         if ($user) {
-            return view('egresado.editar', ['carreras' => $carreras]);
+            return view('egresado.editar', ['carreras' => $carreras, 'user' => $user]);
         } else {
             return redirect('/egresado/lista')
                         ->withErrors("Usuario no encontrado.");
         }
-
     }
 
     /**
@@ -147,5 +147,10 @@ class EgresadoController extends Controller
             $egresado->delete();
         }
         return redirect()->intended('/egresado/lista');
+    }
+
+    public function perfil($id){
+        $egresado = User::find($id);
+        return view('egresado.perfil', ['user' => $egresado]);
     }
 }

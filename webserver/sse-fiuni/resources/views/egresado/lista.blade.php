@@ -21,6 +21,7 @@
         <th scope="col">Nombre</th>
         <th scope="col">Apellido</th>
         <th scope="col">Correo</th>
+        <th scope="col">C.I.</th>
         <th scope="col">Carrera</th>
         <th class="text-end" scope="col">Accion</th>
       </tr>
@@ -38,9 +39,10 @@
             </td>
             <td class="text-nowrap">{{ $user->apellido }}</td>
             <td class="text-nowrap">{{ $user->getEmail() }}</td>
+            <td class="text-nowrap">{{ $user->ci }}</td>
             <td class="text-nowrap">{{ $user->carrera->carrera }}</td>
             <td class="text-nowrap">
-                <a href="/egresado/{{$user->id}}/edit" data-index="{{$index}}" class="editBtn"><span class="fas fa-pencil-alt"></span></a>
+                <a href="/egresado/{{$user->id}}/perfil" data-index="{{$index}}" class="editBtn"><span class="fas fa-pencil-alt"></span></a>
                 <form method="POST" action="/egresado/{{$user->id}}" class="eliminarEgresadoForm d-inline">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
