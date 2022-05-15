@@ -149,7 +149,18 @@ class EgresadoController extends Controller
         return redirect()->intended('/egresado/lista');
     }
 
-    public function perfil($id){
+    public function perfil($id = null){
+        if (!$id) {
+            $id  = $this->getUser()->id;
+        }
+        $egresado = User::find($id);
+        return view('egresado.show', ['user' => $egresado]);
+    }
+
+    public function editar_perfil($id = null){
+        if (!$id) {
+            $id  = $this->getUser()->id;
+        }
         $egresado = User::find($id);
         return view('egresado.perfil', ['user' => $egresado]);
     }

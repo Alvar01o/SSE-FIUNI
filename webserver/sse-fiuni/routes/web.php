@@ -40,3 +40,5 @@ Route::resource('empleador', EmpleadorController::class);
 Route::resource('carreras', CarrerasController::class);
 
 Route::get('/egresado/{id}/perfil', [EgresadoController::class, 'perfil'])->name('egresado.perfil');
+Route::get('/perfil', [EgresadoController::class, 'perfil'])->name('perfil');
+Route::get('/perfil/editar', [EgresadoController::class, 'editar_perfil'])->name('perfil.editar');
