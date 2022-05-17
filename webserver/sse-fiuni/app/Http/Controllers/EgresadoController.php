@@ -114,7 +114,7 @@ class EgresadoController extends Controller
         $carreras = Carreras::get();
         $user = User::find($id);
         if ($user) {
-            return view('egresado.editar', ['carreras' => $carreras, 'user' => $user]);
+            return view('egresado.perfil', ['carreras' => $carreras, 'user' => $user]);
         } else {
             return redirect('/egresado/lista')
                         ->withErrors("Usuario no encontrado.");

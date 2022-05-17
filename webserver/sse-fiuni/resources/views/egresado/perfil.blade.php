@@ -5,20 +5,32 @@
     <div class="col-12">
         <div class="card mb-3 btn-reveal-trigger">
         <div class="card-header position-relative min-vh-25 mb-8">
-            <div class="cover-image">
-            <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image:url(../../assets/img/generic/4.jpg);">
-            </div>
-            <!--/.bg-holder-->
-
-            <input class="d-none" id="upload-cover-image" type="file" />
-            <label class="cover-image-file-input" for="upload-cover-image"><span class="fas fa-camera me-2"></span><span>Cambiar foto de perfil</span></label>
-            </div>
-            <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
-            <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="../../assets/img/team/2.jpg" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" />
-                <input class="d-none" id="profile-image" type="file" />
-                <label class="mb-0 overlay-icon d-flex flex-center" for="profile-image"><span class="bg-holder overlay overlay-0"></span><span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span><span class="d-block">Editar</span></span></label>
-            </div>
-            </div>
+            <form method="post" enctype="multipart/form-data" action="/upload_avatar" id="avatar_form">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                <div class="cover-image">
+                    <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image:url(../../assets/img/generic/4.jpg);">
+                    </div>
+                    <!--/.bg-holder-->
+                    <input class="d-none" id="upload-cover-image" type="file" />
+                    <label class="cover-image-file-input" for="upload-cover-image"><span class="fas fa-camera me-2"></span><span>Cambiar foto de perfil</span></label>
+                </div>
+                <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
+                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="../../assets/img/team/2.jpg" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" />
+                        <input class="d-none" id="profile-image" name="avatar" type="file" />
+                        <script>
+                            jQuery(document).ready(function(){
+                                jQuery('#profile-image').on('change', function () {
+                                    console.log(jQuery('#profile-image').val())
+                                    jQuery('#avatar_form').submit();
+                                console.log("changed");
+                                })
+                                console.log("ready");
+                            })
+                        </script>
+                        <label class="mb-0 overlay-icon d-flex flex-center" for="profile-image"><span class="bg-holder overlay overlay-0"></span><span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span><span class="d-block">Editar</span></span></label>
+                    </div>
+                </div>
+            <form>
         </div>
         </div>
     </div>
@@ -231,7 +243,7 @@
             <div class="card-body bg-light">
             <form>
                 <div class="mb-3">
-                <label class="form-label" for="old-password">Old Password</label>
+                <label class="form-label" for="old-password">Contraseña Actual</label>
                 <input class="form-control" id="old-password" name="old_password" type="password" />
                 </div>
                 <div class="mb-3">
@@ -244,71 +256,6 @@
                 </div>
                 <button class="btn btn-primary d-block w-100" type="submit">Actualizar  Contraseña</button>
             </form>
-            </div>
-        </div>
-        <div class="card mb-3 overflow-hidden">
-            <div class="card-header">
-            <h5 class="mb-0">Account Settings</h5>
-            </div>
-            <div class="card-body bg-light">
-            <h6 class="fw-bold">Who can see your profile ?<span class="fs--2 ms-1 text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Only The group of selected people can see your profile"><span class="fas fa-question-circle"></span></span></h6>
-            <div class="ps-2">
-                <div class="form-check mb-0 lh-1">
-                <input class="form-check-input" type="radio" value="" id="everyone" name="view-settings" />
-                <label class="form-check-label mb-0" for="everyone">Everyone
-                </label>
-                </div>
-                <div class="form-check mb-0 lh-1">
-                <input class="form-check-input" type="radio" value="" id="my-followers" checked="checked" name="view-settings" />
-                <label class="form-check-label mb-0" for="my-followers">My followers
-                </label>
-                </div>
-                <div class="form-check mb-0 lh-1">
-                <input class="form-check-input" type="radio" value="" id="only-me" name="view-settings" />
-                <label class="form-check-label mb-0" for="only-me">Only me
-                </label>
-                </div>
-            </div>
-            <h6 class="mt-2 fw-bold">Who can tag you ?<span class="fs--2 ms-1 text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Only The group of selected people can tag you"><span class="fas fa-question-circle"></span></span></h6>
-            <div class="ps-2">
-                <div class="form-check mb-0 lh-1">
-                <input class="form-check-input" type="radio" value="" id="tag-everyone" name="tag-settings" />
-                <label class="form-check-label mb-0" for="tag-everyone">Everyone
-                </label>
-                </div>
-                <div class="form-check mb-0 lh-1">
-                <input class="form-check-input" type="radio" value="" id="group-members" checked="checked" name="tag-settings" />
-                <label class="form-check-label mb-0" for="group-members">Group Members
-                </label>
-                </div>
-            </div>
-            <div class="border-dashed-bottom my-3"></div>
-            <div class="form-check mb-0 lh-1">
-                <input class="form-check-input" type="checkbox" id="userSettings1" checked="checked" />
-                <label class="form-check-label mb-0" for="userSettings1">Allow users to show your followers
-                </label>
-            </div>
-            <div class="form-check mb-0 lh-1">
-                <input class="form-check-input" type="checkbox" id="userSettings2" checked="checked" />
-                <label class="form-check-label mb-0" for="userSettings2">Allow users to show your email
-                </label>
-            </div>
-            <div class="form-check mb-0 lh-1">
-                <input class="form-check-input" type="checkbox" id="userSettings3" />
-                <label class="form-check-label mb-0" for="userSettings3">Allow users to show your experiences
-                </label>
-            </div>
-            <div class="border-dashed-bottom my-3"></div>
-            <div class="form-check form-switch mb-0 lh-1">
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked="checked" />
-                <label class="form-check-label mb-0" for="flexSwitchCheckDefault">Make your phone number visible
-                </label>
-            </div>
-            <div class="form-check form-switch mb-0 lh-1">
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" />
-                <label class="form-check-label mb-0" for="flexSwitchCheckChecked">Allow user to follow you
-                </label>
-            </div>
             </div>
         </div>
         </div>

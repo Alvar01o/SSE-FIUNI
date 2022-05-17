@@ -10,6 +10,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\CarrerasController;
+use App\Http\Controllers\UploadAvatarController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,3 +44,7 @@ Route::resource('carreras', CarrerasController::class);
 Route::get('/egresado/{id}/perfil', [EgresadoController::class, 'perfil'])->name('egresado.perfil');
 Route::get('/perfil', [EgresadoController::class, 'perfil'])->name('perfil');
 Route::get('/perfil/editar', [EgresadoController::class, 'editar_perfil'])->name('perfil.editar');
+Route::get('/perfil/{id}/editar', [EgresadoController::class, 'editar_perfil'])->name('perfil.editar');
+
+//upload image url  - remove id
+Route::post('/upload_avatar', UploadAvatarController::class);
