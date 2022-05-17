@@ -12,12 +12,13 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-8">
-                  <h4 class="mb-1"> Anthony Hopkins<span data-bs-toggle="tooltip" data-bs-placement="right" title="Verified"><small class="fa fa-check-circle text-primary" data-fa-transform="shrink-4 down-2"></small></span>
+                  <h4 class="mb-1">{{ $user->getNombreCompleto() }}<span data-bs-toggle="tooltip" data-bs-placement="right" title="Verified"><small class="fa fa-check-circle text-primary" data-fa-transform="shrink-4 down-2"></small></span>
                   </h4>
-                  <h5 class="fs-0 fw-normal">Senior Software Engineer at Technext Limited</h5>
+                  @if (!$user->hasRole($user::ROLE_ADMINISTRADOR))
+                  <h5 class="fs-0 fw-normal">{{ $user->carrera->carrera}}</h5>
+                  @endif
                   <p class="text-500">New York, USA</p>
-                  <button class="btn btn-falcon-primary btn-sm px-3" type="button">Following</button>
-                  <button class="btn btn-falcon-default btn-sm px-3 ms-2" type="button">Message</button>
+                  <a href="/perfil/editar" class="btn btn-falcon-default btn-sm px-3 ms-2" type="button">Editar</a>
                   <div class="border-dashed-bottom my-4 d-lg-none"></div>
                 </div>
 
