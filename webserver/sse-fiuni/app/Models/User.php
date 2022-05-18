@@ -89,10 +89,11 @@ class User extends Authenticatable implements HasMedia
     {
         $this
             ->addMediaCollection('avatars')
-            ->useFallbackUrl('/img/anonymous-user.jpg')
-            ->useFallbackPath(public_path('/img/anonymous-user.jpg'))
+            ->useFallbackUrl('/img/avatar.png')
+            ->useFallbackPath(public_path('/img/avatar.png'))
+            ->acceptsMimeTypes(['image/jpeg', 'image/gif', 'image/bmp', 'image/png'])
             ->singleFile();
-// otra colleccion de imagenes si es necesario en el futuro.
+    // otra colleccion de imagenes si es necesario en el futuro.
 //        $this
 //            ->addMediaCollection('avatars')
 //            ->useFallbackUrl('/images/anonymous-user.jpg')
@@ -102,7 +103,12 @@ class User extends Authenticatable implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('avatar')
+        $this->addMediaConversion('perfil')
+            ->width(154)
+            ->height(154)
+            ->sharpen(10);
+
+        $this->addMediaConversion('small_avatar')
             ->width(32)
             ->height(32)
             ->sharpen(10);

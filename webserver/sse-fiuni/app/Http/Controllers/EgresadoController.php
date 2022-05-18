@@ -12,7 +12,7 @@ class EgresadoController extends Controller
     public function lista()
     {
         if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
-            $users = User::role('egresado')->paginate(25);
+            $users = User::role('egresado')->paginate(95);
             $carreras = Carreras::get();
             return view('egresado.lista', ['egresados' => $users, 'carreras' => $carreras]);
         } else {
@@ -163,5 +163,36 @@ class EgresadoController extends Controller
         }
         $egresado = User::find($id);
         return view('egresado.perfil', ['user' => $egresado]);
+    }
+
+    public function get_avatar(Request $request, $id = null)
+    {
+        $type = 'perfil';
+        if (is_null($id)) {
+            $avatar_collection = $this->getUser()->getFirstMedia('avatars');
+            if (is_null($avatar_collection)) {
+                return $avatar_collection->useFallbackUrl('/img/avatar.png');
+            } else {
+                return $avatar_collection->toInlineResponse($request);
+            }
+        } else {
+            if ($this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
+                $avatar_collection = User::find($id)->getFirstMedia('avatars');
+                if (is_null($avatar_collection)) {
+                    return $avatar_collection->useFallbackUrl('/img/avatar.png');
+                    //no tiene avatar
+                } else {
+                    return $avatar_collection->toInlineResponse($request);
+                }
+            } else {
+                $avatar_collection = $this->getUser()->getFirstMedia('avatars');
+                if (is_null($avatar_collection)) {
+                    return $avatar_collection->useFallbackUrl('/img/avatar.png');
+                    //no tiene avatar
+                } else {
+                    return $avatar_collection->toInlineResponse($request);
+                }
+            }
+        }
     }
 }

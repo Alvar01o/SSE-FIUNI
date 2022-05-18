@@ -48,3 +48,5 @@ Route::get('/perfil/{id}/editar', [EgresadoController::class, 'editar_perfil'])-
 
 //upload image url  - remove id
 Route::post('/upload_avatar', UploadAvatarController::class);
+Route::get('/get_avatar', [EgresadoController::class, 'get_avatar'])->name('get_avatar');
+Route::get('/get_avatar/{id}', [EgresadoController::class, 'get_avatar'])->name('get_avatar2');

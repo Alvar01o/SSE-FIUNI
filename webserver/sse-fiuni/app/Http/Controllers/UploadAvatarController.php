@@ -16,17 +16,18 @@ class UploadAvatarController extends Controller
      */
     public function __invoke(Request $request)
     {
-        var_dump($request->all());die;
-/**
- *
-        $type = $request->get('type');
-        $mediaItem = null;
-
-        if ($type == 'post') {
-            $post = Post::findOrFail($id);
-            $mediaItem = $post->addMediaFromBase64($request->image)
-
- *
- */
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif',
+        ]);
+        $dirname = 'temp/'.$this->getUser()->id;
+        $imageName = time().'.'.$request->avatar->extension();
+        $path = url('/storage/'.$request->file('avatar')->storeAs(
+            $dirname,
+            $imageName,
+            'local'
+        ));
+        $user = $this->getUser();
+        $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+        return back()->withInput();
     }
 }

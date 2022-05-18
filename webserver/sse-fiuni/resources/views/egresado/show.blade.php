@@ -7,7 +7,7 @@
               </div>
               <!--/.bg-holder-->
 
-              <div class="avatar avatar-5xl avatar-profile"><img class="rounded-circle img-thumbnail shadow-sm" src="../../assets/img/team/2.jpg" width="200" alt="" /></div>
+              <div class="avatar avatar-5xl avatar-profile"><img class="rounded-circle img-thumbnail shadow-sm" src="{{ $user->getFirstMediaUrl('avatars', 'perfil') }}" width="200" alt="" /></div>
             </div>
             <div class="card-body">
               <div class="row">

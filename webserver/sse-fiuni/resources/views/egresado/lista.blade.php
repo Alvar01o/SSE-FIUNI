@@ -32,7 +32,7 @@
             <td class="text-nowrap">
                 <div class="d-flex align-items-center">
                     <div class="avatar avatar-xl">
-                    <div class="avatar-name rounded-circle"><span>{{ $user->getIniciales()}}</span></div>
+                        <img class="rounded-circle" src="{{ $user->getFirstMediaUrl('avatars', 'small_avatar') }}" alt="">
                     </div>
                     <div class="ms-2">{{ $user->getName() }}</div>
                 </div>

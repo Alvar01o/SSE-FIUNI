@@ -30,7 +30,7 @@
             <x-nav_collapse/>
         </nav>
         <div class="content">
-            <x-nav_expand/>
+            <x-navexpand/>
             @yield('content')
             <x-footer/>
         </div>

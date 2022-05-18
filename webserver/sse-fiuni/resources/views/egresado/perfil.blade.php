@@ -11,11 +11,9 @@
                     <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image:url(../../assets/img/generic/4.jpg);">
                     </div>
                     <!--/.bg-holder-->
-                    <input class="d-none" id="upload-cover-image" type="file" />
-                    <label class="cover-image-file-input" for="upload-cover-image"><span class="fas fa-camera me-2"></span><span>Cambiar foto de perfil</span></label>
                 </div>
                 <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
-                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="../../assets/img/team/2.jpg" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" />
+                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="{{ route('get_avatar') }}" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" />
                         <input class="d-none" id="profile-image" name="avatar" type="file" />
                         <script>
                             jQuery(document).ready(function(){
