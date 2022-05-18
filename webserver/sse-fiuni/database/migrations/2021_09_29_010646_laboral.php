@@ -19,7 +19,8 @@ class Laboral extends Migration
             $table->string('cargo');
             $table->dateTime('inicio');
             $table->dateTime('fin')->nullable();
-            $table->integer('id_user');
+            $table->integer('user_id');
+            $table->integer('empleador_id')->nullable();
             $table->timestamps();
         });
     }

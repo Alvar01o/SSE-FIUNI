@@ -16,12 +16,8 @@ class DatosPersonales extends Migration
         Schema::create('datos_personales', function (Blueprint $table) {
             $table->id();
             $table->string('telefono');
-            $table->string('nombre');
-            $table->integer('ci')->unique();
-            $table->string('apellido');
-            $table->integer('id_carrera');
-            $table->integer('id_user');
-            $table->dateTime('egreso');
+            $table->string('direccion');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

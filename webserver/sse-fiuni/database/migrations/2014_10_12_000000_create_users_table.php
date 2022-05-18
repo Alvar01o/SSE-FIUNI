@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('apellido');
             $table->integer('ci')->nullable();
             $table->string('email')->unique();
+            $table->integer('ingreso')->length(4)->default(0);
+            $table->integer('egreso')->length(4)->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('carrera_id')->default(0);
             $table->string('password');
