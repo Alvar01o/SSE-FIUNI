@@ -106,7 +106,7 @@ class CarrerasController extends Controller
     {
         $carrera = Carreras::find($id);
         if ($carrera->tieneUsuarios()) { //verifica si existen usuarios
-            return redirect()->withErrors([
+            return back()->withErrors([
                 'mensaje' => 'Esta Carrera Tienes usuarios asignados. '
             ]);
         } else { //si no, elimina la carrera

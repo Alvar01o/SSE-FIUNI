@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+
 class User extends Authenticatable implements HasMedia
 {
     use HasFactory, Notifiable, HasRoles, InteractsWithMedia;
@@ -60,6 +61,15 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Carreras::class);
     }
 
+    public function laboral()
+    {
+        return $this->hasMany(Laboral::class);
+    }
+
+    public function datosPersonales()
+    {
+        return $this->hasMany(DatosPersonales::class);
+    }
     public function getName()
     {
         return $this->nombre;
@@ -85,6 +95,7 @@ class User extends Authenticatable implements HasMedia
             return $this->nombre;
         }
     }
+
     public function registerMediaCollections(): void
     {
         $this
@@ -93,12 +104,6 @@ class User extends Authenticatable implements HasMedia
             ->useFallbackPath(public_path('/img/avatar.png'))
             ->acceptsMimeTypes(['image/jpeg', 'image/gif', 'image/bmp', 'image/png'])
             ->singleFile();
-    // otra colleccion de imagenes si es necesario en el futuro.
-//        $this
-//            ->addMediaCollection('avatars')
-//            ->useFallbackUrl('/images/anonymous-user.jpg')
-//            ->useFallbackPath(public_path('/images/anonymous-user.jpg'))
-//            ->singleFile();
     }
 
     public function registerMediaConversions(Media $media = null): void

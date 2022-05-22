@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Carreras;
+use App\Models\DatosPersonales;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 class EgresadoController extends Controller
 {
 
@@ -130,7 +132,48 @@ class EgresadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($id !== $this->getUser()->id && !$this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
+            return view('error_permisos');
+        } else {
+            $user = User::find($id);
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'required|string|between:3,30',
+                'apellido' => 'required|string|between:3,30',
+                'ci' => ['required', 'numeric', 'min:500000', 'max:3000000000', Rule::unique('users')->ignore($user->id)], //'required|numeric|min:500000|max:3000000000|unique:App\Models\User,ci',
+                'email' => 'required|email|between:7,100',
+                'carrera_id' => 'sometimes|exists:App\Models\Carreras,id',
+            ], [
+                'required' => 'Campo :attribute es requerido',
+                'string' => 'Nombre de la Carrera en formato invalido.',
+                'between' => 'Longitud del campo :attribute debe ser entre :min - :max caracteres.',
+                'exists' => 'No se encontro la carrera seleccionada.'
+            ]);
+            if ($user && !$validator->fails()) {
+                $user->nombre = $request->input('nombre');
+                $user->apellido = $request->input('apellido');
+                $user->email = $request->input('email');
+                $user->ci = $request->input('ci');
+                if ($request->input('carrera_id')) {
+                    $user->carrera_id = $request->input('carrera_id');
+                }
+                $user->save();
+                //validacion de datos personales
+                $validator_datos_personales = Validator::make($request->all(), [
+                    'telefono' => 'required|string|between:3,30',
+                    'direccion' => 'required|string|between:3,300'
+                ], [
+                    'required' => 'Campo :attribute es requerido',
+                    'string' => 'Nombre de la Carrera en formato invalido.',
+                    'between' => 'Longitud del campo :attribute debe ser entre :min - :max caracteres.'
+                ]);
+                if (!$validator_datos_personales->fails()) {
+                    $datosp = DatosPersonales::create(['telefono' => $request->input('telefono'), 'direccion' => $request->input('direccion'), 'user_id' => $user->id]);
+                }
+                return back();
+            } else {
+                return back();
+            }
+        }
     }
 
     /**
@@ -168,18 +211,27 @@ class EgresadoController extends Controller
     public function get_avatar(Request $request, $id = null)
     {
         $type = 'perfil';
+        $filepath = '/var/www/html/webserver/public/img/avatar.png';
         if (is_null($id)) {
             $avatar_collection = $this->getUser()->getFirstMedia('avatars');
             if (is_null($avatar_collection)) {
-                return $avatar_collection->useFallbackUrl('/img/avatar.png');
+                $data = base64_encode(file_get_contents($filepath));
+                header("Content-Type: image/jpeg");
+                header("Content-Length: " . filesize($filepath));
+                readfile($filepath);
             } else {
                 return $avatar_collection->toInlineResponse($request);
             }
         } else {
             if ($this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
-                $avatar_collection = User::find($id)->getFirstMedia('avatars');
+                $user = User::find($id);
+                $avatar_collection = $user->getFirstMedia('avatars');
+
                 if (is_null($avatar_collection)) {
-                    return $avatar_collection->useFallbackUrl('/img/avatar.png');
+                    $data = base64_encode(file_get_contents($filepath));
+                    header("Content-Type: image/jpeg");
+                    header("Content-Length: " . filesize($filepath));
+                    readfile($filepath);
                     //no tiene avatar
                 } else {
                     return $avatar_collection->toInlineResponse($request);
@@ -187,7 +239,10 @@ class EgresadoController extends Controller
             } else {
                 $avatar_collection = $this->getUser()->getFirstMedia('avatars');
                 if (is_null($avatar_collection)) {
-                    return $avatar_collection->useFallbackUrl('/img/avatar.png');
+                    $data = base64_encode(file_get_contents($filepath));
+                    header("Content-Type: image/jpeg");
+                    header("Content-Length: " . filesize($filepath));
+                    readfile($filepath);
                     //no tiene avatar
                 } else {
                     return $avatar_collection->toInlineResponse($request);

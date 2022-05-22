@@ -2,72 +2,83 @@
 @section('content')
 <div class="content">
     <div class="row">
-    <div class="col-12">
-        <div class="card mb-3 btn-reveal-trigger">
-        <div class="card-header position-relative min-vh-25 mb-8">
-            <form method="post" enctype="multipart/form-data" action="/upload_avatar" id="avatar_form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                <div class="cover-image">
-                    <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image:url(../../assets/img/generic/4.jpg);">
-                    </div>
-                    <!--/.bg-holder-->
+        <div class="col-12">
+            <div class="card mb-3 btn-reveal-trigger">
+                <div class="card-header position-relative min-vh-25 mb-8">
+                    <form method="post" enctype="multipart/form-data" action="/upload_avatar" id="avatar_form">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                        <input type="hidden" name="user_id" value="{{ $user->id }}" />
+                        <div class="cover-image">
+                            <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image:url(../../assets/img/generic/4.jpg);">
+                            </div>
+                            <!--/.bg-holder-->
+                        </div>
+                        <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
+                            <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="{{ route('get_avatar2',  ['id' => $user->id]) }}" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" />
+                                <input class="d-none" id="profile-image" name="avatar" type="file" />
+                                <script>
+                                    jQuery(document).ready(function(){
+                                        jQuery('#profile-image').on('change', function () {
+                                            console.log(jQuery('#profile-image').val())
+                                            jQuery('#avatar_form').submit();
+                                        console.log("changed");
+                                        })
+                                        console.log("ready");
+                                    })
+                                </script>
+                                <label class="mb-0 overlay-icon d-flex flex-center" for="profile-image"><span class="bg-holder overlay overlay-0"></span><span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span><span class="d-block">Editar</span></span></label>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
-                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative"> <img src="{{ route('get_avatar') }}" width="200" alt="" data-dz-thumbnail="data-dz-thumbnail" />
-                        <input class="d-none" id="profile-image" name="avatar" type="file" />
-                        <script>
-                            jQuery(document).ready(function(){
-                                jQuery('#profile-image').on('change', function () {
-                                    console.log(jQuery('#profile-image').val())
-                                    jQuery('#avatar_form').submit();
-                                console.log("changed");
-                                })
-                                console.log("ready");
-                            })
-                        </script>
-                        <label class="mb-0 overlay-icon d-flex flex-center" for="profile-image"><span class="bg-holder overlay overlay-0"></span><span class="z-index-1 text-white dark__text-white text-center fs--1"><span class="fas fa-camera"></span><span class="d-block">Editar</span></span></label>
-                    </div>
-                </div>
-            <form>
+            </div>
         </div>
-        </div>
-    </div>
     </div>
     <div class="row g-0">
     <div class="col-lg-8 pe-lg-2">
         <div class="card mb-3">
-        <div class="card-header">
-            <h5 class="mb-0">Datos de Perfil</h5>
-        </div>
-        <div class="card-body bg-light">
-            <form class="row g-3">
-            <div class="col-lg-6">
-                <label class="form-label" for="nombre">Nombre</label>
-                <input class="form-control" id="nombre" type="text" value="{{ $user->nombre }}" />
+            <div class="card-header">
+                <h5 class="mb-0">Datos de Perfil</h5>
             </div>
-            <div class="col-lg-6">
-                <label class="form-label" for="apellido">Apellido</label>
-                <input class="form-control" id="apellido" type="text" value="{{ $user->apellido }}" />
+            <div class="card-body bg-light">
+                <form class="row g-3 needs-validation" method="post" action="/egresado/{{ $user->id }}">
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                    <div class="col-lg-10">
+                        <label class="form-label" for="nombre">Nombre</label>
+                        <input class="form-control" minlength="3" maxlength="30" id="nombre" type="text" required value="{{ $user->nombre }}" name="nombre"/>
+                    </div>
+                    <div class="col-lg-10">
+                        <label class="form-label" for="apellido">Apellido</label>
+                        <input class="form-control" minlength="3" maxlength="30" id="apellido" type="text" required value="{{ $user->apellido }}" name="apellido"/>
+                    </div>
+                    <div class="col-lg-10">
+                        <label class="form-label" for="ci">C.I.</label>
+                        <input class="form-control" pattern=".{6,10}" min="500000" max="3000000000" id="ci" type="text" required value="{{ $user->ci }}" name="ci"/>
+                    </div>
+                    <div class="col-lg-10">
+                        <label class="form-label" for="correo">Correo</label>
+                        <input class="form-control" id="correo"  minlength="7" maxlength="100" type="email" required value="{{ $user->email }}" name="email"/>
+                    </div>
+                    <div class="col-lg-10">
+                        <label class="form-label" for="telefono">telefono</label>
+                        <input class="form-control" id="telefono" minlength="3" maxlength="30" type="number" value="{{ $user->datosPersonales->count() ? $user->datosPersonales->last()->telefono : '' }}" name="telefono"/>
+                    </div>
+                    <div class="col-lg-10">
+                        <label class="form-label" for="direccion">direccion</label>
+                        <input class="form-control" id="direccion" minlength="3" maxlength="300" type="text" value="{{ $user->datosPersonales->count() ? $user->datosPersonales->last()->direccion : '' }}" name="direccion"/>
+                    </div>
+                    @if (!$user->hasRole($user::ROLE_ADMINISTRADOR))
+                        <div class="col-lg-10">
+                            <label class="form-label" for="carrera">Carrera</label>
+                            <input class="form-control" id="carrera" type="text" readonly value="{{ $user->carrera->carrera }}" name="carrera_id"/>
+                        </div>
+                    @endif
+                    <div class="col-12 d-flex justify-content-end py-3">
+                        <button class="btn btn-primary" type="submit"> Guardar </button>
+                    </div>
+                </form>
             </div>
-            <div class="col-lg-6">
-                <label class="form-label" for="correo">Correo</label>
-                <input class="form-control" id="correo" type="text" value="{{ $user->email }}" />
-            </div>
-            <div class="col-lg-6">
-                <label class="form-label" for="telefono">telefono</label>
-                <input class="form-control" id="telefono" type="text" value="{{ $user->telefono}}" />
-            </div>
-            @if (!$user->hasRole($user::ROLE_ADMINISTRADOR))
-                <div class="col-lg-12">
-                    <label class="form-label" for="carrera">Carrera</label>
-                    <input class="form-control" id="carrera" type="text" readonly value="{{ $user->carrera->carrera }}" />
-                </div>
-            @endif
-            <div class="col-12 d-flex justify-content-end">
-                <button class="btn btn-primary" type="submit"> Guardar </button>
-            </div>
-            </form>
-        </div>
         </div>
         <div class="card mb-3">
         <div class="card-header">

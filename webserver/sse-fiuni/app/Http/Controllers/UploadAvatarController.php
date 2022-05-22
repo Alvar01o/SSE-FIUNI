@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Http\Resources\MediaResource;
-
+use App\Models\User;
 class UploadAvatarController extends Controller
 {
     /**
@@ -19,15 +19,20 @@ class UploadAvatarController extends Controller
         $request->validate([
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
-        $dirname = 'temp/'.$this->getUser()->id;
-        $imageName = time().'.'.$request->avatar->extension();
-        $path = url('/storage/'.$request->file('avatar')->storeAs(
-            $dirname,
-            $imageName,
-            'local'
-        ));
-        $user = $this->getUser();
-        $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
-        return back()->withInput();
+        $user_id = $request->input('user_id');
+        if ($user_id !== $this->getUser()->id && !$this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
+            return view('error_permisos');
+        } else {
+            $user = User::find($user_id);
+            $dirname = 'temp/'.$user_id;
+            $imageName = time().'.'.$request->avatar->extension();
+            $path = url('/storage/'.$request->file('avatar')->storeAs(
+                $dirname,
+                $imageName,
+                'local'
+            ));
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+            return back()->withInput();
+        }
     }
 }
