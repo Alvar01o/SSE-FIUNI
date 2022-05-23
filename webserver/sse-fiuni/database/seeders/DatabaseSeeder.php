@@ -84,6 +84,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'empleador@gmail.com',
                 'password' => bcrypt('empleador'),
         ]);
+
         //final de usuarios de prueba
         echo "Creando Egresados de prueba!!.. \n";
         for ($i=0; $i < 30; $i++) {

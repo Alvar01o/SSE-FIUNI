@@ -3,9 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class EmpleadorController extends Controller
 {
+
+    public function lista()
+    {
+        if ($this->getUser()->hasPermissionTo('Administrar Empleador')) {
+            $users = User::role('empleador')->paginate(95);
+            return view('empleador.lista', ['empleadores' => $users]);
+        } else {
+            return view('error_permisos');
+        }
+    }
     /**
      * Display a listing of the resource.
      *

@@ -56,6 +56,14 @@
         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-user-tie"></span></span><span class="nav-link-text ps-1">Empleadores</span>
         </div>
     </a>
+    <ul class="nav collapse show" id="icons" style="">
+        <li class="nav-item"><a class="nav-link" href="/empleador/lista" data-bs-toggle="" aria-expanded="false">
+            <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Administrar Empleadores</span>
+            </div>
+            </a>
+            <!-- more inner pages-->
+        </li>
+    </ul>
     <a class="nav-link" href="#" role="button" data-bs-toggle="" aria-expanded="false">
         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fab fa-wpforms"></span></span><span class="nav-link-text ps-1">Encuestas</span>
         </div>
