@@ -33,6 +33,12 @@
                     Campo Requerido.
                 </div>
             </div>
+            <div class="mb-3">
+                <input class="form-control" type="empresa" autocomplete="on" minlength="7" maxlength="100" placeholder="Empresa" name="empresa" required/>
+                <div class="invalid-feedback">
+                    Campo Requerido.
+                </div>
+            </div>
             <div class="row gx-2">
                 <div class="mb-3 col-sm-6">
                     <input class="form-control" type="password" autocomplete="on" minlength="8" placeholder="Contraseña" name="password"/>

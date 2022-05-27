@@ -22,11 +22,12 @@
         <th scope="col">Apellido</th>
         <th scope="col">Correo</th>
         <th scope="col">C.I.</th>
+        <th scope="col">Empresa</th>
         <th class="text-end" scope="col">Accion</th>
       </tr>
     </thead>
     <tbody>
-    @foreach ($egresados as $index => $user)
+    @foreach ($empleadores as $index => $user)
         <tr class="align-middle">
             <td class="text-nowrap">
                 <div class="d-flex align-items-center">
@@ -39,18 +40,19 @@
             <td class="text-nowrap">{{ $user->apellido }}</td>
             <td class="text-nowrap">{{ $user->getEmail() }}</td>
             <td class="text-nowrap">{{ $user->ci }}</td>
+            <td class="text-nowrap">{{ $user->empresa }}</td>
             <td class="text-nowrap">
-                <a href="/egresado/{{$user->id}}/edit" data-index="{{$index}}" class="editBtn"><span class="fas fa-pencil-alt"></span></a>
-                <form method="POST" action="/egresado/{{$user->id}}" class="eliminarEgresadoForm d-inline">
+                <a href="/empleador/{{$user->id}}/edit" data-index="{{$index}}" class="editBtn"><span class="fas fa-pencil-alt"></span></a>
+                <form method="POST" action="/empleador/{{$user->id}}" class="eliminarEmpleadorForm d-inline">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                    <span id="deleteEgresadoBtn{{$user->id}}" class="fas fa-trash-alt"></span>
+                    <span id="deleteEmpleadorBtn{{$user->id}}" class="fas fa-trash-alt"></span>
                 </form>
                 <script>
                     jQuery(document).ready(
                         function(){
-                            jQuery('#deleteEgresadoBtn{{$user->id}}').on('click',function() {
-                                jQuery('#deleteEgresadoBtn{{$user->id}}').parent().submit()
+                            jQuery('#deleteEmpleadorBtn{{$user->id}}').on('click',function() {
+                                jQuery('#deleteEmpleadorBtn{{$user->id}}').parent().submit()
                             })
                         }
                     )
