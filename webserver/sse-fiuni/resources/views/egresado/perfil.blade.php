@@ -35,6 +35,15 @@
         </div>
     </div>
     <div class="row g-0">
+    @if ($errors->any())
+        <div class="alert alert-danger mt-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="col-lg-8 pe-lg-2">
         <div class="card mb-3">
             <div class="card-header">
@@ -71,7 +80,11 @@
                     @if (!$user->hasRole($user::ROLE_ADMINISTRADOR))
                         <div class="col-lg-10">
                             <label class="form-label" for="carrera">Carrera</label>
-                            <input class="form-control" id="carrera" type="text" readonly value="{{ $user->carrera->carrera }}" name="carrera_id"/>
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="carrera_id" required>
+                                @foreach ($carreras as $carrera)
+                                    <option value="{{ $carrera->id }}" <?= $user->carrera->id == $carrera->id ? 'selected="selected"' : '' ?>>{{ $carrera->carrera }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     @endif
                     <div class="col-12 d-flex justify-content-end py-3">
@@ -86,54 +99,7 @@
         </div>
         <div class="card-body bg-light"><a class="mb-4 d-block d-flex align-items-center" href="#experience-form1" data-bs-toggle="collapse" aria-expanded="false" aria-controls="experience-form1"><span class="circle-dashed"><span class="fas fa-plus"></span></span><span class="ms-3">Agregar Experiencia Laboral</span></a>
             <div class="collapse" id="experience-form1">
-            <form class="row">
-                <div class="col-3 mb-3 text-lg-end">
-                <label class="form-label" for="company">Company</label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm" id="company" type="text" />
-                </div>
-                <div class="col-3 mb-3 text-lg-end">
-                <label class="form-label" for="position">Position</label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm" id="position" type="text" />
-                </div>
-                <div class="col-3 mb-3 text-lg-end">
-                <label class="form-label" for="city">City </label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm" id="city" type="text" />
-                </div>
-                <div class="col-3 mb-3 text-lg-end">
-                <label class="form-label" for="exp-description">Description </label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <textarea class="form-control form-control-sm" id="exp-description" rows="3"> </textarea>
-                </div>
-                <div class="col-9 col-sm-7 offset-3 mb-3">
-                <div class="form-check mb-0 lh-1">
-                    <input class="form-check-input" type="checkbox" id="experience-current" checked="checked" />
-                    <label class="form-check-label mb-0" for="experience-current">I currently work here
-                    </label>
-                </div>
-                </div>
-                <div class="col-3 text-lg-end">
-                <label class="form-label" for="experience-form2">From </label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm text-500 datetimepicker" id="experience-form2" type="text" placeholder="d/m/y" data-options='{"dateFormat":"d/m/y","disableMobile":true}' />
-                </div>
-                <div class="col-3 text-lg-end">
-                <label class="form-label" for="experience-to">To </label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm text-500 datetimepicker" id="experience-to" type="text" placeholder="d/m/y" data-options='{"dateFormat":"d/m/y","disableMobile":true}' />
-                </div>
-                <div class="col-9 col-sm-7 offset-3">
-                <button class="btn btn-primary" type="button">Save</button>
-                </div>
-            </form>
+            @include('egresado.partials.formulario_laboral')
             <div class="border-dashed-bottom my-4"></div>
             </div>
             <div class="d-flex"><a href="#!"> <img class="img-fluid" src="../../assets/img/logos/g.png" alt="" width="56" /></a>

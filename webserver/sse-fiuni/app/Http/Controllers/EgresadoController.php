@@ -169,9 +169,9 @@ class EgresadoController extends Controller
                 if (!$validator_datos_personales->fails()) {
                     $datosp = DatosPersonales::create(['telefono' => $request->input('telefono'), 'direccion' => $request->input('direccion'), 'user_id' => $user->id]);
                 }
-                return back();
+                return back()->withErrors($validator_datos_personales);
             } else {
-                return back();
+                return back()->withErrors($validator);
             }
         }
     }
