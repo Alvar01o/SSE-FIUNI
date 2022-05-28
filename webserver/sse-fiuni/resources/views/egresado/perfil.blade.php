@@ -139,41 +139,7 @@
         </div>
         <div class="card-body bg-light"><a class="mb-4 d-block d-flex align-items-center" href="#education-form" data-bs-toggle="collapse" aria-expanded="false" aria-controls="education-form"><span class="circle-dashed"><span class="fas fa-plus"></span></span><span class="ms-3">Añadir Educacion</span></a>
             <div class="collapse" id="education-form">
-            <form class="row">
-                <div class="col-3 mb-3 text-lg-end">
-                <label class="form-label" for="school">School</label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm" id="school" type="text" />
-                </div>
-                <div class="col-3 mb-3 text-lg-end">
-                <label class="form-label" for="degree">Degree</label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm" id="degree" type="text" />
-                </div>
-                <div class="col-3 mb-3 text-lg-end">
-                <label class="form-label" for="field">Field</label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm" id="field" type="text" />
-                </div>
-                <div class="col-3 text-lg-end">
-                <label class="form-label" for="edu-form3">From </label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm datetimepicker" id="edu-form3" type="text" placeholder="d/m/y" data-options='{"dateFormat":"d/m/y"}' />
-                </div>
-                <div class="col-3 text-lg-end">
-                <label class="form-label" for="edu-to">To </label>
-                </div>
-                <div class="col-9 col-sm-7 mb-3">
-                <input class="form-control form-control-sm datetimepicker" id="edu-to" type="text" placeholder="d/m/y" data-options='{"dateFormat":"d/m/y"}' />
-                </div>
-                <div class="col-9 col-sm-7 offset-3">
-                <button class="btn btn-primary" type="button">Save</button>
-                </div>
-            </form>
+            @include('egresado.partials.formulario_educacion')
             <div class="border-dashed-bottom my-3"></div>
             </div>
             <div class="d-flex"><a href="#!">
