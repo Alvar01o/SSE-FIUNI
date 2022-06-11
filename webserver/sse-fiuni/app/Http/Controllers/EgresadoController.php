@@ -208,8 +208,9 @@ class EgresadoController extends Controller
         if (!$id) {
             $id  = $this->getUser()->id;
         }
+        $carreras = Carreras::get();
         $egresado = User::find($id);
-        return view('egresado.perfil', ['user' => $egresado]);
+        return view('egresado.perfil', ['user' => $egresado, 'carreras' => $carreras]);
     }
 
     public function new_pass(Request $request, $id = null) {
@@ -246,8 +247,6 @@ class EgresadoController extends Controller
             $id = $this->getUser()->id;
         }
         $user = User::find($id);
-
-
         $validator = Validator::make($request->all(), [
             'institucion' => 'required|string|between:2,250',
             'titulo' => 'required|string|between:2,250',
