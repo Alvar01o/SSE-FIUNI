@@ -10,6 +10,8 @@ use App\Models\Educacion;
 use App\Models\DatosPersonales;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 class EgresadoController extends Controller
 {
 
@@ -191,7 +193,7 @@ class EgresadoController extends Controller
             $egresado->removeRole(User::ROLE_EGRESADO);
             $egresado->delete();
         }
-        return redirect()->intended('/egresa\do/lista');
+        return redirect()->intended('/egresado/lista');
     }
 
     public function perfil($id = null){
@@ -222,12 +224,10 @@ class EgresadoController extends Controller
                     'password' => 'Error en la validacion de contraseña.1'
                 ]);
             } else {
-                var_dump(bcrypt($request->input('old_password')));
-                var_dump($user->password);die;
-                if (bcrypt($request->input('old_password')) === $user->password) {
+                if (Hash::check($request->input('old_password'), $user->password)) {
                     $user->password = bcrypt($request->input('password'));
                     $user->save();
-                    return back();        
+                    return back();
                 } else {
                     return back()->withErrors([
                         'password' => 'Error en la validacion de contraseña.2'
