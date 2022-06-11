@@ -51,3 +51,10 @@ Route::get('/perfil/{id}/editar', [EgresadoController::class, 'editar_perfil'])-
 Route::post('/upload_avatar', UploadAvatarController::class);
 Route::get('/get_avatar', [EgresadoController::class, 'get_avatar'])->name('get_avatar');
 Route::get('/get_avatar/{id}', [EgresadoController::class, 'get_avatar'])->name('get_avatar2');
+
+//guardar datos laborales
+Route::post('/egresado/laboral', [EgresadoController::class, 'add_laboral'])->name('add_laboral');
+Route::post('/egresado/laboral/{id}', [EgresadoController::class, 'add_laboral'])->name('add_laboral_param');
+Route::get('/empleadores/json', [EmpleadorController::class, 'json'])->name('empleadores_json_complete');
+Route::get('/empleadores/json/{query}', [EmpleadorController::class, 'json'])->name('empleadores_json');
+

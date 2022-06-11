@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Laboral extends Migration
+class CrearRelacionEntroLaboralEmpleadores extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class Laboral extends Migration
      */
     public function up()
     {
-        Schema::create('laboral', function (Blueprint $table) {
+        Schema::create('laboral_empleador', function (Blueprint $table) {
             $table->id();
-            $table->string('empresa');
+            $table->string('empleador_id');
+            $table->string('laboral_id');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class Laboral extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('laboral');
+        Schema::dropIfExists('laboral_empleador');
     }
 }

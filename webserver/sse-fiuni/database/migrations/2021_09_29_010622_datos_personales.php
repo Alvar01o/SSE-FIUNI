@@ -17,6 +17,7 @@ class DatosPersonales extends Migration
             $table->id();
             $table->string('telefono');
             $table->string('direccion');
+            $table->string('estado_civil');
             $table->integer('user_id');
             $table->timestamps();
         });

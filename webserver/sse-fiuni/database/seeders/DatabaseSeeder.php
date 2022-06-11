@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Models\Carreras;
+use App\Models\Laboral;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -38,11 +39,14 @@ class DatabaseSeeder extends Seeder
         // roles y permisos
         $role = Role::create(['name' => User::ROLE_ADMINISTRADOR]);
         $role->givePermissionTo(Permission::create(['name' => 'Generar Reportes']));
+        $ver_empresa_permiso = Permission::create(['name' => 'Ver Empresas']);
+        $role->givePermissionTo($ver_empresa_permiso);
         $role->givePermissionTo(Permission::create(['name' => 'Administrar Empleador']));
         $role->givePermissionTo(Permission::create(['name' => 'Administrar Egresados']));
 
         //        $role->givePermissionTo(Permission::all());
         $role = Role::create(['name' => User::ROLE_EGRESADO]);
+        $role->givePermissionTo($ver_empresa_permiso);
         $role->givePermissionTo(Permission::create(['name' => 'Administrar Perfil de Egresados']));
         $role->givePermissionTo(Permission::create(['name' => 'Completar Encuesta de Egresados']));
 
@@ -84,7 +88,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'empleador@gmail.com',
                 'password' => bcrypt('empleador'),
         ]);
-
+        $user->assignRole(User::ROLE_EMPLEADOR);
         //final de usuarios de prueba
         echo "Creando Egresados de prueba!!.. \n";
         for ($i=0; $i < 30; $i++) {
@@ -122,7 +126,21 @@ class DatabaseSeeder extends Seeder
                     'password' => bcrypt('egresado'),
             ]);
             $user->assignRole(User::ROLE_EGRESADO);
+
+            //usuario - Empleador para pruebas
+            $user = User::create([
+                    'nombre' => base64_encode($FourDigitRandomNumber),
+                    'apellido' => base64_encode($FourDigitRandomNumber),
+                    'ci' => $FourDigitRandomNumber,
+                    'confirmado' => true,
+                    'email' => 'empleador'.$FourDigitRandomNumber.'@gmail.com',
+                    'password' => bcrypt('empleador'),
+            ]);
+            $user->assignRole(User::ROLE_EMPLEADOR);
         }
-        $user->assignRole(User::ROLE_EMPLEADOR);
+        Laboral::create(['empresa' => 'inventiva']);
+        Laboral::create(['empresa' => 'Integradevs']);
+        Laboral::create(['empresa' => 'Borealis']);
+        Laboral::create(['empresa' => 'MoV']);
     }
 }

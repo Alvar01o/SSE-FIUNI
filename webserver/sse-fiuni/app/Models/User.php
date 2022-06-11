@@ -12,8 +12,9 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
-
+use App\Models\Laboral;
+use App\Models\LaboralUser;
+use App\Models\LaboralEmpleador;
 class User extends Authenticatable implements HasMedia
 {
     use HasFactory, Notifiable, HasRoles, InteractsWithMedia;
@@ -44,6 +45,7 @@ class User extends Authenticatable implements HasMedia
      */
     protected $hidden = [
         'password',
+        'token_invitacion',
         'remember_token',
     ];
 
@@ -61,9 +63,24 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Carreras::class);
     }
 
-    public function laboral()
+    public function getEmpleos()
     {
-        return $this->hasMany(Laboral::class);
+        return LaboralUser::where('user_id', '=', $this->id)->get();
+    }
+
+    public function addCargoLaboral($empresa, $cargo, $inicio, $fin = null)
+    {
+        $empresa_data = Laboral::whereRaw('lower(empresa) = ?', strtolower($empresa))->first();
+        if ($empresa_data) {
+           return LaboralUser::create(['user_id' => $this->id, 'laboral_id' => $empresa_data->id, 'cargo' => $cargo, 'inicio' => $inicio, 'fin' => $fin]);
+        }
+        $laboral = Laboral::create(['empresa' => $empresa]);
+        return LaboralUser::create(['user_id' => $this->id, 'laboral_id' => $laboral->id, 'cargo' => $cargo, 'inicio' => $inicio, 'fin' => $fin]);
+    }
+
+    public function addComoEmpleador($laboral_id)
+    {
+        return LaboralEmpleador::create(['empleador_id' => $this->id, 'laboral_id' => $laboral_id]);
     }
 
     public function datosPersonales()

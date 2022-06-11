@@ -2,4 +2,18 @@
 max-width: 15px !important;
 color: #d43737de;
 }
-    
+.btn-primary:hover,
+.navbar-vertical .btn-purchase:hover,
+.tox .tox-menu__footer .tox-button:hover:last-child,
+.tox .tox-dialog__footer .tox-button:hover:last-child {
+background-color: #2569c3;
+}
+.tt-suggestion {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding-top: 0.5rem;
+    padding-left: 20px;
+    text-transform: capitalize;
+    padding-bottom: 0.25rem;
+    padding-right: 20px;
+}

@@ -22,6 +22,7 @@
     <meta name="theme-color" content="#ffffff">
     <script src="{{asset('js/config.js')}}"></script>
     <script src="{{asset('js/jQuery.js')}}"></script>
+    <script src="{{asset('js/typeahead.js')}}"></script>
     <script src="{{asset('vendors/overlayscrollbars/OverlayScrollbars.min.js')}}"></script>
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Carreras;
+use App\Models\Laboral;
 use App\Models\DatosPersonales;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -189,7 +190,7 @@ class EgresadoController extends Controller
             $egresado->removeRole(User::ROLE_EGRESADO);
             $egresado->delete();
         }
-        return redirect()->intended('/egresado/lista');
+        return redirect()->intended('/egresa\do/lista');
     }
 
     public function perfil($id = null){
@@ -206,6 +207,48 @@ class EgresadoController extends Controller
         }
         $egresado = User::find($id);
         return view('egresado.perfil', ['user' => $egresado]);
+    }
+
+    public function add_laboral(Request $request, $id = null) {
+        if (is_null($id)) {
+            $id = $this->getUser()->id;
+        }
+        $user = User::find($id);
+        $validator = Validator::make($request->all(), [
+            'empresa' => 'required|string|between:2,100',
+            'cargo' => 'required|string|between:2,100',
+            'inicio' => ['required']
+        ], [
+            'required' => 'Campo :attribute es requerido',
+            'string' => 'Nombre de la Carrera en formato invalido.',
+            'between' => 'Longitud del campo :attribute debe ser entre :min - :max caracteres.'
+        ]);
+
+        if (!$validator->fails()) {
+            $validacion_empleador = Validator::make($request->all(), [
+                'nombre' => 'required|string|between:2,100',
+                'apellido' => 'required|string|between:2,100',
+                'email' => 'required|email|between:7,100'
+            ], [
+                'required' => 'Campo :attribute es requerido',
+                'string' => 'Nombre de la Carrera en formato invalido.',
+                'between' => 'Longitud del campo :attribute debe ser entre :min - :max caracteres.'
+            ]);
+            $laboralUser = $user->addCargoLaboral($request->input('empresa'), $request->input('cargo'), $request->input('inicio'), $request->input('fin'));
+            if (!$validacion_empleador->fails()) {
+                $user = User::whereRaw('LOWER(`email`) = ?', strtolower($request->input('email')))->first();
+                if (!$user) {
+                    $user = User::create(['nombre' => $request->input('nombre'), 'apellido' => $request->input('apellido'), 'email' => $request->input('email'), 'password' => bcrypt($request->input('email').time())]);
+                }
+               $user->assignRole(User::ROLE_EMPLEADOR);
+               $user->addComoEmpleador($laboralUser->laboral_id);
+               return back();
+            } else {
+                return back()->withErrors($validacion_empleador);
+            }
+        } else {
+            return back()->withErrors($validator);
+        }
     }
 
     public function get_avatar(Request $request, $id = null)

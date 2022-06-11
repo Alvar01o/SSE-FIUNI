@@ -6,15 +6,26 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-
+use App\Models\Laboral;
 class EmpleadorController extends Controller
 {
 
     public function lista()
     {
         if ($this->getUser()->hasPermissionTo('Administrar Empleador')) {
-            $users = User::role('empleador')->paginate(95);
+            $users = User::role('empleador')->paginate(15);
             return view('empleador.lista', ['empleadores' => $users]);
+        } else {
+            return view('error_permisos');
+        }
+    }
+
+    public function json($query = null)
+    {
+        if ($this->getUser()->hasPermissionTo('Ver Empresas')) {
+            $empresas = Laboral::whereRaw("lower(empresa) like '%".strtolower($query)."%'");
+            $empresas = $empresas->get();
+            return response()->json($empresas);
         } else {
             return view('error_permisos');
         }
