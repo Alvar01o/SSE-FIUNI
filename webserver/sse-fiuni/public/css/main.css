@@ -16,4 +16,7 @@ background-color: #2569c3;
     text-transform: capitalize;
     padding-bottom: 0.25rem;
     padding-right: 20px;
+
+th {
+    color:#840101 !important;
 }
