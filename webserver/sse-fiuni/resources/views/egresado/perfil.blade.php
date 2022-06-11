@@ -105,7 +105,7 @@
             @foreach ($user->getEmpleos() as $laboral)
             <div class="d-flex"><a href="#!"> <img class="img-fluid" src="../../assets/img/logos/g.png" alt="" width="56" /></a>
                 <div class="flex-1 position-relative ps-3">
-                    <h6 class="fs-0 mb-0">{{ $laboral->cargo }}<span data-bs-toggle="tooltip" data-bs-placement="top" title="Verified"><small class="fa fa-check-circle text-primary" data-fa-transform="shrink-4 down-2"></small></span>
+                    <h6 class="fs-0 mb-0">{{ $laboral->cargo }}
                     </h6>
                     <p class="mb-1"> <a href="#!">{{ $laboral->getEmpresa() }}</a></p>
                     <p class="text-1000 mb-0">Apr 2012 - Present &bull; 6 yrs 9 mos</p>
@@ -124,36 +124,16 @@
             @include('egresado.partials.formulario_educacion')
             <div class="border-dashed-bottom my-3"></div>
             </div>
-            <div class="d-flex"><a href="#!">
-                <div class="avatar avatar-3xl">
-                <div class="avatar-name rounded-circle"><span>SU</span></div>
-                </div>
-            </a>
-            <div class="flex-1 position-relative ps-3">
-                <h6 class="fs-0 mb-0"> <a href="#!">Stanford University<span data-bs-toggle="tooltip" data-bs-placement="top" title="Verified"><small class="fa fa-check-circle text-primary" data-fa-transform="shrink-4 down-2"></small></span></a></h6>
-                <p class="mb-1">Computer Science and Engineering</p>
-                <p class="text-1000 mb-0">2010 - 2014 • 4 yrs</p>
-                <p class="text-1000 mb-0">California, USA</p>
-                <div class="border-dashed-bottom my-3"></div>
-            </div>
-            </div>
+            @foreach ($user->educacion as $certificacion)
             <div class="d-flex"><a href="#!"> <img class="img-fluid" src="../../assets/img/logos/staten.png" alt="" width="56" /></a>
-            <div class="flex-1 position-relative ps-3">
-                <h6 class="fs-0 mb-0"> <a href="#!">Staten Island Technical High School<span data-bs-toggle="tooltip" data-bs-placement="top" title="Verified"><small class="fa fa-check-circle text-primary" data-fa-transform="shrink-4 down-2"></small></span></a></h6>
-                <p class="mb-1">Higher Secondary School Certificate, Science</p>
-                <p class="text-1000 mb-0">2008 - 2010 &bull; 2 yrs</p>
-                <p class="text-1000 mb-0">New York, USA</p>
-                <div class="border-dashed-bottom my-3"></div>
+                <div class="flex-1 position-relative ps-3">
+                    <h6 class="fs-0 mb-0"> <a href="#!" class="text-uppercase">{{ $certificacion->titulo }}</a></h6>
+                    <p class="mb-1">{{ $certificacion->institucion }}</p>
+                    <p class="text-1000 mb-0">{{ date('Y', strtotime($certificacion->inicio)) }} - <?= ($certificacion->fin == null) ? '<b>cursando</b>' : date('Y',strtotime($certificacion->fin));?></p>
+                    <div class="border-dashed-bottom my-3"></div>
+                </div>
             </div>
-            </div>
-            <div class="d-flex"><a href="#!"> <img class="img-fluid" src="../../assets/img/logos/tj-heigh-school.png" alt="" width="56" /></a>
-            <div class="flex-1 position-relative ps-3">
-                <h6 class="fs-0 mb-0"> <a href="#!">Thomas Jefferson High School for Science and Technology<span data-bs-toggle="tooltip" data-bs-placement="top" title="Verified"><small class="fa fa-check-circle text-primary" data-fa-transform="shrink-4 down-2"></small></span></a></h6>
-                <p class="mb-1">Secondary School Certificate, Science</p>
-                <p class="text-1000 mb-0">2003 - 2008 &bull; 5 yrs</p>
-                <p class="text-1000 mb-0">Alexandria, USA</p>
-            </div>
-            </div>
+            @endforeach
         </div>
         </div>
     </div>

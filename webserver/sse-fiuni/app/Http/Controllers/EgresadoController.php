@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Carreras;
 use App\Models\Laboral;
+use App\Models\Educacion;
 use App\Models\DatosPersonales;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -207,6 +208,37 @@ class EgresadoController extends Controller
         }
         $egresado = User::find($id);
         return view('egresado.perfil', ['user' => $egresado]);
+    }
+
+    public function add_educacion(Request $request, $id = null) {
+        if (is_null($id)) {
+            $id = $this->getUser()->id;
+        }
+        $user = User::find($id);
+
+
+        $validator = Validator::make($request->all(), [
+            'institucion' => 'required|string|between:2,250',
+            'titulo' => 'required|string|between:2,250',
+            'inicio' => ['required']
+        ], [
+            'required' => 'Campo :attribute es requerido',
+            'string' => 'Nombre de la Carrera en formato invalido.',
+            'between' => 'Longitud del campo :attribute debe ser entre :min - :max caracteres.'
+        ]);
+
+        if (!$validator->fails()) {
+            $nueva_certificacion = Educacion::create([
+                'institucion' => $request->input('institucion'),
+                'titulo' => $request->input('titulo'),
+                'inicio' => $request->input('inicio'),
+                'fin' => $request->input('fin'),
+                'user_id' => $id,
+            ]);
+            return back();
+        } else {
+            return back()->withErrors($validator);
+        }
     }
 
     public function add_laboral(Request $request, $id = null) {

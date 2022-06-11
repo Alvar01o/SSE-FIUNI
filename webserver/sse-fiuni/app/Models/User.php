@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Laboral;
+use App\Models\Educacion;
 use App\Models\LaboralUser;
 use App\Models\LaboralEmpleador;
 class User extends Authenticatable implements HasMedia
@@ -87,6 +88,12 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(DatosPersonales::class);
     }
+
+    public function educacion()
+    {
+        return $this->hasMany(Educacion::class);
+    }
+
     public function getName()
     {
         return $this->nombre;

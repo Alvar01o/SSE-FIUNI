@@ -13,7 +13,7 @@
         <label class="form-label" for="certificacion">Certificación</label>
     </div>
     <div class="col-9 col-sm-7 mb-3">
-        <input class="form-control form-control-sm" id="certificacion" name="certificacion" type="text" minlength="2" maxlength="250" required/>
+        <input class="form-control form-control-sm" id="titulo" name="titulo" type="text" minlength="2" maxlength="250" required/>
         <div class="invalid-feedback">
             Campo Requerido.
         </div>
@@ -39,6 +39,6 @@
     <div class="border-dashed-bottom my-4">
     </div>
     <div class="col-9 col-sm-7 offset-3">
-        <button class="btn btn-primary" type="button">Guardar</button>
+        <button class="btn btn-primary" type="submit">Guardar</button>
     </div>
 </form>
