@@ -210,6 +210,37 @@ class EgresadoController extends Controller
         return view('egresado.perfil', ['user' => $egresado]);
     }
 
+    public function new_pass(Request $request, $id = null) {
+        $userlogued = $this->getUser();
+        $user = User::find($id);
+        if ($user->id != $userlogued->id && $userlogued->hasRole(User::ROLE_ADMINISTRADOR) || $user->id == $userlogued->id){
+            $validator = Validator::make($request->all(), [
+                'password' => ['required', 'confirmed'],
+            ], ['required' => 'Campo :attribute es requerido', 'confirmed' => 'Confirmacion de contraseña no coincide']);
+            if ($validator->fails()) {
+                return back()->withErrors([
+                    'password' => 'Error en la validacion de contraseña.1'
+                ]);
+            } else {
+                var_dump(bcrypt($request->input('old_password')));
+                var_dump($user->password);die;
+                if (bcrypt($request->input('old_password')) === $user->password) {
+                    $user->password = bcrypt($request->input('password'));
+                    $user->save();
+                    return back();        
+                } else {
+                    return back()->withErrors([
+                        'password' => 'Error en la validacion de contraseña.2'
+                    ]);
+                }
+            }
+        } else {
+            return back()->withErrors([
+                'password' => 'Error en la validacion de contraseña.3'
+            ]);
+        }
+    }
+
     public function add_educacion(Request $request, $id = null) {
         if (is_null($id)) {
             $id = $this->getUser()->id;

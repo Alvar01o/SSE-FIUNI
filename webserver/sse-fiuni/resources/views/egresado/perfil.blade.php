@@ -144,18 +144,28 @@
             <h5 class="mb-0">Cambiar contraseña</h5>
             </div>
             <div class="card-body bg-light">
-            <form>
+            <form class="row needs-validation" method="POST" action="/cambiarpassword/{{ $user->id }}" novalidate>
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <div class="mb-3">
                 <label class="form-label" for="old-password">Contraseña Actual</label>
-                <input class="form-control" id="old-password" name="old_password" type="password" />
+                <input class="form-control" id="old-password" name="old_password" type="password" required />
+                <div class="invalid-feedback">
+                    Campo Requerido.
+                </div>
                 </div>
                 <div class="mb-3">
                 <label class="form-label" for="password" name="password">Nueva Contraseña</label>
-                <input class="form-control" id="password" name="password" type="password" />
+                <input class="form-control" id="password" name="password" type="password" required />
+                <div class="invalid-feedback">
+                    Campo Requerido.
+                </div>
                 </div>
                 <div class="mb-3">
                 <label class="form-label" for="password_confirmation" name="password_confirmation">Confirmar Contraseña</label>
-                <input class="form-control" id="password_confirmation"  name="password_confirmation" type="password" />
+                <input class="form-control" id="password_confirmation"  name="password_confirmation" type="password" required />
+                <div class="invalid-feedback">
+                    Campo Requerido.
+                </div>
                 </div>
                 <button class="btn btn-primary d-block w-100" type="submit">Actualizar  Contraseña</button>
             </form>
