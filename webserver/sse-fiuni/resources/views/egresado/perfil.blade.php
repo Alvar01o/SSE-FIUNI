@@ -105,10 +105,21 @@
             @foreach ($user->getEmpleos() as $laboral)
             <div class="d-flex"><a href="#!"> <img class="img-fluid" src="../../assets/img/logos/g.png" alt="" width="56" /></a>
                 <div class="flex-1 position-relative ps-3">
-                    <h6 class="fs-0 mb-0">{{ $laboral->cargo }}
-                    </h6>
+                    <div class="row">
+                        <h6 class="fs-0 col-8 mb-0">{{ $laboral->cargo }}
+                        </h6>
+                        <div class="col-2">
+                            <a href="/elimiar_dato_laboral/{{$laboral->id}}">
+                                <span class="far fa-trash-alt float-right"></span>
+                            </a>
+                            <a href="#">
+                                <span class="float-right fas fa-pencil-alt"></span>
+                            </a>
+
+                        </div>
+                    </div>
                     <p class="mb-1"> <a href="#!">{{ $laboral->getEmpresa() }}</a></p>
-                    <p class="text-1000 mb-0">Apr 2012 - Present &bull; 6 yrs 9 mos</p>
+                    <p class="text-1000 mb-0">{{ date('Y', strtotime($laboral->inicio)) }} - <?= ($laboral->fin == null) ? '<b>actualmente</b>' : date('Y',strtotime($laboral->fin));?></p>
                     <div class="border-dashed-bottom my-3"></div>
                 </div>
             </div>
@@ -127,7 +138,14 @@
             @foreach ($user->educacion as $certificacion)
             <div class="d-flex"><a href="#!"> <img class="img-fluid" src="../../assets/img/logos/staten.png" alt="" width="56" /></a>
                 <div class="flex-1 position-relative ps-3">
-                    <h6 class="fs-0 mb-0"> <a href="#!" class="text-uppercase">{{ $certificacion->titulo }}</a></h6>
+                    <div class="row">
+                    <h6 class="fs-0 col-8 mb-0"> <a href="#!" class="text-uppercase">{{ $certificacion->titulo }}</a></h6>
+                    <div class="col-2">
+                        <a href="/elimiar_educacion/{{$certificacion->id}}">
+                            <span class="far fa-trash-alt float-right"></span>
+                        </a>
+                    </div>
+                    </div>
                     <p class="mb-1">{{ $certificacion->institucion }}</p>
                     <p class="text-1000 mb-0">{{ date('Y', strtotime($certificacion->inicio)) }} - <?= ($certificacion->fin == null) ? '<b>cursando</b>' : date('Y',strtotime($certificacion->fin));?></p>
                     <div class="border-dashed-bottom my-3"></div>

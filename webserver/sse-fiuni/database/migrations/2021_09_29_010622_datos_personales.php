@@ -16,8 +16,8 @@ class DatosPersonales extends Migration
         Schema::create('datos_personales', function (Blueprint $table) {
             $table->id();
             $table->string('telefono');
-            $table->string('direccion');
-            $table->string('estado_civil');
+            $table->string('direccion')->nullable();
+            $table->string('estado_civil')->nullable();
             $table->integer('user_id');
             $table->timestamps();
         });

@@ -15,8 +15,8 @@ class CrearRelacionEntroLaboralEmpleadores extends Migration
     {
         Schema::create('laboral_empleador', function (Blueprint $table) {
             $table->id();
-            $table->string('empleador_id');
-            $table->string('laboral_id');
+            $table->integer('empleador_id');
+            $table->integer('laboral_id');
             $table->timestamps();
         });
     }

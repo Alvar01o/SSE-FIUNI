@@ -15,8 +15,8 @@ class CrearRelacionEntroLaboralUsuarios extends Migration
     {
         Schema::create('laboral_user', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->string('laboral_id');
+            $table->integer('user_id');
+            $table->integer('laboral_id');
             $table->string('cargo');
             $table->dateTime('inicio');
             $table->dateTime('fin')->nullable();

@@ -59,4 +59,6 @@ Route::post('/egresado/educacion/{id}', [EgresadoController::class, 'add_educaci
 Route::post('/cambiarpassword/{id}', [EgresadoController::class, 'new_pass'])->name('new_pass');
 Route::get('/empleadores/json', [EmpleadorController::class, 'json'])->name('empleadores_json_complete');
 Route::get('/empleadores/json/{query}', [EmpleadorController::class, 'json'])->name('empleadores_json');
+Route::get('/elimiar_dato_laboral/{id}', [EgresadoController::class, 'elimiar_dato_laboral'])->name('perfil.elimiar_dato_laboral');
+Route::get('/elimiar_educacion/{id}', [EgresadoController::class, 'elimiar_educacion'])->name('perfil.elimiar_educacion');
 

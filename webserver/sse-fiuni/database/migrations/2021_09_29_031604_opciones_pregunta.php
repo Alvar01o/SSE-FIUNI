@@ -13,7 +13,13 @@ class OpcionesPregunta extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('opciones_preguntas', function (Blueprint $table) {
+            $table->id();
+            $table->integer('pregunta_id');
+            $table->integer('encuesta_id');
+            $table->string('opcion');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +29,6 @@ class OpcionesPregunta extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('opciones_preguntas');
     }
 }

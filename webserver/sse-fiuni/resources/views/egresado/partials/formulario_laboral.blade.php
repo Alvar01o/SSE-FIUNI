@@ -64,24 +64,21 @@
     </div>
 </form>
 <script>
-var empresas = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  remote: {
-    url: '/empleadores/json/'+ $('#empresa').val(),
-    wildcard: '%QUERY',
-
-  }
-});
-$('#empresa').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1,
-        async:true
-    }, {
+jQuery(document).ready(function() {
+$('#empresa').typeahead(
+{
+    highlight: true,
+},
+{
   name: 'empresas',
   display: 'empresa',
-  source: empresas,
-  async:true
+  source: function(query, syncResults, asyncResults) {
+    $.get('/empleadores/json/' + jQuery('#empresa').val(), function(data) {
+      asyncResults(data);
+    });
+  }
+}
+
+)
 });
 </script>

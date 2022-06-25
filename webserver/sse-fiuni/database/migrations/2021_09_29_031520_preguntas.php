@@ -13,7 +13,12 @@ class Preguntas extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('preguntas', function (Blueprint $table) {
+            $table->id();
+            $table->string('pregunta');
+            $table->enum('tipo_pregunta', ['pregunta', 'seleccion_multiple', 'seleccion_multiple_justificacion', 'seleccion', 'seleccion_justificacion']);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class Preguntas extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('preguntas');
     }
 }

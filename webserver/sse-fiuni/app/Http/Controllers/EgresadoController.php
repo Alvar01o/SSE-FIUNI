@@ -8,6 +8,7 @@ use App\Models\Carreras;
 use App\Models\Laboral;
 use App\Models\Educacion;
 use App\Models\DatosPersonales;
+use App\Models\LaboralUser;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
@@ -271,6 +272,36 @@ class EgresadoController extends Controller
         }
     }
 
+    public function elimiar_educacion($id = null)
+    {
+        if ($id) {
+            if ($this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
+                $lbuser = Educacion::where('id', '=', $id);
+                $lbuser->delete();
+            } else {
+                $lbuser = Educacion::where('id', '=', $id);
+                $lbuser->where('user_id', '=', $this->getUser()->id);
+                $lbuser->delete();
+            }
+        }
+        return back();
+    }
+
+    public function elimiar_dato_laboral($id = null)
+    {
+        if ($id) {
+            if ($this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
+                $lbuser = LaboralUser::where('id', '=', $id);
+                $lbuser->delete();
+            } else {
+                $lbuser = LaboralUser::where('id', '=', $id);
+                $lbuser->where('user_id', '=', $this->getUser()->id);
+                $lbuser->delete();
+            }
+        }
+        return back();
+    }
+
     public function add_laboral(Request $request, $id = null) {
         if (is_null($id)) {
             $id = $this->getUser()->id;
@@ -306,7 +337,7 @@ class EgresadoController extends Controller
                $user->addComoEmpleador($laboralUser->laboral_id);
                return back();
             } else {
-                return back()->withErrors($validacion_empleador);
+                return back();
             }
         } else {
             return back()->withErrors($validator);

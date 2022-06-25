@@ -5,7 +5,7 @@
     <h5 id="exampleModalLabel">Agregar Egresado</h5>
 </div>
 <form method="POST" action="/egresado" class="eliminarEgresadoForm d-inline needs-validation" novalidate>
-    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
     <div class="mb-3">
         <input class="form-control" value="{{ $user->nombre }}" type="text" autocomplete="on" minlength="3" maxlength="30" placeholder="Nombre" name="nombre" required/>
         <div class="invalid-feedback">

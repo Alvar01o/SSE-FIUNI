@@ -39,6 +39,7 @@ class User extends Authenticatable implements HasMedia
         'token_invitacion'
     ];
 
+    private $_empleos = [];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -66,7 +67,12 @@ class User extends Authenticatable implements HasMedia
 
     public function getEmpleos()
     {
-        return LaboralUser::where('user_id', '=', $this->id)->get();
+
+        if (!empty($this->_empleos)) {
+            return $this->_empleos;
+        } else {
+            return $this->_empleos = LaboralUser::where('user_id', '=', $this->id)->get();
+        }
     }
 
     public function addCargoLaboral($empresa, $cargo, $inicio, $fin = null)
