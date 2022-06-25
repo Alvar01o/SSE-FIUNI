@@ -11,6 +11,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\CarrerasController;
 use App\Http\Controllers\UploadAvatarController;
+use App\Http\Controllers\EncuestasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Route::resource('admin', AdminController::class);
 Route::resource('egresado', EgresadoController::class);
 Route::resource('empleador', EmpleadorController::class);
 Route::resource('carreras', CarrerasController::class);
+Route::resource('encuestas', EncuestasController::class);
 
 Route::get('/egresado/{id}/perfil', [EgresadoController::class, 'perfil'])->name('egresado.perfil');
 Route::get('/perfil', [EgresadoController::class, 'perfil'])->name('perfil');

@@ -40,7 +40,7 @@
             <td class="text-nowrap">{{ $user->apellido }}</td>
             <td class="text-nowrap">{{ $user->getEmail() }}</td>
             <td class="text-nowrap">{{ $user->ci }}</td>
-            <td class="text-nowrap">{{ $user->empresa }}</td>
+            <td class="text-nowrap"><?= $user->getEmpresaDeEmpleador();?></td>
             <td class="text-nowrap">
                 <a href="/empleador/{{$user->id}}/edit" data-index="{{$index}}" class="editBtn"><span class="fas fa-pencil-alt"></span></a>
                 <form method="POST" action="/empleador/{{$user->id}}" class="eliminarEmpleadorForm d-inline">

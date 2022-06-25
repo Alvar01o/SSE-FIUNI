@@ -13,7 +13,7 @@ class EmpleadorController extends Controller
     public function lista()
     {
         if ($this->getUser()->hasPermissionTo('Administrar Empleador')) {
-            $users = User::role('empleador')->paginate(15);
+            $users = User::role('empleador')->paginate(95);
             return view('empleador.lista', ['empleadores' => $users]);
         } else {
             return view('error_permisos');

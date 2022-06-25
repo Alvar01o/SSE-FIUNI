@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Encuestas;
+use Illuminate\Support\Facades\Validator;
 
-class DatosPersonalesController extends Controller
+class EncuestasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,8 @@ class DatosPersonalesController extends Controller
      */
     public function index()
     {
-        //
+        $encuestas = Encuestas::get();
+        return view('encuestas.index', ['encuestas' => $encuestas]);
     }
 
     /**
@@ -34,7 +37,20 @@ class DatosPersonalesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string|between:9,100',
+            'tipo' => 'required|string|between:6,10'
+        ], ['required' => 'Campo :attribute es requerido', 'string' => 'Nombre de la Encuesta en formato invalido.', 'between' => 'Longitud requerida entre 9-100 caracteres.']);
+        if($validator->fails()) {
+            return redirect('encuestas')
+                        ->withErrors($validator);
+        } else {
+            Encuestas::create([
+                'nombre' => $request->input('nombre'),
+                'tipo' => $request->input('tipo')
+            ]);
+            return redirect()->intended('encuestas');
+        }
     }
 
     /**
@@ -45,7 +61,8 @@ class DatosPersonalesController extends Controller
      */
     public function show($id)
     {
-        //
+        $encuesta = Encuestas::find($id);
+        return view('encuestas.show', ['encuesta' => $encuesta]);
     }
 
     /**

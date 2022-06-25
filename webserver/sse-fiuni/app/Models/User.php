@@ -65,6 +65,17 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Carreras::class);
     }
 
+    public function getEmpresaDeEmpleador()
+    {
+        $datos_empleador = LaboralEmpleador::where('empleador_id', '=', $this->id)
+        ->join('laboral', 'laboral.id', '=', 'laboral_empleador.laboral_id')->first();
+        if ($datos_empleador) {
+            return $datos_empleador->empresa;
+        } else {
+            return '';
+        }
+    }
+
     public function getEmpleos()
     {
 
