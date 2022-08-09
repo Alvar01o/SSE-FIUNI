@@ -5,6 +5,26 @@
     <button class="btn btn-primary me-1 mb-1 float-right" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar Egresado
     </button>
 </div>
+<div class="g-3 pt-3">
+    <form method="GET" action="/egresado/lista" class="row">
+        <div class="col-sm-5">
+            <input class="form-control" type="text" name="name_email" placeholder="Nombre de usuario o email" aria-label="Nombre de usuario o email" />
+        </div>
+        <div class="col-sm-3">
+            <select class="form-select" name="carrera_id" aria-label="Seleccione Carrera">
+                <option value="">Seleccione Carrera</option>
+                @foreach ($carreras as $carrera)
+                    <option value="{{ $carrera->id }}">{{ $carrera->carrera }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-sm">
+            <button class="btn btn-primary me-1 mb-1" type="submit">
+                Filtrar
+            </button>
+        </div>
+    </form>
+</div>
 @if ($errors->any())
     <div class="alert alert-danger mt-4">
         <ul>
@@ -63,7 +83,9 @@
     </tbody>
   </table>
 </div>
-@include('paginacion')
+<div class=" d-flex justify-content-end">
+    {{ $egresados->links('paginacion') }}
+</div>
 @include('egresado.partials.add_modal', ['carreras' => $carreras])
 @endsection
 

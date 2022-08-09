@@ -13,13 +13,24 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+
+
 class EgresadoController extends Controller
 {
 
-    public function lista()
+    public function lista(Request $request)
     {
         if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
-            $users = User::role('egresado')->paginate(95);
+            $users = User::role('egresado');
+            if ($request->input('carrera_id')) {
+                $users->where('carrera_id', '=', $request->input('carrera_id'));
+            }
+            if ($request->input('name_email')) {
+                $users->where('email', 'like', '%'.$request->input('name_email').'%');
+                $users->orWhere('nombre', 'like', '%'.$request->input('name_email').'%');
+                $users->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
+            }
+            $users = $users->paginate(30);
             $carreras = Carreras::get();
             return view('egresado.lista', ['egresados' => $users, 'carreras' => $carreras]);
         } else {

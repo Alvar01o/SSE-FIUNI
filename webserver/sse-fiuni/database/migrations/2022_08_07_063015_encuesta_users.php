@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Preguntas extends Migration
+class EncuestaUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class Preguntas extends Migration
      */
     public function up()
     {
-        Schema::create('preguntas', function (Blueprint $table) {
+        Schema::create('encuesta_users', function (Blueprint $table) {
             $table->id();
-            $table->string('pregunta');
-            $table->boolean('requerido')->default(false);
-            $table->boolean('justificacion')->nullable();
+            $table->integer('user_id');
             $table->integer('encuesta_id');
-            $table->enum('tipo_pregunta', ['pregunta', 'seleccion_multiple', 'seleccion_multiple_justificacion', 'seleccion', 'seleccion_justificacion']);
             $table->timestamps();
         });
+
     }
 
     /**
@@ -31,6 +29,6 @@ class Preguntas extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('preguntas');
+        Schema::dropIfExists('encuesta_users');
     }
 }

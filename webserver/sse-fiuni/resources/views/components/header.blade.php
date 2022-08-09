@@ -24,6 +24,7 @@
     <script src="{{asset('js/jQuery.js')}}"></script>
     <script src="{{asset('js/typeahead.js')}}"></script>
     <script src="{{asset('vendors/overlayscrollbars/OverlayScrollbars.min.js')}}"></script>
+    <script src="{{asset('js/choices/choices.min.js')}}"></script>
 
 
 
@@ -38,7 +39,9 @@
     <link href="{{asset('css/user-rtl.css')}}" rel="stylesheet" id="user-style-rtl">
     <link href="{{asset('css/user.css')}}" rel="stylesheet" id="user-style-default">
     <link href="{{asset('css/main.css')}}" rel="stylesheet" id="user-style-default">
-    <script>
+    <link href="{{asset('js/choices/choices.min.css')}}" rel="stylesheet" id="user-style-default">
+
+<script>
       var isRTL = JSON.parse(localStorage.getItem('isRTL'));
       if (isRTL) {
         var linkDefault = document.getElementById('style-default');

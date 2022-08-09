@@ -16,7 +16,35 @@ background-color: #2569c3;
     text-transform: capitalize;
     padding-bottom: 0.25rem;
     padding-right: 20px;
+}
 
 th {
-    color:#840101 !important;
+    color: #840101 !important;
+}
+
+.opcion_contenedor button.sm_eliminar_btn svg,
+.opcion_contenedor button.smj_eliminar_btn svg
+{
+    color:#ff000087 !important;
+}
+
+.opcion_contenedor button.sm_edit_btn svg,
+.opcion_contenedor button.smj_edit_btn svg
+{
+    color: #0000ff85 !important;
+}
+.opcion_contenedor button.sm_check_btn svg,
+.opcion_contenedor button.smj_check_btn svg
+{
+    color: #008000b0 !important;
+}
+
+.requerido input,
+.requerido label {
+    float: right !important;
+}
+.pregunta_requerida {
+    text-align: end;
+    color: red;
+    font-weight: 700;
 }

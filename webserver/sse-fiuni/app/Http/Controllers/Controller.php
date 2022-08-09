@@ -18,7 +18,13 @@ class Controller extends BaseController
      */
     public function getUser()
     {
-        return Auth::user();
+        $user = Auth::user();
+//        if (is_null($user)) {
+//            return redirect('/');
+//        } else {
+            return $user;
+//        }
+
     }
 
 }

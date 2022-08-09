@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Encuestas;
+use App\Models\Preguntas;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Validation\Rule;
+use App\Models\OpcionesPregunta;
+use App\Models\User;
+use App\Models\Carreras;
+use App\Models\EncuestaUsers;
 class EncuestasController extends Controller
 {
     /**
@@ -59,10 +64,25 @@ class EncuestasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $encuesta = Encuestas::find($id);
-        return view('encuestas.show', ['encuesta' => $encuesta]);
+        $users = [];
+        $carreras = [];
+        if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
+            $users = User::role('egresado');
+            if ($request->input('carrera_id')) {
+                $users->where('carrera_id', '=', $request->input('carrera_id'));
+            }
+            if ($request->input('name_email')) {
+                $users->where('email', 'like', '%'.$request->input('name_email').'%');
+                $users->orWhere('nombre', 'like', '%'.$request->input('name_email').'%');
+                $users->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
+            }
+            $users = $users->paginate(30);
+            $carreras = Carreras::get();
+        }
+        return view('encuestas.show', ['encuesta' => $encuesta, 'egresados' => $users, 'carreras' => $carreras]);
     }
 
     /**
@@ -97,5 +117,95 @@ class EncuestasController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function addUsuarios(Request $request, $id)
+    {
+        $validator = Validator::make($request->only(['users']), [
+            'users' => 'required|array'
+        ]);
+        $encuesta = Encuestas::find($id);
+        //add validation
+        if (!$validator->fails()) {
+            $users = $request->input('users');
+            //traer usuarios asignados a  la encuesta
+            $usuarios = $encuesta->encuestaUsers();
+            $usuarios_assignados = [];
+            foreach($encuesta->encuestaUsers() as $usuario) {
+                $usuarios_assignados[$usuario->user_id] = $usuario;
+            }
+            $agregar_usuarios = [];
+            foreach ($users as $key => $value) {
+                // si existe en encuesta pasar
+                if (!\array_key_exists($value, $usuarios_assignados)) {
+                    $agregar_usuarios[] = ['user_id' => $value, 'encuesta_id' => $encuesta->id];
+                }
+            }
+            EncuestaUsers::insert($agregar_usuarios);
+            return redirect("/encuestas/{$id}");
+        } else {
+            return redirect("/encuestas/{$id}")
+                ->withErrors($validator);
+        }
+    }
+    public function addPregunta(Request $request)
+    {
+        $validator = Validator::make($request->only(['pregunta', 'tipo_pregunta', 'encuesta_id', 'requerido']), [
+            'pregunta' => 'required|string',
+            'tipo_pregunta' => [
+                    'required',
+                    Rule::in(['seleccion_justificacion', 'seleccion', 'seleccion_multiple_justificacion', 'seleccion_multiple', 'pregunta']),
+            ],
+            'encuesta_id' => 'required|integer'
+        ]);
+        $pregunta = NULL;
+        if ($validator->fails()) {
+            return redirect("/encuestas/{$request->input('encuesta_id')}")
+                        ->withErrors($validator);
+        } else {
+            if ($request->input('tipo_pregunta') !== 'pregunta') {
+                $validadorOpciones = Validator::make($request->only(['opcion']),
+                    [
+                        'opcion' => 'array',
+                        'justificacion' => 'sometimes|required|array'
+                    ]);
+                if ($validadorOpciones->fails()) {
+                    return redirect("/encuestas/{$request->input('encuesta_id')}")
+                                ->withErrors($validadorOpciones);
+                } else {
+                    $justificacion = false;
+                    $opciones = $request->input('opcion');
+                    if ($request->has('justificacion')) {
+                        $justificacion = true;
+                    }
+                    $datos_para_nueva_pregunta = [
+                        'pregunta' => $request->input('pregunta'),
+                        'tipo_pregunta' => $request->input('tipo_pregunta'),
+                        'encuesta_id' => $request->input('encuesta_id'),
+                        'requerido' => $request->input('requerido') == 'on' ? 1 : 0
+                    ];
+                    if ($justificacion) {
+                        $datos_para_nueva_pregunta['justificacion'] = true;
+                    }
+                    $pregunta = Preguntas::create($datos_para_nueva_pregunta);
+                    foreach($opciones as $key => $opcion) {
+                        OpcionesPregunta::create([
+                            'pregunta_id' => $pregunta->id,
+                            'encuesta_id' => $pregunta->encuesta_id,
+                            'opcion' => $opcion
+                        ]);
+                    }
+                    return redirect()->intended("/encuestas/{$pregunta->encuesta_id}");
+                }
+            } else {
+                $pregunta = Preguntas::create([
+                    'pregunta' => $request->input('pregunta'),
+                    'tipo_pregunta' => $request->input('tipo_pregunta'),
+                    'encuesta_id' => $request->input('encuesta_id'),
+                    'requerido' => $request->input('requerido') == 'on' ? 1 : 0
+                ]);
+                return redirect()->intended("/encuestas/{$pregunta->encuesta_id}");
+            }
+
+        }
     }
 }

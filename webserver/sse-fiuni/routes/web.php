@@ -64,3 +64,6 @@ Route::get('/empleadores/json/{query}', [EmpleadorController::class, 'json'])->n
 Route::get('/elimiar_dato_laboral/{id}', [EgresadoController::class, 'elimiar_dato_laboral'])->name('perfil.elimiar_dato_laboral');
 Route::get('/elimiar_educacion/{id}', [EgresadoController::class, 'elimiar_educacion'])->name('perfil.elimiar_educacion');
 
+// encues=
+Route::post('/encuestas/add_pregunta', [EncuestasController::class, 'addPregunta'])->name('addPregunta');
+Route::post('/encuestas/add_usuarios/{id}', [EncuestasController::class, 'addUsuarios'])->name('addUsuarios');
