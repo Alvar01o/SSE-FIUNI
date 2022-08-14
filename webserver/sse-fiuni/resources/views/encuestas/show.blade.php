@@ -1,14 +1,12 @@
 @extends('layouts.admin')
 @section('content')
 <h1>{{ $encuesta->nombre}}</h1>
-
 <ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item"><a class="nav-link active" id="preguntas-tab" data-bs-toggle="tab" href="#tab-preguntas" role="tab" aria-controls="tab-preguntas" aria-selected="true">Preguntas</a></li>
-  <li class="nav-item"><a class="nav-link" id="usuarios-tab" data-bs-toggle="tab" href="#tab-usuarios" role="tab" aria-controls="tab-usuarios" aria-selected="false">Usuarios</a></li>
+  <li class="nav-item"><a class="nav-link <?= isset($_GET['seccion']) && ($_GET['seccion'] == 'usuarios' || isset($_GET['page'])) ? '' : 'active';?>" id="preguntas-tab" data-bs-toggle="tab" href="#tab-preguntas" role="tab" aria-controls="tab-preguntas" aria-selected="true">Preguntas</a></li>
+  <li class="nav-item"><a class="nav-link <?= isset($_GET['seccion']) && ($_GET['seccion'] == 'usuarios' || isset($_GET['page'])) ? 'active' : '';?>" id="usuarios-tab" data-bs-toggle="tab" href="#tab-usuarios" role="tab" aria-controls="tab-usuarios" aria-selected="false">Usuarios</a></li>
 </ul>
 <div class="tab-content p-3" id="myTabContent">
-  <div class="tab-pane fade show active" id="tab-preguntas" role="tabpanel" aria-labelledby="preguntas-tab">
-
+<div class="tab-pane fade <?= isset($_GET['seccion']) ? ( $_GET['seccion'] == 'usuarios' ? ''  : 'active show') : 'active show';?>" id="tab-preguntas" role="tabpanel" aria-labelledby="preguntas-tab">
   <div class="card theme-wizard mb-5">
         <div class="card-header bg-light pt-3 pb-2">
             <ul class="nav justify-content-between nav-wizard">
@@ -98,9 +96,10 @@
         </div>
     </div>
 </div>
-<div class="tab-pane fade" id="tab-usuarios" role="tabpanel" aria-labelledby="usuarios-tab">
+<div class="tab-pane fade <?= isset($_GET['seccion']) ? ( $_GET['seccion'] == 'usuarios' ? 'active show'  : '') : '';?>" id="tab-usuarios" role="tabpanel" aria-labelledby="usuarios-tab">
 <div class="g-3 pt-3">
-    <form method="GET" action="/encuesta/{{ $encuesta->id}}" class="row">
+    <form method="GET" action="/encuestas/{{ $encuesta->id}}" class="row">
+        <input type="hidden" value="usuarios" name="seccion"/>
         <div class="col-sm-5">
             <input class="form-control" type="text" name="name_email" placeholder="Nombre de usuario o email" aria-label="Nombre de usuario o email" />
         </div>
@@ -146,7 +145,7 @@
     @foreach ($egresados as $index => $user)
         <tr class="align-middle">
             <td class="text-nowrap">
-                <input name="users[]" type="checkbox" value="{{ $user->id }}" >
+                <input name="users[]" <?= $encuesta->existeUsuarioAsignado($user->id) ? 'disabled checked="checked"' : '';?> type="checkbox" value="{{ $user->id }}" >
             </td>
             <td class="text-nowrap">
                 <div class="d-flex align-items-center">
@@ -168,9 +167,28 @@
 </div>
 <script>
 let checker = (function() {
+    function init() {
 
-    return null;
-})
+    }
+
+    function enviarUsuarios() {
+        jQuery('form#agg_egresados_encuesta').submit();
+    }
+
+    jQuery('input[name="check_all"]').on('click', function() {
+        jQuery('input[name="users[]"]').each(function(k, e) {
+            if (jQuery('input[name="check_all"]:checked').length ==  1) {
+                jQuery(e).attr('checked', 'checked')
+            } else {
+                jQuery(e).attr('checked', false)
+            }
+
+        })
+    })
+    return {
+        enviarUsuarios
+    };
+})()
 </script>
 <div class=" d-flex justify-content-end">
     {{ $egresados->links('paginacion') }}

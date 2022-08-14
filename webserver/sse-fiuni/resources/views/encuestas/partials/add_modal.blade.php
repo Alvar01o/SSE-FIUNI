@@ -13,15 +13,15 @@
                 <div class="mb-3">
                     <div class="form-floating">
                         <select class="form-select"  name="tipo" id="selectTipo" aria-label="Floating label select example">
-                            <option value="empleador">Empleador</option>
                             <option value="egresado">Egresado</option>
+                            <option value="empleador">Empleador</option>
                         </select>
                         <label for="selectTipo">Tipo de Encuesta</label>
                     </div>
                 </div>
             <div class="mb-3">
             <div class="form-floating mb-3">
-                <input class="form-control is-valid" id="floatingInputValid" pattern=".{9,100}" minlength="9" maxlength="100" autocomplete="on" pattern=".{10,100}" placeholder="Nombre encuesta" name="nombre" required />
+                <input class="form-control" minlength="3" maxlength="100" autocomplete="on"  placeholder="Nombre encuesta" name="nombre" required />
                 <label for="floatingInputValid">Nombre de Encuesta</label>
                 <div class="invalid-feedback">
                 Valor invalido, longitud requerida entre 9-100 caracteres.

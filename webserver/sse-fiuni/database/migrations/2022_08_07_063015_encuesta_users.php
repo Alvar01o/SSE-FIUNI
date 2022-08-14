@@ -30,5 +30,6 @@ class EncuestaUsers extends Migration
     public function down()
     {
         Schema::dropIfExists('encuesta_users');
+        Schema::dropIfExists('encuestas_users');
     }
 }

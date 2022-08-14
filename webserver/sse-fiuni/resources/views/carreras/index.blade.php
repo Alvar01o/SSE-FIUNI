@@ -59,7 +59,6 @@
     </tbody>
   </table>
 </div>
-@include('paginacion')
 @include('carreras.partials.add_modal')
 @include('carreras.partials.edit_modal')
 @endsection

@@ -67,6 +67,9 @@ class EncuestasController extends Controller
     public function show($id, Request $request)
     {
         $encuesta = Encuestas::find($id);
+        if (!$encuesta) {
+            return redirect('/encuestas');
+        }
         $users = [];
         $carreras = [];
         if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
