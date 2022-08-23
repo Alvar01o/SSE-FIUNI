@@ -10,10 +10,10 @@ use App\Models\Laboral;
 class EmpleadorController extends Controller
 {
 
-    public function lista()
+    public function lista(Request $request)
     {
         if ($this->getUser()->hasPermissionTo('Administrar Empleador')) {
-            $users = User::role('empleador')->paginate(95);
+            $users = User::role('empleador')->paginate(30);
             return view('empleador.lista', ['empleadores' => $users]);
         } else {
             return view('error_permisos');

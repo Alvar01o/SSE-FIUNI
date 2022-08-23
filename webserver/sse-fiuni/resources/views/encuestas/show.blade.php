@@ -1,12 +1,20 @@
 @extends('layouts.admin')
 @section('content')
 <h1>{{ $encuesta->nombre}}</h1>
+<?php
+$tabUsuarios = false;
+if (isset($_GET['seccion'])) {
+    if ($_GET['seccion'] == 'usuarios' || $_GET['seccion'] == 'asignados') {
+        $tabUsuarios = true;
+    }
+}
+?>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item"><a class="nav-link <?= isset($_GET['seccion']) && ($_GET['seccion'] == 'usuarios' || isset($_GET['page'])) ? '' : 'active';?>" id="preguntas-tab" data-bs-toggle="tab" href="#tab-preguntas" role="tab" aria-controls="tab-preguntas" aria-selected="true">Preguntas</a></li>
-  <li class="nav-item"><a class="nav-link <?= isset($_GET['seccion']) && ($_GET['seccion'] == 'usuarios' || isset($_GET['page'])) ? 'active' : '';?>" id="usuarios-tab" data-bs-toggle="tab" href="#tab-usuarios" role="tab" aria-controls="tab-usuarios" aria-selected="false">Usuarios</a></li>
+  <li class="nav-item"><a class="nav-link <?= $tabUsuarios ? '' : 'active';?>" id="preguntas-tab" data-bs-toggle="tab" href="#tab-preguntas" role="tab" aria-controls="tab-preguntas" aria-selected="true">Preguntas</a></li>
+  <li class="nav-item"><a class="nav-link <?= $tabUsuarios ? 'active' : '';?>" id="usuarios-tab" data-bs-toggle="tab" href="#tab-usuarios" role="tab" aria-controls="tab-usuarios" aria-selected="false">Usuarios</a></li>
 </ul>
 <div class="tab-content p-3" id="myTabContent">
-<div class="tab-pane fade <?= isset($_GET['seccion']) ? ( $_GET['seccion'] == 'usuarios' ? ''  : 'active show') : 'active show';?>" id="tab-preguntas" role="tabpanel" aria-labelledby="preguntas-tab">
+<div class="tab-pane fade <?= $tabUsuarios ? '' : 'active show';?>" id="tab-preguntas" role="tabpanel" aria-labelledby="preguntas-tab">
   <div class="card theme-wizard mb-5">
         <div class="card-header bg-light pt-3 pb-2">
             <ul class="nav justify-content-between nav-wizard">
@@ -96,103 +104,126 @@
         </div>
     </div>
 </div>
-<div class="tab-pane fade <?= isset($_GET['seccion']) ? ( $_GET['seccion'] == 'usuarios' ? 'active show'  : '') : '';?>" id="tab-usuarios" role="tabpanel" aria-labelledby="usuarios-tab">
-<div class="g-3 pt-3">
-    <form method="GET" action="/encuestas/{{ $encuesta->id}}" class="row">
-        <input type="hidden" value="usuarios" name="seccion"/>
-        <div class="col-sm-5">
-            <input class="form-control" type="text" name="name_email" placeholder="Nombre de usuario o email" aria-label="Nombre de usuario o email" />
-        </div>
-        <div class="col-sm-3">
-            <select class="form-select" name="carrera_id" aria-label="Seleccione Carrera">
-                <option value="">Seleccione Carrera</option>
-                @foreach ($carreras as $carrera)
-                    <option value="{{ $carrera->id }}">{{ $carrera->carrera }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-sm">
-            <button class="btn btn-primary me-1 mb-1" type="submit">
-                Filtrar
-            </button>
-        </div>
-    </form>
-</div>
-@if ($errors->any())
-    <div class="alert alert-danger mt-4">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-<div class="table-responsive scrollbar py-4">
-<form class="" action="/encuestas/add_usuarios/{{ $encuesta->id }}" id="agg_egresados_encuesta" method="POST">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-    <table class="table table-hover table-striped overflow-hidden">
-    <thead>
-      <tr>
-        <th scope="col"><input name="check_all" type="checkbox"></th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellido</th>
-        <th scope="col">Correo</th>
-        <th scope="col">C.I.</th>
-        <th scope="col">Carrera</th>
-      </tr>
-    </thead>
-    <tbody>
-    @foreach ($egresados as $index => $user)
-        <tr class="align-middle">
-            <td class="text-nowrap">
-                <input name="users[]" <?= $encuesta->existeUsuarioAsignado($user->id) ? 'disabled checked="checked"' : '';?> type="checkbox" value="{{ $user->id }}" >
-            </td>
-            <td class="text-nowrap">
-                <div class="d-flex align-items-center">
-                    <div class="avatar avatar-xl">
-                        <img class="rounded-circle" src="{{ $user->getFirstMediaUrl('avatars', 'small_avatar') }}" alt="">
-                    </div>
-                    <div class="ms-2">{{ $user->getName() }}</div>
-                </div>
-            </td>
-            <td class="text-nowrap">{{ $user->apellido }}</td>
-            <td class="text-nowrap">{{ $user->getEmail() }}</td>
-            <td class="text-nowrap">{{ $user->ci }}</td>
-            <td class="text-nowrap">{{ $user->carrera->carrera }}</td>
-        </tr>
-    @endforeach
-    </tbody>
-  </table>
-</form>
-</div>
+<div class="tab-pane fade <?= $tabUsuarios ? 'active show' : '';?>" id="tab-usuarios" role="tabpanel" aria-labelledby="usuarios-tab">
+@include('encuestas.partials.tabla_asignados')
+@include('encuestas.partials.tabla_seleccion')
 <script>
 let checker = (function() {
     function init() {
+        localStorage.users = localStorage.getItem('users_{{ $encuesta->id }}') ? localStorage.getItem('users_{{ $encuesta->id }}') :  [];
+        if (localStorage.getItem('users_{{ $encuesta->id }}')) {
+            jQuery('#cantidad_seleccionados').html(localStorage.getItem('users_{{ $encuesta->id }}').split(',').length)
+            if (!jQuery('#cantidad_seleccionados').hasClass('indicador_seleccionados')) {
+                jQuery('#cantidad_seleccionados').addClass('indicador_seleccionados')
+            }
+        }
+        let ids = localStorage.users.split(',');
+        ids.forEach(function(id){
+            jQuery('input[value="' + id + '"]').prop('checked', 'checked');
+        });
+    }
 
+    function resetSeleccionados() {
+        let ids = localStorage.getItem('users_{{ $encuesta->id }}');
+        if (ids) {
+            ids = ids.split(',');
+        } else {
+            ids = [];
+        }
+
+        ids.forEach(function(id){
+            jQuery('input[value="' + id + '"]').prop('checked', false);
+        });
+
+        localStorage.setItem('users_{{ $encuesta->id }}', '');
+        if (localStorage.getItem('users_{{ $encuesta->id }}')) {
+            jQuery('#cantidad_seleccionados').html(users.length)
+            if (!jQuery('#cantidad_seleccionados').hasClass('indicador_seleccionados')) {
+                jQuery('#cantidad_seleccionados').addClass('indicador_seleccionados')
+            }
+        } else {
+            jQuery('#cantidad_seleccionados').html('');
+            if (jQuery('#cantidad_seleccionados').hasClass('indicador_seleccionados')) {
+                jQuery('#cantidad_seleccionados').removeClass('indicador_seleccionados')
+            }
+        }
     }
 
     function enviarUsuarios() {
-        jQuery('form#agg_egresados_encuesta').submit();
+        jQuery('#enviar_usuarios').attr('disabled', true);
+        let usrs = localStorage.getItem('users_{{ $encuesta->id }}');
+        let users = usrs ? usrs.split(',') : [];
+        jQuery.ajax({
+            method: "POST",
+            url: "/encuestas/add_usuarios/{{ $encuesta->id }}",
+            data: {
+                users: users,
+                _token: "{{ csrf_token() }}"
+            }
+        }).done(function( msg ) {
+            resetSeleccionados();
+            location.href = '/encuestas/{{ $encuesta->id }}?seccion=asignados';
+            jQuery('#enviar_usuarios').attr('disabled', false);
+        });
     }
 
+    jQuery('input[name="users[]"]').on('click', function(e) {
+        let element = jQuery(e.currentTarget);
+        let usrs = localStorage.getItem('users_{{ $encuesta->id }}');
+        let users = usrs ? usrs.split(',') : [];
+        if (!users.includes(element.val())) {
+            users.push(element.val());
+        } else {
+            users.pop(element.val());
+            element.prop('checked', false);
+        }
+        jQuery('#cantidad_seleccionados').html(users.length)
+        localStorage.setItem('users_{{ $encuesta->id }}', users.toString());
+        if (localStorage.getItem('users_{{ $encuesta->id }}')) {
+            jQuery('#cantidad_seleccionados').html(users.length)
+            if (!jQuery('#cantidad_seleccionados').hasClass('indicador_seleccionados')) {
+                jQuery('#cantidad_seleccionados').addClass('indicador_seleccionados')
+            }
+        } else {
+            jQuery('#cantidad_seleccionados').html('');
+            if (jQuery('#cantidad_seleccionados').hasClass('indicador_seleccionados')) {
+                jQuery('#cantidad_seleccionados').removeClass('indicador_seleccionados')
+            }
+        }
+    })
+
+    jQuery('#asignar_usuarios_btn').on('click', function(){
+        jQuery('#agg_usuasrios-container').toggleClass('d-none');
+        jQuery('#assignados-container').toggleClass('d-none');
+    });
     jQuery('input[name="check_all"]').on('click', function() {
         jQuery('input[name="users[]"]').each(function(k, e) {
             if (jQuery('input[name="check_all"]:checked').length ==  1) {
-                jQuery(e).attr('checked', 'checked')
+                jQuery(e).prop('checked', 'checked')
             } else {
-                jQuery(e).attr('checked', false)
+                jQuery(e).prop('checked', false)
             }
-
         })
     })
+
     return {
-        enviarUsuarios
+        init,
+        enviarUsuarios,
+        resetSeleccionados
     };
 })()
+jQuery(document).ready(function() {
+    checker.init();
+    jQuery('#enviar_usuarios').on('click', function(){
+        checker.enviarUsuarios();
+    })
+
+    jQuery('#resetear_seleccionados').on('click', function() {
+        checker.resetSeleccionados();
+    })
+})
 </script>
-<div class=" d-flex justify-content-end">
-    {{ $egresados->links('paginacion') }}
-</div>
+
 </div>
 
 </div>

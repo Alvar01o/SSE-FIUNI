@@ -82,10 +82,11 @@ class EncuestasController extends Controller
                 $users->orWhere('nombre', 'like', '%'.$request->input('name_email').'%');
                 $users->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
             }
+            $asignados = $encuesta->getUsuariosAsignados();
             $users = $users->paginate(30);
             $carreras = Carreras::get();
         }
-        return view('encuestas.show', ['encuesta' => $encuesta, 'egresados' => $users, 'carreras' => $carreras]);
+        return view('encuestas.show', ['encuesta' => $encuesta, 'egresados' => $users, 'carreras' => $carreras, 'asignados' => $asignados]);
     }
 
     /**
@@ -133,18 +134,18 @@ class EncuestasController extends Controller
             //traer usuarios asignados a  la encuesta
             $usuarios = $encuesta->encuestaUsers();
             $usuarios_assignados = [];
-            foreach($encuesta->encuestaUsers() as $usuario) {
+            foreach($usuarios as $usuario) {
                 $usuarios_assignados[$usuario->user_id] = $usuario;
             }
             $agregar_usuarios = [];
             foreach ($users as $key => $value) {
                 // si existe en encuesta pasar
                 if (!\array_key_exists($value, $usuarios_assignados)) {
-                    $agregar_usuarios[] = ['user_id' => $value, 'encuesta_id' => $encuesta->id];
+                    $agregar_usuarios[] = ['user_id' => $value, 'encuesta_id' => $encuesta->id, 'created_at' => date('Y-m-d H:i:s', time()), 'updated_at' => date('Y-m-d H:i:s', time())];
                 }
             }
             EncuestaUsers::insert($agregar_usuarios);
-            return redirect("/encuestas/{$id}");
+            return redirect("/encuestas/{$id}?seccion=asignados");
         } else {
             return redirect("/encuestas/{$id}")
                 ->withErrors($validator);

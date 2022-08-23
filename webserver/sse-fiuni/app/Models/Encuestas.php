@@ -25,6 +25,11 @@ class Encuestas extends Model
         return $this->_encuesta_users;
     }
 
+    public function getUsuariosAsignados() {
+        $encuesta_users = User::join('encuesta_users', 'users.id', '=', 'encuesta_users.user_id')->orderByDesc('encuesta_users.id')->get();
+        return $encuesta_users;
+    }
+
     public function existeUsuarioAsignado($user_id, $devolver_usuario = false) {
         if (!empty($this->_id_de_usuarios_asignados)) {
             if (in_array($user_id, $this->_id_de_usuarios_asignados)) {
@@ -41,7 +46,6 @@ class Encuestas extends Model
             }
 
         }
-
     }
 
     public function encuestaUsers() {

@@ -42,28 +42,31 @@ Route::resource('admin', AdminController::class);
 Route::resource('egresado', EgresadoController::class);
 Route::resource('empleador', EmpleadorController::class);
 Route::resource('carreras', CarrerasController::class);
-Route::resource('encuestas', EncuestasController::class);
+
 
 Route::get('/egresado/{id}/perfil', [EgresadoController::class, 'perfil'])->name('egresado.perfil');
 Route::get('/perfil', [EgresadoController::class, 'perfil'])->name('perfil');
 Route::get('/perfil/editar', [EgresadoController::class, 'editar_perfil'])->name('perfil.editar');
 Route::get('/perfil/{id}/editar', [EgresadoController::class, 'editar_perfil'])->name('perfil.editar');
 
-//upload image url  - remove id
-Route::post('/upload_avatar', UploadAvatarController::class);
-Route::get('/get_avatar', [EgresadoController::class, 'get_avatar'])->name('get_avatar');
-Route::get('/get_avatar/{id}', [EgresadoController::class, 'get_avatar'])->name('get_avatar2');
+Route::group(['middleware' => ['sessionChecked']], function () {
+    //upload image url  - remove id
+    Route::post('/upload_avatar', UploadAvatarController::class);
+    Route::get('/get_avatar', [EgresadoController::class, 'get_avatar'])->name('get_avatar');
+    Route::get('/get_avatar/{id}', [EgresadoController::class, 'get_avatar'])->name('get_avatar2');
 
-//guardar datos laborales
-Route::post('/egresado/laboral', [EgresadoController::class, 'add_laboral'])->name('add_laboral');
-Route::post('/egresado/laboral/{id}', [EgresadoController::class, 'add_laboral'])->name('add_laboral_param');
-Route::post('/egresado/educacion/{id}', [EgresadoController::class, 'add_educacion'])->name('add_educacion_param');
-Route::post('/cambiarpassword/{id}', [EgresadoController::class, 'new_pass'])->name('new_pass');
-Route::get('/empleadores/json', [EmpleadorController::class, 'json'])->name('empleadores_json_complete');
-Route::get('/empleadores/json/{query}', [EmpleadorController::class, 'json'])->name('empleadores_json');
-Route::get('/elimiar_dato_laboral/{id}', [EgresadoController::class, 'elimiar_dato_laboral'])->name('perfil.elimiar_dato_laboral');
-Route::get('/elimiar_educacion/{id}', [EgresadoController::class, 'elimiar_educacion'])->name('perfil.elimiar_educacion');
+    //guardar datos laborales
+    Route::post('/egresado/laboral', [EgresadoController::class, 'add_laboral'])->name('add_laboral');
+    Route::post('/egresado/laboral/{id}', [EgresadoController::class, 'add_laboral'])->name('add_laboral_param');
+    Route::post('/egresado/educacion/{id}', [EgresadoController::class, 'add_educacion'])->name('add_educacion_param');
+    Route::post('/cambiarpassword/{id}', [EgresadoController::class, 'new_pass'])->name('new_pass');
+    Route::get('/empleadores/json', [EmpleadorController::class, 'json'])->name('empleadores_json_complete');
+    Route::get('/empleadores/json/{query}', [EmpleadorController::class, 'json'])->name('empleadores_json');
+    Route::get('/elimiar_dato_laboral/{id}', [EgresadoController::class, 'elimiar_dato_laboral'])->name('perfil.elimiar_dato_laboral');
+    Route::get('/elimiar_educacion/{id}', [EgresadoController::class, 'elimiar_educacion'])->name('perfil.elimiar_educacion');
 
-// encues=
-Route::post('/encuestas/add_pregunta', [EncuestasController::class, 'addPregunta'])->name('addPregunta');
-Route::post('/encuestas/add_usuarios/{id}', [EncuestasController::class, 'addUsuarios'])->name('addUsuarios');
+    // encues=
+    Route::post('/encuestas/add_pregunta', [EncuestasController::class, 'addPregunta'])->name('addPregunta');
+    Route::post('/encuestas/add_usuarios/{id}', [EncuestasController::class, 'addUsuarios'])->name('addUsuarios');
+    Route::resource('encuestas', EncuestasController::class);
+});

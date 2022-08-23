@@ -16,6 +16,12 @@ class Controller extends BaseController
      * Funcion para obtener usuario logeado
      *
      */
+    public function __construct()
+    {
+        if (!$this->getUser()) {
+            return redirect('/');
+        }
+    }
     public function getUser()
     {
         $user = Auth::user();

@@ -48,3 +48,12 @@ th {
     color: red;
     font-weight: 700;
 }
+.indicador_seleccionados  {
+    border: 2px solid white;
+    padding: 0rem 0.3rem;
+    margin-right: 1rem;
+}
+
+.bg-w {
+    background-color: white;
+}
