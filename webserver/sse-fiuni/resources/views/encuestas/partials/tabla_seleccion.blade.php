@@ -4,6 +4,8 @@
         if ($_GET['seccion'] !== 'usuarios') {
             $show = false;
         }
+    } else {
+        $show = false;
     }
 ?>
 <div class="table-responsive scrollbar py-4 <?= $show  ? '' : 'd-none' ?>" id="agg_usuasrios-container">

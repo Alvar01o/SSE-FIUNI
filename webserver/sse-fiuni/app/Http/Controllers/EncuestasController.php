@@ -151,6 +151,13 @@ class EncuestasController extends Controller
                 ->withErrors($validator);
         }
     }
+
+    public function asignados() {
+        $user = $this->getUser();
+        $encuestas = Encuestas::join('encuesta_users', 'encuestas.id', '=', 'encuesta_users.encuesta_id')->where('encuesta_users.user_id', '=', $user->id)->get();
+       return view('encuestas.asignados', ['encuestas' => $encuestas ? $encuestas : []]);
+    }
+
     public function addPregunta(Request $request)
     {
         $validator = Validator::make($request->only(['pregunta', 'tipo_pregunta', 'encuesta_id', 'requerido']), [

@@ -2,11 +2,13 @@
     $show_asignados = true;
     if (isset($_GET['seccion'])) {
         if ($_GET['seccion'] == 'asignados') {
+            $show_asignados = true;
+        } elseif ($_GET['seccion'] == 'usuarios') {
             $show_asignados = false;
         }
     }
 ?>
-<div class="table-responsive scrollbar py-4 <?= $show_asignados ? 'd-none' : '' ?>" id="assignados-container">
+<div class="table-responsive scrollbar py-4 <?= $show_asignados ? '' : 'd-none' ?>" id="assignados-container">
     <div class="row">
         <h2 class="col-6">Usuarios Asignados</h2>
         <div class="col-6"><button id="asignar_usuarios_btn" class="btn btn-primary" style="float: right;">Asignar Usuarios a la Encuesta</button></div>

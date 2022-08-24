@@ -47,7 +47,7 @@ class Encuestas extends Model
 
         }
     }
-
+    
     public function encuestaUsers() {
         if ($this->_encuestas_user) {
             return $this->_encuesta_users;
