@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 class Encuestas extends Model
 {
@@ -47,7 +48,7 @@ class Encuestas extends Model
 
         }
     }
-    
+
     public function encuestaUsers() {
         if ($this->_encuestas_user) {
             return $this->_encuesta_users;

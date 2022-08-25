@@ -65,6 +65,11 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Carreras::class);
     }
 
+    public function asignadoA($encuesta_id){
+        $encuesta_user = EncuestaUsers::where('encuesta_id', '=', $encuesta_id)->where('user_id', '=', $this->id)->first();
+        return $encuesta_user;
+    }
+
     public function getEmpresaDeEmpleador()
     {
         $datos_empleador = LaboralEmpleador::where('empleador_id', '=', $this->id)

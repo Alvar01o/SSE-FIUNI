@@ -10,6 +10,8 @@ class EncuestaUsers extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'encuesta_id'
+        'encuesta_id',
+        'created_at',
+        'updated_at'
     ];
 }

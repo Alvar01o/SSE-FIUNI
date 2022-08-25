@@ -69,5 +69,6 @@ Route::group(['middleware' => ['sessionChecked']], function () {
     Route::post('/encuestas/add_pregunta', [EncuestasController::class, 'addPregunta'])->name('addPregunta');
     Route::get('/encuestas/asignados', [EncuestasController::class, 'asignados'])->name('asignados');
     Route::post('/encuestas/add_usuarios/{id}', [EncuestasController::class, 'addUsuarios'])->name('addUsuarios');
+    Route::get('/encuestas/completar/{id}', [EncuestasController::class, 'completar'])->name('completar');
     Route::resource('encuestas', EncuestasController::class);
 });

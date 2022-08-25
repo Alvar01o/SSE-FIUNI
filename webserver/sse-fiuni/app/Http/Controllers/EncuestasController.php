@@ -24,14 +24,15 @@ class EncuestasController extends Controller
         return view('encuestas.index', ['encuestas' => $encuestas]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function completar($id, Request $request)
     {
-        //
+        $encuesta = Encuestas::find($id);
+        if ($this->getUser()->asignadoA($encuesta->id)) {
+            return view('encuestas.completar', ['encuesta' => $encuesta]);
+        } else {
+            //error de pemrisos
+        }
+
     }
 
     /**

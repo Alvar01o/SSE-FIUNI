@@ -25,12 +25,7 @@ class Controller extends BaseController
     public function getUser()
     {
         $user = Auth::user();
-//        if (is_null($user)) {
-//            return redirect('/');
-//        } else {
-            return $user;
-//        }
-
+        return $user;
     }
 
 }
