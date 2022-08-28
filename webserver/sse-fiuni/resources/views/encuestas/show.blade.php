@@ -55,10 +55,10 @@ if (isset($_GET['seccion'])) {
             <div class="px-sm-3 px-md-5">
             <ul class="pager wizard list-inline mb-0">
                 <li class="previous">
-                <button class="btn btn-link ps-0 d-none" type="button"><svg class="svg-inline--fa fa-chevron-left fa-w-10 me-2" data-fa-transform="shrink-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.3125em 0.5em;"><g transform="translate(160 256)"><g transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" transform="translate(-160 -256)"></path></g></g></svg><!-- <span class="fas fa-chevron-left me-2" data-fa-transform="shrink-3"></span> Font Awesome fontawesome.com -->Prev</button>
+                    <button id="prev_btn" class="btn btn-link ps-0 d-none" type="button"><svg class="svg-inline--fa fa-chevron-left fa-w-10 me-2" data-fa-transform="shrink-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.3125em 0.5em;"><g transform="translate(160 256)"><g transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" transform="translate(-160 -256)"></path></g></g></svg><!-- <span class="fas fa-chevron-left me-2" data-fa-transform="shrink-3"></span> Font Awesome fontawesome.com -->Prev</button>
                 </li>
                 <li class="next">
-                <button class="btn btn-primary px-5 px-sm-6" id="nextStep" type="submit">Siguiente<svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-2" data-fa-transform="shrink-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.3125em 0.5em;"><g transform="translate(160 256)"><g transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" transform="translate(-160 -256)"></path></g></g></svg><!-- <span class="fas fa-chevron-right ms-2" data-fa-transform="shrink-3"> </span> Font Awesome fontawesome.com --></button>
+                    <button class="btn btn-primary px-5 px-sm-6" id="nextStep" type="submit">Siguiente<svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-2" data-fa-transform="shrink-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.3125em 0.5em;"><g transform="translate(160 256)"><g transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" transform="translate(-160 -256)"></path></g></g></svg><!-- <span class="fas fa-chevron-right ms-2" data-fa-transform="shrink-3"> </span> Font Awesome fontawesome.com --></button>
                 </li>
             </ul>
             </div>
@@ -192,10 +192,39 @@ let checker = (function() {
         }
     })
 
+    jQuery('ul.nav-wizard li.nav-item').on('click', function(e) {
+        console.log(jQuery(e.currentTarget));
+        if (jQuery(e.currentTarget).find('a[href="#step-tab2"]').length == 1) {
+            if (!jQuery('a[href="#step-tab1"]').hasClass('done')) {
+                jQuery('a[href="#step-tab1"]').addClass('done');
+                jQuery('#nextStep').click();
+                jQuery('#step-tab1').toggleClass('active');
+                jQuery('#step-tab2').toggleClass('active');
+            }
+        }
+
+        if (jQuery(e.currentTarget).find('a[href="#step-tab1"]').length == 1) {
+            if (jQuery('a[href="#step-tab2"]').hasClass('active')) {
+                jQuery('a[href="#step-tab2"]').removeClass('active');
+                jQuery('a[href="#step-tab1"]').removeClass('done');
+                jQuery('a[href="#step-tab1"]').addClass('active');
+                jQuery('#step-tab1').toggleClass('active');
+                jQuery('#step-tab2').toggleClass('active');
+            } else if (jQuery('a[href="#step-tab1"]').hasClass('done')) {
+                jQuery('#prev_btn').click();
+                if (jQuery('#step-tab2:visible').length > 0) {
+                    jQuery('#step-tab1').toggleClass('active');
+                    jQuery('#step-tab2').toggleClass('active');
+                }
+            }
+        }
+    })
+
     jQuery('#asignar_usuarios_btn').on('click', function(){
         jQuery('#agg_usuasrios-container').toggleClass('d-none');
         jQuery('#assignados-container').toggleClass('d-none');
     });
+
     jQuery('input[name="check_all"]').on('click', function() {
         jQuery('input[name="users[]"]').each(function(k, e) {
             if (jQuery('input[name="check_all"]:checked').length ==  1) {

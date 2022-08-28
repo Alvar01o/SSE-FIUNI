@@ -22,12 +22,14 @@
                     </div>
                     @endforeach
                     @if($pregunta->tipo_pregunta == 'pregunta' || $pregunta->justificacion)
-                        <input type="text" class="float-left col-12" placeholder="<?= ($pregunta->justificacion) ? 'Justificacion de Respuesta' : 'Respuesta';?>"/>
+                        <input type="text" name="{{ $pregunta->id }}_justificacion" class="float-left col-12" placeholder="<?= ($pregunta->justificacion) ? 'Justificacion de Respuesta' : 'Respuesta';?>"/>
                     @endif
                 </div>
             </div>
         @endforeach
-
+        <div class="row">
+            <button class="btn btn-primary">Finalizar</button>
+        </div>
 
     </div>
 @endsection

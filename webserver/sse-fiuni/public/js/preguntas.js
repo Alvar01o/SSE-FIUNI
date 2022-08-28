@@ -304,6 +304,7 @@ var validadorWizard = (function () {
       if (stepGlobal == 1) {
         jQuery('#step-tab1').toggleClass('active')
         jQuery('#step-tab2').toggleClass('active')
+        jQuery('#nextStep').html('Siguiente')
       } else if (stepGlobal == 2) {
         jQuery('#step-tab2').toggleClass('active')
         jQuery('#step-tab3').toggleClass('active')
