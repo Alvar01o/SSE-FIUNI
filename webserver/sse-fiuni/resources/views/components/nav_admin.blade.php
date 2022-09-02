@@ -64,7 +64,7 @@
             <!-- more inner pages-->
         </li>
     </ul>
-    <a class="nav-link" href="#" role="button" data-bs-toggle="" aria-expanded="false">
+    <a class="nav-link" href="/encuestas/lista/empleador" role="button" data-bs-toggle="" aria-expanded="false">
         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fab fa-wpforms"></span></span><span class="nav-link-text ps-1">Encuestas</span>
         </div>
     </a>

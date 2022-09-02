@@ -11,6 +11,8 @@ use App\Models\OpcionesPregunta;
 use App\Models\User;
 use App\Models\Carreras;
 use App\Models\EncuestaUsers;
+use Illuminate\Support\Facades\Route;
+
 class EncuestasController extends Controller
 {
     /**
@@ -18,9 +20,9 @@ class EncuestasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($tipo = 'egresado', Request $request)
     {
-        $encuestas = Encuestas::get();
+        $encuestas = Encuestas::where('tipo', '=', $tipo)->get();
         return view('encuestas.index', ['encuestas' => $encuestas]);
     }
 
@@ -67,6 +69,7 @@ class EncuestasController extends Controller
      */
     public function show($id, Request $request)
     {
+        $name = Route::currentRouteName(); // RouteName
         $encuesta = Encuestas::find($id);
         if (!$encuesta) {
             return redirect('/encuestas');
@@ -74,7 +77,13 @@ class EncuestasController extends Controller
         $users = [];
         $carreras = [];
         if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
-            $users = User::role('egresado');
+            $users = [];
+            if ($name == 'encuestas_empleador') {
+                $users = User::role('empleador');
+            } else {
+                $users = User::role('egresado');
+            }
+
             if ($request->input('carrera_id')) {
                 $users->where('carrera_id', '=', $request->input('carrera_id'));
             }

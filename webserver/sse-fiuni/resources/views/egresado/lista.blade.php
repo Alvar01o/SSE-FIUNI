@@ -63,16 +63,16 @@
             <td class="text-nowrap">{{ $user->carrera->carrera }}</td>
             <td class="text-nowrap">
                 <a href="/egresado/{{$user->id}}/edit" data-index="{{$index}}" class="editBtn"><span class="fas fa-pencil-alt"></span></a>
-                <form method="POST" action="/egresado/{{$user->id}}" class="eliminarEgresadoForm d-inline">
+                <form method="POST" action="/egresado/{{$user->id}}" class="eliminarEgresadoForm d-inline" id="deleteEgresadoBtn{{$user->id}}">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                    <span id="deleteEgresadoBtn{{$user->id}}" class="fas fa-trash-alt"></span>
+                    <span class="fas fa-trash-alt"></span>
                 </form>
                 <script>
                     jQuery(document).ready(
                         function(){
                             jQuery('#deleteEgresadoBtn{{$user->id}}').on('click',function() {
-                                jQuery('#deleteEgresadoBtn{{$user->id}}').parent().submit()
+                                jQuery('#deleteEgresadoBtn{{$user->id}}').submit()
                             })
                         }
                     )

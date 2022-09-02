@@ -69,7 +69,7 @@
                 <td class="text-nowrap">{{ $user->apellido }}</td>
                 <td class="text-nowrap">{{ $user->getEmail() }}</td>
                 <td class="text-nowrap">{{ $user->ci }}</td>
-                <td class="text-nowrap">{{ $user->carrera->carrera }}</td>
+                <td class="text-nowrap">{{ ($user->carrera) ? $user->carrera->carrera : '' }}</td>
             </tr>
         @endforeach
         </tbody>

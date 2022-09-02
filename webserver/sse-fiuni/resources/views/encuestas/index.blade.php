@@ -24,7 +24,13 @@
                     <td>
                     <div class="d-flex align-items-center position-relative">
                         <div class="flex-1 ms-3">
-                        <h6 class="mb-1 fw-semi-bold text-nowrap"><a class="text-900 stretched-link" href="{{ '/encuestas/'.$encuesta->id}}">{{ $encuesta->nombre; }}</a></h6>
+                        @if (request()->route()->getName() == 'ver_por_rol')
+                            @if(request()->tipo)
+                            <h6 class="mb-1 fw-semi-bold text-nowrap"><a class="text-900 stretched-link" href="{{ '/encuestas/'.request()->tipo.'/'.$encuesta->id}}">{{ $encuesta->nombre}}</a></h6>
+                            @endif
+                        @else
+                            <h6 class="mb-1 fw-semi-bold text-nowrap"><a class="text-900 stretched-link" href="{{ '/encuestas/'.$encuesta->id}}">{{ $encuesta->nombre; }}</a></h6>
+                        @endif
                         <p class="fw-semi-bold mb-0 text-500">{{ ucfirst($encuesta->tipo); }}</p>
                         </div>
                     </div>

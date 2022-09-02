@@ -220,9 +220,10 @@ class EgresadoController extends Controller
         if (!$id) {
             $id  = $this->getUser()->id;
         }
+        $empresas = Laboral::get();
         $carreras = Carreras::get();
         $egresado = User::find($id);
-        return view('egresado.perfil', ['user' => $egresado, 'carreras' => $carreras]);
+        return view('egresado.perfil', ['user' => $egresado, 'carreras' => $carreras, 'empresas' => $empresas]);
     }
 
     public function new_pass(Request $request, $id = null) {

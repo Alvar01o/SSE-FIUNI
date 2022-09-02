@@ -67,6 +67,7 @@
 jQuery(document).ready(function() {
 $('#empresa').typeahead(
 {
+    minLength: 1,
     highlight: true,
 },
 {

@@ -32,7 +32,7 @@
                     <h5 class="mb-0">Experiencia Laboral</h5>
                   </div>
                   <div class="card-body fs--1">
-                    @if (count($user->educacion))
+                    @if (count($user->getEmpleos()))
                     <div class="d-flex"><a href="#!"> <img class="img-fluid" src="../../assets/img/logos/g.png" alt="" width="56" /></a>
                         @foreach ($user->getEmpleos() as $laboral)
                         <div class="d-flex"><a href="#!"> <img class="img-fluid" src="../../assets/img/logos/g.png" alt="" width="56" /></a>
@@ -40,7 +40,7 @@
                                 <h6 class="fs-0 mb-0">{{ $laboral->cargo }}
                                 </h6>
                                 <p class="mb-1"> <a href="#!">{{ $laboral->getEmpresa() }}</a></p>
-                                <p class="text-1000 mb-0">Apr 2012 - Present &bull; 6 yrs 9 mos</p>
+                                    <p class="text-1000 mb-0">{{ date('Y', strtotime($laboral->inicio)) }} - <?= ($laboral->fin == null) ? '<b>Actualmente</b>' : date('Y',strtotime($laboral->fin));?></p>
                                 <div class="border-dashed-bottom my-3"></div>
                             </div>
                         </div>
