@@ -31,24 +31,23 @@ Route::get('/', LoginController::class);
 Route::get('/login', LoginController::class);
 Route::get('/logout', LogoutController::class);
 Route::post('/login', LoginController::class);
+
 Route::group(['middleware' => ['sessionChecked']], function () {
     /**
      * Rutas personalizadas de administrador
      */
     Route::get('/egresado/lista', [EgresadoController::class, 'lista'])->name('egresado.lista');
     Route::get('/empleador/lista', [EmpleadorController::class, 'lista'])->name('empleador.lista');
-
+    Route::get('/admin/lista', [AdminController::class, 'lista'])->name('admin.lista');
     Route::resource('reportes', ReportesController::class);
     Route::resource('admin', AdminController::class);
     Route::resource('egresado', EgresadoController::class);
     Route::resource('empleador', EmpleadorController::class);
     Route::resource('carreras', CarrerasController::class);
-
-
     Route::get('/egresado/{id}/perfil', [EgresadoController::class, 'perfil'])->name('egresado.perfil');
     Route::get('/perfil', [EgresadoController::class, 'perfil'])->name('perfil');
     Route::get('/perfil/editar', [EgresadoController::class, 'editar_perfil'])->name('perfil.editar');
-    Route::get('/perfil/{id}/editar', [EgresadoController::class, 'editar_perfil'])->name('perfil.editar');
+    Route::get('/perfil/{id}/editar', [EgresadoController::class, 'editar_perfil'])->name('perfil.editar_id');
 
     //upload image url  - remove id
     Route::post('/upload_avatar', UploadAvatarController::class);
@@ -73,4 +72,7 @@ Route::group(['middleware' => ['sessionChecked']], function () {
     Route::resource('encuestas', EncuestasController::class);
     Route::get('/encuestas/empleador/{id}', [EncuestasController::class, 'show'])->name('encuestas_empleador');
     Route::get('/encuestas/lista/{tipo}', [EncuestasController::class, 'index'])->name('ver_por_rol');
+    Route::delete('/encuestas/eliminar_pregunta/{encuesta_id}/{pregunta_id}', [EncuestasController::class, 'eliminarPregunta'])->name('eliminar_pregunta');
+    Route::put('/encuestas/actualizar_pregunta/{id}', [EncuestasController::class, 'actualizarPregunta'])->name('actualizar_pregunta');
+
 });

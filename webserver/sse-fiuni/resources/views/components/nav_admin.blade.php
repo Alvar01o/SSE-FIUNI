@@ -7,7 +7,7 @@
             <hr class="mb-0 navbar-vertical-divider"/>
         </div>
     </div>
-    <a class="nav-link" href="#" role="button" data-bs-toggle="" aria-expanded="false">
+    <a class="nav-link" href="/admin/lista" role="button" data-bs-toggle="" aria-expanded="false">
         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-user"></span></span><span class="nav-link-text ps-1">Usuarios</span>
         </div>
     </a>

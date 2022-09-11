@@ -19,6 +19,8 @@ class EmpleadorController extends Controller
                 $users->orWhere('nombre', 'like', '%'.$request->input('name_email').'%');
                 $users->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
             }
+
+            $users->orderByDesc('id');
             $users = $users->paginate(30);
             return view('empleador.lista', ['empleadores' => $users]);
         } else {
@@ -35,27 +37,6 @@ class EmpleadorController extends Controller
         } else {
             return view('error_permisos');
         }
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('empleador.index', [
-            1, 2, 3
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -110,26 +91,16 @@ class EmpleadorController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $carreras = Carreras::get();
+        $user = User::find($id);
+        if ($user) {
+            return view('egresado.perfil', ['carreras' => $carreras, 'user' => $user]);
+        } else {
+            return redirect('/empleadores/lista')
+                        ->withErrors("Usuario no encontrado.");
+        }
     }
 
     /**

@@ -102,7 +102,7 @@ class EgresadoController extends Controller
                 'email' => $request->input('email'),
                 'token_invitacion' => base64_encode(bcrypt($request->input('email').time())),
                 'carrera_id' => $request->input('carrera_id'),
-                'password' => bcrypt($password),
+                'password' => bcrypt($password)
             ]);
             $usuario_nuevo->assignRole(User::ROLE_EGRESADO);
             return redirect()->intended('/egresado/lista');

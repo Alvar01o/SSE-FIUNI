@@ -23,7 +23,7 @@ class EncuestasController extends Controller
     public function index($tipo = 'egresado', Request $request)
     {
         $encuestas = Encuestas::where('tipo', '=', $tipo)->get();
-        return view('encuestas.index', ['encuestas' => $encuestas]);
+        return view('encuestas.index', ['encuestas' => $encuestas, 'tipo' => $tipo]);
     }
 
     public function completar($id, Request $request)
@@ -117,9 +117,32 @@ class EncuestasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function actualizarPregunta(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->only(['pregunta']), [
+            'pregunta' => 'required|string'
+        ]);
+        if (!$validator->fails()) {
+            $pregunta = Preguntas::find($id);
+            if ($pregunta) {
+                $pregunta->pregunta = $request->input('pregunta');
+                $pregunta->save();
+                return response()->json([
+                    'status' => 'success',
+                    'msg' => 'Pregunta Actualizada correctamente'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => 'Error al encontrar la pregunta'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Nombre de pregunta invalido.'
+            ]);
+        }
     }
 
     /**
@@ -130,7 +153,19 @@ class EncuestasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $encuesta = Encuestas::find($id);
+        if ($encuesta) {
+            $encuesta->delete();
+            return response()->json([
+                'status' => 'success',
+                'msg' => 'Encuesta Eliminada Correctamente'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error al encontrar la encuesta'
+            ]);
+        }
     }
     public function addUsuarios(Request $request, $id)
     {
@@ -229,4 +264,29 @@ class EncuestasController extends Controller
 
         }
     }
+
+    public function eliminarPregunta($encuesta_id, $pregunta_id) {
+        $encuesta = Encuestas::find($encuesta_id);
+        if ($encuesta) {
+            $pregunta = $encuesta->existPregunta($pregunta_id, true);
+            if ($pregunta) {
+                $pregunta->delete();
+                return response()->json([
+                    'status' => 'success',
+                    'msg' => 'Pregunta Eliminada Correctamente'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => 'Error al encontrar la pregunta'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Error al encontrar la encuesta'
+            ]);
+        }
+    }
+
 }

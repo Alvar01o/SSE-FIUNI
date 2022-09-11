@@ -20,6 +20,13 @@ class OpcionesPregunta extends Migration
             $table->string('opcion');
             $table->timestamps();
         });
+
+        DB::unprepared('
+            CREATE TRIGGER `preguntas_ad` AFTER DELETE ON `preguntas` FOR EACH ROW
+            BEGIN
+                delete from opciones_preguntas where pregunta_id = OLD.id;
+            END
+        ');
     }
 
     /**
@@ -30,5 +37,7 @@ class OpcionesPregunta extends Migration
     public function down()
     {
         Schema::dropIfExists('opciones_preguntas');
+        DB::unprepared('DROP TRIGGER `preguntas_ad`');
+
     }
 }

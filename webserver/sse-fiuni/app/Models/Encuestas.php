@@ -12,6 +12,8 @@ class Encuestas extends Model
 
     protected $_encuesta_users = [];
     protected $_id_de_usuarios_asignados = [];
+    protected $_id_preguntas = [];
+    protected $_encuesta_preguntas = [];
 
     protected $fillable = [
         'nombre',
@@ -19,7 +21,7 @@ class Encuestas extends Model
     ];
 
     public function preguntas() {
-        return $this->hasMany(Preguntas::class, 'encuesta_id', 'id');
+        return $this->_encuesta_preguntas ? $this->_encuesta_preguntas : $this->_encuesta_preguntas = $this->hasMany(Preguntas::class, 'encuesta_id', 'id');
     }
 
     public function getEncuestaUsers() {
@@ -29,6 +31,24 @@ class Encuestas extends Model
     public function getUsuariosAsignados() {
         $encuesta_users = User::join('encuesta_users', 'users.id', '=', 'encuesta_users.user_id')->where('encuesta_users.encuesta_id', '=', $this->id)->orderByDesc('encuesta_users.id')->get();
         return $encuesta_users;
+    }
+
+    public function existPregunta($pregunta_id, $devolver_pregunta = false)
+    {
+        if (!empty($this->_id_preguntas)) {
+            if (in_array($pregunta_id, $this->_id_preguntas)) {
+                return ($devolver_pregunta) ? Preguntas::find($pregunta_id) : true;
+            } else {
+                return false;
+            }
+        } else {
+            $this->_id_preguntas = array_map(function($o) { return $o->id;}, $this->preguntas()->getResults()->all());
+            if (in_array($pregunta_id, $this->_id_preguntas)) {
+                return ($devolver_pregunta) ? Preguntas::find($pregunta_id) : true;
+            } else {
+                return false;
+            }
+        }
     }
 
     public function existeUsuarioAsignado($user_id, $devolver_usuario = false) {
@@ -45,7 +65,6 @@ class Encuestas extends Model
             } else {
                 return false;
             }
-
         }
     }
 

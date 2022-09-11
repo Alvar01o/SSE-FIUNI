@@ -22,6 +22,13 @@ class Preguntas extends Migration
             $table->enum('tipo_pregunta', ['pregunta', 'seleccion_multiple', 'seleccion_multiple_justificacion', 'seleccion', 'seleccion_justificacion']);
             $table->timestamps();
         });
+        DB::unprepared('
+            CREATE TRIGGER `encuestas_ad` AFTER DELETE ON `encuestas` FOR EACH ROW
+            BEGIN
+                delete from preguntas where encuesta_id = OLD.id;
+                delete from encuesta_users where encuesta_id = OLD.id;
+            END
+        ');
     }
 
     /**
@@ -32,5 +39,6 @@ class Preguntas extends Migration
     public function down()
     {
         Schema::dropIfExists('preguntas');
+        //DB::unprepared('DROP TRIGGER `encuestas_ad`');
     }
 }

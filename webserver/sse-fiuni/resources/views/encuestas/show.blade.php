@@ -65,7 +65,7 @@ if (isset($_GET['seccion'])) {
         </div>
     </div>
     <script src="{{asset('js/preguntas.js')}}"></script>
-        <script src="{{asset('js/draggable.bundle.legacy.js')}}"></script>
+    <script src="{{asset('js/draggable.bundle.legacy.js')}}"></script>
     <script>
     jQuery(document).ready(function() {
         validadorWizard.init();
@@ -76,12 +76,26 @@ if (isset($_GET['seccion'])) {
             <div class="kanban-items-container border bg-white dark__bg-1000 rounded-2 py-3 mb-3" style="max-height: none;">
             <div class="py-3"><h3>Vista Previa</h3></div>
             @foreach ($encuesta->preguntas as $pregunta_id => $pregunta)
-                <div class="card mb-3 kanban-item shadow-sm dark__bg-1100 rounded-0">
-                    <div class="card-body pt-2">
+                <div class="card mb-3 kanban-item shadow rounded dark__bg-1100">
+                    <div class="card-body pt-2 col-md-12 pregunta_cont_{{ $pregunta->id }}">
                         <div class="row py-2">
-                            <div class="float-left <?= $pregunta->requerido ? 'col-6' : 'col-12' ;?>">{{ $pregunta->pregunta}}&nbsp;&nbsp;<small class="pl-4 float-left">[{{ ucfirst(str_replace('_', ' ', $pregunta->tipo_pregunta)) }}]</small></div>
+                            <div class="col-xxl-7 col-lg-6 d-inline-flex justify-content-start">
+                                <h5 class="edit_titulo_pergunta">{{ $pregunta->pregunta}}</h5>
+                                <input name="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" type="text" class="d-none input_titulo_pregunta" value="{{ $pregunta->pregunta}}"/>
+                            </div>
                             @if($pregunta->requerido)
-                            <div class="float-right col-6 pregunta_requerida">REQUERIDO</div>
+                            <div class="float-end col-xxl-5 col-lg-6">
+                                <span class="badge bg-danger float-end">Obligatorio</span>
+                                <span id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="far mx-3 float-end fa-trash-alt eliminar_pregunta" title="Eliminar Pregunta">
+                                </span>
+                                <span class="badge rounded-pill badge-soft-info pt-2 float-end" title="Tipo de Pregunta">[{{ ucfirst(str_replace('_', ' ', $pregunta->tipo_pregunta)) }}]</span>
+                            </div>
+                            @else
+                            <div class="float-end col-xxl-5 col-lg-6">
+                                <span id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="far mx-3 float-end fa-trash-alt eliminar_pregunta" title="Eliminar Pregunta">
+                                </span>
+                                <span class="badge rounded-pill badge-soft-info pt-2 float-end" title="Tipo de Pregunta">[{{ ucfirst(str_replace('_', ' ', $pregunta->tipo_pregunta)) }}]</span>
+                            </div>
                             @endif
                         </div>
                         @foreach ($pregunta->opcionesPregunta as $opcion_id => $opcion)
@@ -97,6 +111,10 @@ if (isset($_GET['seccion'])) {
                         @if($pregunta->tipo_pregunta == 'pregunta' || $pregunta->justificacion)
                             <input type="text" class="float-left col-12" disabled placeholder="<?= ($pregunta->justificacion) ? 'Justificacion de Respuesta' : 'Respuesta';?>"/>
                         @endif
+                    </div>
+                    <div clas="col-2">
+                        <span class="text-900 fs-3 bi-trash-fill"></span>
+                        <span class="text-900 fs-3 bi-trash-fill"></span>
                     </div>
                 </div>
                 @endforeach
@@ -193,7 +211,6 @@ let checker = (function() {
     })
 
     jQuery('ul.nav-wizard li.nav-item').on('click', function(e) {
-        console.log(jQuery(e.currentTarget));
         if (jQuery(e.currentTarget).find('a[href="#step-tab2"]').length == 1) {
             if (!jQuery('a[href="#step-tab1"]').hasClass('done')) {
                 jQuery('a[href="#step-tab1"]').addClass('done');
@@ -227,10 +244,12 @@ let checker = (function() {
 
     jQuery('input[name="check_all"]').on('click', function() {
         jQuery('input[name="users[]"]').each(function(k, e) {
-            if (jQuery('input[name="check_all"]:checked').length ==  1) {
-                jQuery(e).prop('checked', 'checked')
-            } else {
-                jQuery(e).prop('checked', false)
+            if (!jQuery(e).prop('disabled')) {
+                if (jQuery('input[name="check_all"]:checked').length ==  1) {
+                    jQuery(e).prop('checked', 'checked')
+                } else {
+                    jQuery(e).prop('checked', false)
+                }
             }
         })
     })
@@ -249,6 +268,69 @@ jQuery(document).ready(function() {
 
     jQuery('#resetear_seleccionados').on('click', function() {
         checker.resetSeleccionados();
+    })
+    jQuery('.edit_titulo_pergunta').on('click', function(element) {
+        let w = jQuery(element.currentTarget).width()
+        jQuery(element.currentTarget).toggleClass('d-none');
+        jQuery(element.currentTarget).parent().find('input.input_titulo_pregunta').toggleClass('d-none')
+        jQuery(element.currentTarget).parent().find('input.input_titulo_pregunta:visible').focus()
+        jQuery(element.currentTarget).parent().find('input.input_titulo_pregunta:visible').width(w)
+    })
+
+    jQuery('input.input_titulo_pregunta').on('blur',  function(e) {
+        let pregunta_id = jQuery(e.currentTarget).attr('data-id');
+        jQuery(e.currentTarget).parent().find('h5').html(jQuery(e.currentTarget).val())
+        jQuery(e.currentTarget).parent().find('h5').toggleClass('d-none');
+        jQuery(e.currentTarget).toggleClass('d-none');
+        jQuery('div.toast-body').html(`<div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>`);
+        jQuery('div.toast-header > strong.me-auto').html('Actualizando pregunta')
+        if (!jQuery('div.toast-body').parent().hasClass('show')) {
+            jQuery('div.toast-body').parent().toggleClass('show');
+        }
+        jQuery.ajax({
+            method: "PUT",
+            url: "/encuestas/actualizar_pregunta/"+ jQuery(e.currentTarget).attr('data-id'),
+            data: {
+                pregunta: jQuery(e.currentTarget).val(),
+                _token: "{{ csrf_token() }}"
+            }
+        }).done(function(response) {
+            jQuery('div.toast-header > strong.me-auto').html('Aviso')
+            jQuery('div.toast-body').html(response.msg);
+            if (!jQuery('div.toast-body').parent().hasClass('show')) {
+                jQuery('div.toast-body').parent().toggleClass('show');
+            }
+        });
+    })
+
+    jQuery('.eliminar_pregunta').on('click', function(el) {
+        let pregunta_id = jQuery(el.currentTarget).attr('data-id');
+        let encuesta_id = '{{ $encuesta->id}}';
+        jQuery('div.toast-body').html(`<div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>`);
+        jQuery('div.toast-header > strong.me-auto').html('Eliminando pregunta')
+        if (!jQuery('div.toast-body').parent().hasClass('show')) {
+            jQuery('div.toast-body').parent().toggleClass('show');
+        }
+        jQuery.ajax({
+            method: "DELETE",
+            url: "/encuestas/eliminar_pregunta/"+encuesta_id+"/"+pregunta_id,
+            data: {
+                _token: "{{ csrf_token() }}"
+            }
+        }).done(function( response) {
+            jQuery('div.toast-body').html(response.msg);
+            jQuery('div.toast-header > strong.me-auto').html('Aviso')
+            if (!jQuery('div.toast-body').parent().hasClass('show')) {
+                jQuery('div.toast-body').parent().toggleClass('show');
+            }
+            if (response.status == 'success') {
+                jQuery('.pregunta_cont_'+pregunta_id).remove();
+            }
+        });
     })
 })
 </script>

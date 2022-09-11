@@ -12,9 +12,13 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}" required/>
                 <div class="mb-3">
                     <div class="form-floating">
-                        <select class="form-select"  name="tipo" id="selectTipo" aria-label="Floating label select example">
-                            <option value="egresado">Egresado</option>
-                            <option value="empleador">Empleador</option>
+                        <select class="form-select"  name="tipo" id="selectTipo" aria-label="Floating label select example"  <?= ($tipo) ? 'readonly': '';?>>
+                            <?php if($tipo == 'egresado') : ?>
+                                <option value="egresado" <?= ($tipo == 'egresado') ? 'selected="selected"': '';?>>Egresado</option>
+                            <?php endif; ?>
+                            <?php if($tipo == 'empleador') : ?>
+                                <option value="empleador" <?= ($tipo == 'empleador') ? 'selected="selected"': '';?>>Empleador</option>
+                            <?php endif; ?>
                         </select>
                         <label for="selectTipo">Tipo de Encuesta</label>
                     </div>

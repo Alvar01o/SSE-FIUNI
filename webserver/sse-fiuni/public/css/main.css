@@ -57,3 +57,24 @@ th {
 .bg-w {
     background-color: white;
 }
+tbody#smj_options_table > tr > td,
+tbody#smj_options_table > tr > td,
+tbody#sm_options_table > tr > td {
+    max-width: 155px;
+    width: 155px;
+}
+
+svg.eliminar_pregunta:hover {
+    font-size: larger;
+}
+.input_titulo_pregunta {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #ccc;
+}
+.edit_titulo_pergunta {
+    overflow-wrap: anywhere;
+}
+.toast-body {
+    font-weight: 700;
+}

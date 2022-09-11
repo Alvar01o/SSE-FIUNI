@@ -5,10 +5,10 @@
         <input type="hidden" name="encuesta_id" value="{{ $encuesta->id }}">
         <input type="hidden" name="tipo_pregunta" value="seleccion_multiple_justificacion">
         <div class="row">
-            <div class="float-left col-6"><h2>Seleccion Multiple con justificacion</h2></div>
-            <div class="float-right col-6 pt-3 requerido">
-                <input class="float-right form-check-input" id="flexCheckDefault" name="requerido" type="checkbox"/>
-                <label class="float-right form-check-label" for="flexCheckDefault">Requerido</label>
+            <div class="float-left col-9"><h2>Seleccion Multiple con justificacion</h2></div>
+            <div class="float-right col-3 pt-3 form-check form-switch">
+                <label class=" form-check-label" for="flexCheckDefault">Requerido</label>
+                <input class=" form-check-input" id="flexCheckDefault" name="requerido" type="checkbox"/>
             </div>
         </div>
         <div class="mb-4">
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="mb-3">
-        <div class="col-6">
+        <div class="col-8">
             <h5>Agregar Opciones</h5>
             <div class="row gy-2 py-4 gx-3 align-items-center">
                 <div class="col-auto">

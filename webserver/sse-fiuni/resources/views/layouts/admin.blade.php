@@ -3,7 +3,15 @@
     <x-header/>
   <body>
     <main class="main" id="top">
-      <div class="container" data-layout="container">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div class="toast fade" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-primary text-white"><strong class="me-auto">Aviso</strong>
+            <button class="btn-close btn-close-white" type="button" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+    <div class="container" data-layout="container">
         <script>
           var isFluid = JSON.parse(localStorage.getItem('isFluid'));
           if (isFluid) {

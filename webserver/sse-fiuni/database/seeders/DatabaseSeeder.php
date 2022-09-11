@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo(Permission::create(['name' => 'Generar Reportes']));
         $ver_empresa_permiso = Permission::create(['name' => 'Ver Empresas']);
         $role->givePermissionTo($ver_empresa_permiso);
+        $role->givePermissionTo(Permission::create(['name' => 'Administrar Administradores']));
         $role->givePermissionTo(Permission::create(['name' => 'Administrar Empleador']));
         $role->givePermissionTo(Permission::create(['name' => 'Administrar Egresados']));
 
