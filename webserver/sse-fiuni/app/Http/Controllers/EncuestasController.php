@@ -32,7 +32,7 @@ class EncuestasController extends Controller
         if ($this->getUser()->asignadoA($encuesta->id)) {
             return view('encuestas.completar', ['encuesta' => $encuesta]);
         } else {
-            //error de pemrisos
+            return view('error_permisos');
         }
 
     }

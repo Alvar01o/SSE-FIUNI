@@ -64,7 +64,10 @@
                     jQuery(document).ready(
                         function(){
                             jQuery('#deleteEmpleadorBtn{{$user->id}}').on('click', function() {
-                                jQuery('#deleteEmpleadorBtn{{$user->id}}').submit()
+                                if (confirm('Seguro que desea elimimar el empleador?')) {
+                                    jQuery('#deleteEmpleadorBtn{{$user->id}}').submit()
+                                }
+
                             })
                         }
                     )

@@ -62,7 +62,9 @@
                     jQuery(document).ready(
                         function(){
                             jQuery('#deleteadminBtn{{$user->id}}').on('click', function() {
-                                jQuery('#deleteadminBtn{{$user->id}}').submit()
+                                if (confirm('Seguro que desea elimimar el Administrador?')) {
+                                    jQuery('#deleteadminBtn{{$user->id}}').submit()
+                                }
                             })
                         }
                     )

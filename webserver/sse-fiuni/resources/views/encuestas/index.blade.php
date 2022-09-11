@@ -30,7 +30,9 @@
                 </thead>
                 <tbody>
                 @foreach ($encuestas as $index => $encuesta)
-                <tr class="border-bottom border-200 encuesta_cnt_{{$encuesta->id}}">                      <div class="d-flex align-items-center position-relative">
+                <tr class="border-bottom border-200 encuesta_cnt_{{$encuesta->id}}">
+                    <td>
+                        <div class="d-flex align-items-center position-relative">
                             <div class="flex-1 ms-3">
                             @if (request()->route()->getName() == 'ver_por_rol')
                                 @if(request()->tipo)
@@ -46,12 +48,12 @@
                     <td class="align-middle text-center fw-semi-bold">{{$encuesta->preguntas()->count()}}</td>
                     <td class="align-middle text-center fw-semi-bold">{{$encuesta->encuestaUsers()->count()}}</td>
                     <td class="align-middle pe-card">
-                    <div class="d-flex align-items-center">
-                        <div class="progress me-3 rounded-3 bg-200" style="height: 5px;width:80px">
-                        <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="d-flex align-items-center">
+                            <div class="progress me-3 rounded-3 bg-200" style="height: 5px;width:80px">
+                            <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="fw-semi-bold ms-2">0%</div>
                         </div>
-                        <div class="fw-semi-bold ms-2">0%</div>
-                    </div>
                     </td>
                     <td class="align-middle text-center fw-semi-bold">{{ date('Y-m-d', strtotime($encuesta->created_at));}}</td>
                     <td class="align-middle text-center fw-semi-bold"><span id="encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="far mx-3 float-end fa-trash-alt eliminar_encuesta" title="Eliminar Encuesta"></span></td>

@@ -160,6 +160,9 @@ let checker = (function() {
                 jQuery('#cantidad_seleccionados').addClass('indicador_seleccionados')
             }
         } else {
+            if (jQuery('input[name="check_all"]:checked')) {
+                jQuery('input[name="check_all"]:checked').prop('checked', false);
+            }
             jQuery('#cantidad_seleccionados').html('');
             if (jQuery('#cantidad_seleccionados').hasClass('indicador_seleccionados')) {
                 jQuery('#cantidad_seleccionados').removeClass('indicador_seleccionados')
@@ -245,11 +248,31 @@ let checker = (function() {
     jQuery('input[name="check_all"]').on('click', function() {
         jQuery('input[name="users[]"]').each(function(k, e) {
             if (!jQuery(e).prop('disabled')) {
-                if (jQuery('input[name="check_all"]:checked').length ==  1) {
-                    jQuery(e).prop('checked', 'checked')
-                } else {
-                    jQuery(e).prop('checked', false)
-                }
+                    let element = jQuery(e);
+                    let usrs = localStorage.getItem('users_{{ $encuesta->id }}');
+                    let users = usrs ? usrs.split(',') : [];
+                    if (!users.includes(element.val())) {
+                        users.push(element.val());
+                    } else {
+                        users = users.filter(function(user_id) {
+                           return user_id != element.val();
+                        })
+                    }
+                    jQuery('#cantidad_seleccionados').html(users.length)
+                    localStorage.setItem('users_{{ $encuesta->id }}', users.toString());
+                    if (localStorage.getItem('users_{{ $encuesta->id }}')) {
+                        jQuery('#cantidad_seleccionados').html(users.length)
+                        if (!jQuery('#cantidad_seleccionados').hasClass('indicador_seleccionados')) {
+                            jQuery('#cantidad_seleccionados').addClass('indicador_seleccionados')
+                        }
+                        jQuery('input[name="users[]"]:not([disabled])').prop('checked', 'checked')
+                    } else {
+                        jQuery('#cantidad_seleccionados').html('');
+                        if (jQuery('#cantidad_seleccionados').hasClass('indicador_seleccionados')) {
+                            jQuery('#cantidad_seleccionados').removeClass('indicador_seleccionados')
+                        }
+                        jQuery('input[name="users[]"]:not([disabled])').prop('checked', false)
+                    }
             }
         })
     })
@@ -308,29 +331,31 @@ jQuery(document).ready(function() {
     jQuery('.eliminar_pregunta').on('click', function(el) {
         let pregunta_id = jQuery(el.currentTarget).attr('data-id');
         let encuesta_id = '{{ $encuesta->id}}';
-        jQuery('div.toast-body').html(`<div class="spinner-border spinner-border-sm" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>`);
-        jQuery('div.toast-header > strong.me-auto').html('Eliminando pregunta')
-        if (!jQuery('div.toast-body').parent().hasClass('show')) {
-            jQuery('div.toast-body').parent().toggleClass('show');
-        }
-        jQuery.ajax({
-            method: "DELETE",
-            url: "/encuestas/eliminar_pregunta/"+encuesta_id+"/"+pregunta_id,
-            data: {
-                _token: "{{ csrf_token() }}"
-            }
-        }).done(function( response) {
-            jQuery('div.toast-body').html(response.msg);
-            jQuery('div.toast-header > strong.me-auto').html('Aviso')
+        if (confirm('Seguro que desea eliminar esta pregunta?')) {
+            jQuery('div.toast-body').html(`<div class="spinner-border spinner-border-sm" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>`);
+            jQuery('div.toast-header > strong.me-auto').html('Eliminando pregunta')
             if (!jQuery('div.toast-body').parent().hasClass('show')) {
                 jQuery('div.toast-body').parent().toggleClass('show');
             }
-            if (response.status == 'success') {
-                jQuery('.pregunta_cont_'+pregunta_id).remove();
-            }
-        });
+            jQuery.ajax({
+                method: "DELETE",
+                url: "/encuestas/eliminar_pregunta/"+encuesta_id+"/"+pregunta_id,
+                data: {
+                    _token: "{{ csrf_token() }}"
+                }
+            }).done(function( response) {
+                jQuery('div.toast-body').html(response.msg);
+                jQuery('div.toast-header > strong.me-auto').html('Aviso')
+                if (!jQuery('div.toast-body').parent().hasClass('show')) {
+                    jQuery('div.toast-body').parent().toggleClass('show');
+                }
+                if (response.status == 'success') {
+                    jQuery('.pregunta_cont_'+pregunta_id).remove();
+                }
+            });
+        }
     })
 })
 </script>

@@ -2,6 +2,7 @@
 @section('content')
     <h1>{{ $encuesta->nombre }}</h1>
     <div class="list-group">
+    <form action="" method="post">
         @foreach ($encuesta->preguntas as $pregunta)
             <div class="list-group-item flex-column align-items-start p-3 p-sm-4">
                 <div class="card-body pt-2">
@@ -30,6 +31,6 @@
         <div class="row">
             <button class="btn btn-primary">Finalizar</button>
         </div>
-
+<form>
     </div>
 @endsection

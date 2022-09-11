@@ -72,7 +72,9 @@
                     jQuery(document).ready(
                         function(){
                             jQuery('#deleteEgresadoBtn{{$user->id}}').on('click',function() {
-                                jQuery('#deleteEgresadoBtn{{$user->id}}').submit()
+                                if (confirm('Seguro que desea elimimar el egresado?')) {
+                                    jQuery('#deleteEgresadoBtn{{$user->id}}').submit()
+                                }
                             })
                         }
                     )
