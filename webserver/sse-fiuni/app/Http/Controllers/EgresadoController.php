@@ -26,9 +26,11 @@ class EgresadoController extends Controller
                 $users->where('carrera_id', '=', $request->input('carrera_id'));
             }
             if ($request->input('name_email')) {
-                $users->where('email', 'like', '%'.$request->input('name_email').'%');
-                $users->orWhere('nombre', 'like', '%'.$request->input('name_email').'%');
-                $users->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
+                $users->where(function($query) use ($request) {
+                    $query->where('email', 'like', '%'.$request->input('name_email').'%')
+                    ->orWhere('nombre', 'like', '%'.$request->input('name_email').'%')
+                    ->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
+                });
             }
             $users = $users->paginate(30);
             $carreras = Carreras::get();
@@ -118,7 +120,22 @@ class EgresadoController extends Controller
     public function show($id)
     {
         $egresado = User::find($id);
-        return view('egresado.show', ['user' => $egresado]);
+        $usuario_logeado = $this->getUser();
+        if ($usuario_logeado->id !== $egresado->id && !$usuario_logeado->hasRole(User::ROLE_ADMINISTRADOR))
+        {
+            $egresado = $usuario_logeado;
+        }
+        $laboral = $egresado->getEmpleos();
+        $educacion = $egresado->educacion;
+        $resumenHistorial = [];
+        foreach($laboral as $trabajo) {
+            $resumenHistorial[date('Y-m', strtotime($trabajo->inicio))][] = $trabajo;
+        }
+        foreach($educacion as $capacitacion) {
+            $resumenHistorial[date('Y-m', strtotime($capacitacion->inicio))][] = $capacitacion;
+        }
+        ksort($resumenHistorial);
+        return view('egresado.show', ['user' => $egresado, 'usuario_logeado' => $this->getUser(), 'historial' => $resumenHistorial]);
     }
 
     /**

@@ -54,13 +54,13 @@
                     <div class="avatar avatar-xl">
                         <img class="rounded-circle" src="{{ $user->getFirstMediaUrl('avatars', 'small_avatar') }}" alt="">
                     </div>
-                    <div class="ms-2">{{ $user->getName() }}</div>
+                    <div class="ms-2"><a href="/egresado/{{$user->id}}">{{ $user->getName() }}</a></div>
                 </div>
             </td>
             <td class="text-nowrap">{{ $user->apellido }}</td>
             <td class="text-nowrap">{{ $user->getEmail() }}</td>
             <td class="text-nowrap">{{ $user->ci }}</td>
-            <td class="text-nowrap">{{ $user->carrera->carrera }}</td>
+            <td class="text-nowrap">{{ $user->carrera ? $user->carrera->carrera : ''}}</td>
             <td class="text-nowrap">
                 <a href="/egresado/{{$user->id}}/edit" data-index="{{$index}}" class="editBtn"><span class="fas fa-pencil-alt"></span></a>
                 <form method="POST" action="/egresado/{{$user->id}}" class="eliminarEgresadoForm d-inline" id="deleteEgresadoBtn{{$user->id}}">

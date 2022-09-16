@@ -15,9 +15,11 @@ class EmpleadorController extends Controller
         if ($this->getUser()->hasPermissionTo('Administrar Empleador')) {
             $users = User::role('empleador');
             if ($request->input('name_email')) {
-                $users->where('email', 'like', '%'.$request->input('name_email').'%');
-                $users->orWhere('nombre', 'like', '%'.$request->input('name_email').'%');
-                $users->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
+                $users->where(function($query) use ($request) {
+                    $query->where('email', 'like', '%'.$request->input('name_email').'%')
+                    ->orWhere('nombre', 'like', '%'.$request->input('name_email').'%')
+                    ->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
+                });
             }
 
             $users->orderByDesc('id');

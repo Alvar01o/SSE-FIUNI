@@ -65,7 +65,7 @@
 </form>
 <script>
 jQuery(document).ready(function() {
-$('#empresa').typeahead(
+jQuery('#empresa').typeahead(
 {
     minLength: 1,
     highlight: true,

@@ -45,7 +45,7 @@
                     <div class="avatar avatar-xl">
                         <div class="avatar-name rounded-circle"><span>{{ $user->getIniciales()}}</span></div>
                     </div>
-                    <div class="ms-2">{{ $user->getName() }}</div>
+                    <div class="ms-2"><a href="/egresado/{{$user->id}}">{{ $user->getName() }}</a></div>
                 </div>
             </td>
             <td class="text-nowrap">{{ $user->apellido }}</td>

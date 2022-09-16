@@ -56,7 +56,10 @@
                         </div>
                     </td>
                     <td class="align-middle text-center fw-semi-bold">{{ date('Y-m-d', strtotime($encuesta->created_at));}}</td>
-                    <td class="align-middle text-center fw-semi-bold"><span id="encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="far mx-3 float-end fa-trash-alt eliminar_encuesta" title="Eliminar Encuesta"></span></td>
+                    <td class="align-middle text-center fw-semi-bold">
+                        <i id="encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi-trash px-2 border  float-end  eliminar_encuesta" title="Eliminar Encuesta"></i>
+                        <a href="/encuestas?duplicar={{$encuesta->id}}" onclick="confirm('Seguro que desea duplicar esta encuesta?')"><i class="bi bi-folder-plus px-2 border float-end duplicar_encuesta" data-id="{{$encuesta->id}}" title="Duplicar Encuesta"></i></a>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -68,29 +71,34 @@
     </div>
     <script>
         jQuery(document).ready(function() {
-            jQuery('.eliminar_encuesta').on('click', function(el) {
-                let encuesta_id = jQuery(el.currentTarget).attr('data-id');
-                jQuery('div.toast-body').html(`<div class="spinner-border spinner-border-sm" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
-                                                </div>`);
-                jQuery('div.toast-header > strong.me-auto').html('Eliminando Encuesta')
-                if (!jQuery('div.toast-body').parent().hasClass('show')) {
-                    jQuery('div.toast-body').parent().toggleClass('show');
-                }
-                jQuery.ajax({
-                    method: "DELETE",
-                    url: "/encuestas/"+encuesta_id,
-                    data: {
-                        _token: "{{ csrf_token() }}"
+            jQuery('.eliminar_encuesta').each(function(k,e) {
+                console.log(e);
+                jQuery(e).on('click', function(el) {
+                    let encuesta_id = jQuery(el.currentTarget).attr('data-id');
+                    if (confirm('Seguro que desea eliminar completamente esta encuesta?')) {
+                        jQuery('div.toast-body').html(`<div class="spinner-border spinner-border-sm" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>`);
+                        jQuery('div.toast-header > strong.me-auto').html('Eliminando Encuesta')
+                        if (!jQuery('div.toast-body').parent().hasClass('show')) {
+                            jQuery('div.toast-body').parent().toggleClass('show');
+                        }
+                        jQuery.ajax({
+                            method: "DELETE",
+                            url: "/encuestas/"+encuesta_id,
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            }
+                        }).done(function(response) {
+                            jQuery('div.toast-body').html(response.msg);
+                            jQuery('div.toast-header > strong.me-auto').html('Aviso')
+                            if (!jQuery('div.toast-body').parent().hasClass('show')) {
+                                jQuery('div.toast-body').parent().toggleClass('show');
+                            }
+                            jQuery('.encuesta_cnt_'+encuesta_id).remove();
+                        });
                     }
-                }).done(function(response) {
-                    jQuery('div.toast-body').html(response.msg);
-                    jQuery('div.toast-header > strong.me-auto').html('Aviso')
-                    if (!jQuery('div.toast-body').parent().hasClass('show')) {
-                        jQuery('div.toast-body').parent().toggleClass('show');
-                    }
-                    jQuery('.encuesta_cnt_'+encuesta_id).remove();
-                });
+                })
             })
         })
     </script>

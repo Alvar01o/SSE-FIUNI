@@ -1,80 +1,87 @@
 .eliminarCarreraForm {
-max-width: 15px !important;
-color: #d43737de;
+  max-width: 15px !important;
+  color: #d43737de;
 }
 .btn-primary:hover,
 .navbar-vertical .btn-purchase:hover,
 .tox .tox-menu__footer .tox-button:hover:last-child,
 .tox .tox-dialog__footer .tox-button:hover:last-child {
-background-color: #2569c3;
+  background-color: #2569c3;
 }
 .tt-suggestion {
-    background-color: white;
-    border: 1px solid #ccc;
-    padding-top: 0.5rem;
-    padding-left: 20px;
-    text-transform: capitalize;
-    padding-bottom: 0.25rem;
-    padding-right: 20px;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding-top: 0.5rem;
+  padding-left: 20px;
+  text-transform: capitalize;
+  padding-bottom: 0.25rem;
+  padding-right: 20px;
 }
 
 th {
-    color: #840101 !important;
+  color: #840101 !important;
 }
 
 .opcion_contenedor button.sm_eliminar_btn svg,
-.opcion_contenedor button.smj_eliminar_btn svg
-{
-    color:#ff000087 !important;
+.opcion_contenedor button.smj_eliminar_btn svg {
+  color: #ff000087 !important;
 }
 
 .opcion_contenedor button.sm_edit_btn svg,
-.opcion_contenedor button.smj_edit_btn svg
-{
-    color: #0000ff85 !important;
+.opcion_contenedor button.smj_edit_btn svg {
+  color: #0000ff85 !important;
 }
 .opcion_contenedor button.sm_check_btn svg,
-.opcion_contenedor button.smj_check_btn svg
-{
-    color: #008000b0 !important;
+.opcion_contenedor button.smj_check_btn svg {
+  color: #008000b0 !important;
 }
 
 .requerido input,
 .requerido label {
-    float: right !important;
+  float: right !important;
 }
 .pregunta_requerida {
-    text-align: end;
-    color: red;
-    font-weight: 700;
+  text-align: end;
+  color: red;
+  font-weight: 700;
 }
-.indicador_seleccionados  {
-    border: 2px solid white;
-    padding: 0rem 0.3rem;
-    margin-right: 1rem;
+.indicador_seleccionados {
+  border: 2px solid white;
+  padding: 0rem 0.3rem;
+  margin-right: 1rem;
 }
 
 .bg-w {
-    background-color: white;
+  background-color: white;
 }
 tbody#smj_options_table > tr > td,
 tbody#smj_options_table > tr > td,
 tbody#sm_options_table > tr > td {
-    max-width: 155px;
-    width: 155px;
+  max-width: 155px;
+  width: 155px;
 }
 
 svg.eliminar_pregunta:hover {
-    font-size: larger;
+  font-size: larger;
 }
 .input_titulo_pregunta {
-        outline: none;
-        border: none;
-        border-bottom: 1px solid #ccc;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #ccc;
 }
 .edit_titulo_pergunta {
-    overflow-wrap: anywhere;
+  overflow-wrap: anywhere;
 }
+.timeline-item-content:first-child {
+  min-height: 223px;
+}
+.duplicar_pregunta:hover,
+.eliminar_pregunta:hover,
+.eliminar_encuesta:hover,
+.duplicar_encuesta:hover {
+  font-size: large !important;
+}
+
 .toast-body {
-    font-weight: 700;
+  font-weight: 700;
 }

@@ -58,6 +58,8 @@ Route::group(['middleware' => ['sessionChecked']], function () {
     Route::post('/egresado/laboral', [EgresadoController::class, 'add_laboral'])->name('add_laboral');
     Route::post('/egresado/laboral/{id}', [EgresadoController::class, 'add_laboral'])->name('add_laboral_param');
     Route::post('/egresado/educacion/{id}', [EgresadoController::class, 'add_educacion'])->name('add_educacion_param');
+    Route::post('/encuestas/guardar_respuestas/{id}', [EncuestasController::class, 'guardarRespuestas'])->name('guardar_respuestas');
+
     Route::post('/cambiarpassword/{id}', [EgresadoController::class, 'new_pass'])->name('new_pass');
     Route::get('/empleadores/json', [EmpleadorController::class, 'json'])->name('empleadores_json_complete');
     Route::get('/empleadores/json/{query}', [EmpleadorController::class, 'json'])->name('empleadores_json');
@@ -67,6 +69,7 @@ Route::group(['middleware' => ['sessionChecked']], function () {
     // encues=
     Route::post('/encuestas/add_pregunta', [EncuestasController::class, 'addPregunta'])->name('addPregunta');
     Route::get('/encuestas/asignados', [EncuestasController::class, 'asignados'])->name('asignados');
+    Route::get('/encuestas/duplicar/{id_pregunta}', [EncuestasController::class, 'duplicar'])->name('duplicarPregunta');
     Route::post('/encuestas/add_usuarios/{id}', [EncuestasController::class, 'addUsuarios'])->name('addUsuarios');
     Route::get('/encuestas/completar/{id}', [EncuestasController::class, 'completar'])->name('completar');
     Route::resource('encuestas', EncuestasController::class);

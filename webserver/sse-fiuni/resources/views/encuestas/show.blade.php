@@ -80,22 +80,22 @@ if (isset($_GET['seccion'])) {
                     <div class="card-body pt-2 col-md-12 pregunta_cont_{{ $pregunta->id }}">
                         <div class="row py-2">
                             <div class="col-xxl-7 col-lg-6 d-inline-flex justify-content-start">
-                                <h5 class="edit_titulo_pergunta">{{ $pregunta->pregunta}}</h5>
+                                <h5 class="edit_titulo_pergunta">{{ $pregunta->pregunta }}</h5>
                                 <input name="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" type="text" class="d-none input_titulo_pregunta" value="{{ $pregunta->pregunta}}"/>
                             </div>
                             @if($pregunta->requerido)
-                            <div class="float-end col-xxl-5 col-lg-6">
-                                <span class="badge bg-danger float-end">Obligatorio</span>
-                                <span id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="far mx-3 float-end fa-trash-alt eliminar_pregunta" title="Eliminar Pregunta">
-                                </span>
-                                <span class="badge rounded-pill badge-soft-info pt-2 float-end" title="Tipo de Pregunta">[{{ ucfirst(str_replace('_', ' ', $pregunta->tipo_pregunta)) }}]</span>
-                            </div>
+                                <div class="float-end col-xxl-5 col-lg-6">
+                                    <span class="badge bg-danger float-end">Obligatorio</span>
+                                    <i id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="bi-trash px-2 border  float-end  eliminar_pregunta" title="Eliminar Pregunta"></i>
+                                    <a href="/encuestas/duplicar/{{$pregunta->id}}"><i class="bi bi-folder-plus px-2 border float-end duplicar_pregunta" data-id="6" title="Duplicar Pregunta"></i></a>
+                                    <span class="badge rounded-pill badge-soft-info pt-2 float-end" title="Tipo de Pregunta">[{{ ucfirst(str_replace('_', ' ', $pregunta->tipo_pregunta)) }}]</span>
+                                </div>
                             @else
-                            <div class="float-end col-xxl-5 col-lg-6">
-                                <span id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="far mx-3 float-end fa-trash-alt eliminar_pregunta" title="Eliminar Pregunta">
-                                </span>
-                                <span class="badge rounded-pill badge-soft-info pt-2 float-end" title="Tipo de Pregunta">[{{ ucfirst(str_replace('_', ' ', $pregunta->tipo_pregunta)) }}]</span>
-                            </div>
+                                <div class="float-end col-xxl-5 col-lg-6">
+                                    <i id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="bi-trash px-2 border  float-end  eliminar_pregunta" title="Eliminar Pregunta"></i>
+                                    <a href="/encuestas/duplicar/{{$pregunta->id}}"><i class="bi bi-folder-plus px-2 border float-end duplicar_pregunta" data-id="6" title="Duplicar Pregunta"></i></a>
+                                    <span class="badge rounded-pill badge-soft-info pt-2 float-end" title="Tipo de Pregunta">[{{ ucfirst(str_replace('_', ' ', $pregunta->tipo_pregunta)) }}]</span>
+                                </div>
                             @endif
                         </div>
                         @foreach ($pregunta->opcionesPregunta as $opcion_id => $opcion)
@@ -112,10 +112,7 @@ if (isset($_GET['seccion'])) {
                             <input type="text" class="float-left col-12" disabled placeholder="<?= ($pregunta->justificacion) ? 'Justificacion de Respuesta' : 'Respuesta';?>"/>
                         @endif
                     </div>
-                    <div clas="col-2">
-                        <span class="text-900 fs-3 bi-trash-fill"></span>
-                        <span class="text-900 fs-3 bi-trash-fill"></span>
-                    </div>
+
                 </div>
                 @endforeach
             </div>

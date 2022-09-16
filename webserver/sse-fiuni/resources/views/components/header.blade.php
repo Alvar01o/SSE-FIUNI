@@ -26,7 +26,10 @@
     <script src="{{asset('js/main.js')}}"></script>
     <script src="{{asset('vendors/overlayscrollbars/OverlayScrollbars.min.js')}}"></script>
     <script src="{{asset('js/choices/choices.min.js')}}"></script>
+    <script src="{{asset('js/flatpickr.js')}}"></script>
+    <script src="{{asset('js/typeahead.js')}}"></script>
 
+    <script src="{{asset('js/es.js')}}"></script>
 
 
     <!-- ===============================================-->
@@ -39,7 +42,9 @@
     <link href="{{asset('css/theme.css')}}" rel="stylesheet" id="style-default">
     <link href="{{asset('css/user-rtl.css')}}" rel="stylesheet" id="user-style-rtl">
     <link href="{{asset('css/user.css')}}" rel="stylesheet" id="user-style-default">
+    <link href="{{asset('css/icons/bootstrap-icons.css')}}" rel="stylesheet" id="user-style-default">
     <link href="{{asset('css/main.css')}}" rel="stylesheet" id="user-style-default">
+    <link href="{{asset('vendors/flatpickr/flatpickr.min.css')}}" rel="stylesheet" />
     <link href="{{asset('js/choices/choices.min.css')}}" rel="stylesheet" id="user-style-default">
 
 <script>

@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Carreras;
 use App\Models\EncuestaUsers;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 class EncuestasController extends Controller
 {
@@ -22,8 +23,76 @@ class EncuestasController extends Controller
      */
     public function index($tipo = 'egresado', Request $request)
     {
+        if ($encuesta_id_duplicar = $request->get('duplicar')) {
+            $encuesta = Encuestas::find($encuesta_id_duplicar);
+            if ($encuesta) {
+                DB::beginTransaction();
+                try {
+                    //duplicar encuesta
+                    $nuevaEncuesta = $encuesta->replicate()->fill(['nombre' => $encuesta->nombre." - Copia ".date('d/m/Y')]);
+                    $nuevaEncuesta->save();
+                    //duplicar preguntas
+                    foreach($encuesta->preguntas as $pregunta) {
+                        $nueva_pregunta = $pregunta->replicate()->fill([
+                            'encuesta_id' => $nuevaEncuesta->id
+                        ]);
+                        $nueva_pregunta->save();
+                        //duplicar opciones
+                        foreach($pregunta->opcionesPregunta as $opcion) {
+                            $nueva_opcion_pregunta = $opcion->replicate()->fill(['pregunta_id' => $nueva_pregunta->id, 'encuesta_id' => $nuevaEncuesta->id]);
+                            $nueva_opcion_pregunta->save();
+                        }
+                    }
+                    DB::commit();
+                } catch(\Exception $e) {
+                    DB::rollBack();
+                }
+                return redirect('encuestas');
+            }
+        }
         $encuestas = Encuestas::where('tipo', '=', $tipo)->get();
         return view('encuestas.index', ['encuestas' => $encuestas, 'tipo' => $tipo]);
+    }
+
+    public function duplicar($id_pregunta){
+        if (is_numeric($id_pregunta)) {
+            $pregunta = Preguntas::find($id_pregunta);
+            if ($pregunta) {
+                $nueva_pregunta = $pregunta->replicate()->fill(['pregunta' => $pregunta->pregunta." - Copia"]);
+                $nueva_pregunta->save();
+                foreach($pregunta->opcionesPregunta as $opcion) {
+                    $nueva_opcion_pregunta = $opcion->replicate()->fill(['pregunta_id' => $nueva_pregunta->id, 'encuesta_id' => $nueva_pregunta->encuesta_id]);
+                    $nueva_opcion_pregunta->save();
+                }
+                return redirect('encuestas/'.$pregunta->encuesta_id);
+            } else {
+               return redirect('encuestas')->withErrors(['pregunta'=> 'Pregunta no existe.']);
+            }
+        } else {
+            return redirect('encuestas')->withErrors(['pregunta'=> 'No se pudo encontrar la pregunta.']);
+        }
+    }
+
+    public function guardarRespuestas($id, Request $request)
+    {
+        $encuesta = Encuestas::find($id);
+        var_dump($request->all());
+        if ($this->getUser()->asignadoA($encuesta->id)) {
+            $keys = array_keys($request->all());
+            $ks = [];
+            foreach($keys as $k) {
+                if (is_numeric($k)) {
+                    $ks[] = $k;
+                }
+            }
+            $preguntas = Preguntas::find($ks);
+            foreach ($preguntas  as $pregunta) {
+                //guardar respuesta
+            }
+            var_dump($preguntas); die;
+        } else {
+            return view('error_permisos');
+        }
     }
 
     public function completar($id, Request $request)
@@ -34,7 +103,6 @@ class EncuestasController extends Controller
         } else {
             return view('error_permisos');
         }
-
     }
 
     /**

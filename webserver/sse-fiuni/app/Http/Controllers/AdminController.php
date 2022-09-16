@@ -26,9 +26,11 @@ class AdminController extends Controller
         if ($this->getUser()->hasPermissionTo('Administrar Administradores')) {
             $users = User::role(User::ROLE_ADMINISTRADOR);
             if ($request->input('name_email')) {
-                $users->where('email', 'like', '%'.$request->input('name_email').'%');
-                $users->orWhere('nombre', 'like', '%'.$request->input('name_email').'%');
-                $users->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
+                $users->where(function($query) use ($request) {
+                    $query->where('email', 'like', '%'.$request->input('name_email').'%')
+                    ->orWhere('nombre', 'like', '%'.$request->input('name_email').'%')
+                    ->orWhere('apellido', 'like', '%'.$request->input('name_email').'%');
+                });
             }
             $users->orderByDesc('id');
             $users = $users->paginate(30);

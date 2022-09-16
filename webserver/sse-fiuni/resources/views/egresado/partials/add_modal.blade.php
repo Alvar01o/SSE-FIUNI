@@ -46,6 +46,16 @@
             </div>
             <div class="row gx-2">
                 <div class="mb-3 col-sm-6">
+                    <label class="form-label" for="ingreso">Año Ingreso</label>
+                    <input class="form-control datetimepicker" id="ingreso" type="text" placeholder="YYYY-MM-DD" name="ingreso" data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true}' required/>
+                </div>
+                <div class="mb-3 col-sm-6">
+                    <label class="form-label" for="egreso">Año Egreso</label>
+                    <input class="form-control datetimepicker" id="egreso" type="text" placeholder="YYYY-MM-DD" name="egreso" data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true}' required/>
+                </div>
+            </div>
+            <div class="row gx-2">
+                <div class="mb-3 col-sm-6">
                     <input class="form-control" type="password" autocomplete="on" minlength="8" placeholder="Contraseña" name="password"/>
                 </div>
                 <div class="mb-3 col-sm-6">
