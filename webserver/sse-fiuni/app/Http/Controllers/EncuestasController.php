@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use App\Models\OpcionesPregunta;
 use App\Models\User;
 use App\Models\Carreras;
+use App\Models\RespuestaPreguntas;
 use App\Models\EncuestaUsers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -73,10 +74,11 @@ class EncuestasController extends Controller
         }
     }
 
+
+
     public function guardarRespuestas($id, Request $request)
     {
         $encuesta = Encuestas::find($id);
-        var_dump($request->all());
         if ($this->getUser()->asignadoA($encuesta->id)) {
             $keys = array_keys($request->all());
             $ks = [];
@@ -86,10 +88,57 @@ class EncuestasController extends Controller
                 }
             }
             $preguntas = Preguntas::find($ks);
-            foreach ($preguntas  as $pregunta) {
-                //guardar respuesta
+            $respuestas = RespuestaPreguntas::where('encuesta_id', '=', $encuesta->id)->get();
+            $parsed = [];
+            foreach($respuestas as $resp) {
+                $parsed[$resp->id] = $resp;
             }
-            var_dump($preguntas); die;
+            var_dump($parsed);die;
+            foreach ($preguntas  as $pregunta) {
+                if ($pregunta->tipo_pregunta == Preguntas::TIPO_PREGUNTA) {
+                    $respuesta_nueva = RespuestaPreguntas::create([
+                        'pregunta_id' => $pregunta->id,
+                        'encuesta_id' => $encuesta->id,
+                        'respuesta' => $request->input($pregunta->id),
+                        'opciones' => '[]'
+                    ]);
+                } elseif ($pregunta->tipo_pregunta == Preguntas::TIPO_SELECCION_SIMPLE_JUSTIFICACION) {
+                    $respuesta = $request->input($pregunta->id);
+                    $justificacion = isset($respuesta['justificacion']) ? $respuesta['justificacion'] : '';
+                    if(isset($respuesta['justificacion'])) {
+                        unset($respuesta['justificacion']);
+                    }
+                    $opciones = $respuesta;
+                    if (!is_array($respuesta)) {
+                        $opciones = [$respuesta];
+                    }
+
+                    $justificacion = isset($request->input($pregunta->id)['justificacion']) ? $request->input($pregunta->id)['justificacion'] : '';
+                    $respuesta_nueva = RespuestaPreguntas::create([
+                        'pregunta_id' => $pregunta->id,
+                        'encuesta_id' => $encuesta->id,
+                        'opciones' => json_encode($opciones),
+                        'respuesta' => $justificacion
+                    ]);
+                } else {
+                    $respuesta = $request->input($pregunta->id);
+                    $justificacion = isset($respuesta['justificacion']) ? $respuesta['justificacion'] : '';
+                    if(isset($respuesta['justificacion'])) {
+                        unset($respuesta['justificacion']);
+                    }
+                    $opciones = $respuesta;
+                    if (!is_array($respuesta)) {
+                        $opciones = [$respuesta];
+                    }
+                    $respuesta_nueva = RespuestaPreguntas::create([
+                        'pregunta_id' => $pregunta->id,
+                        'encuesta_id' => $encuesta->id,
+                        'opciones' => json_encode($opciones),
+                        'respuesta' => $justificacion
+                    ]);
+                }
+            }
+            return redirect('/encuestas/completar/'.$encuesta->id);
         } else {
             return view('error_permisos');
         }

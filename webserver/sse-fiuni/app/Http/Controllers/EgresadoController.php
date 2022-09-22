@@ -230,7 +230,17 @@ class EgresadoController extends Controller
             $id  = $this->getUser()->id;
         }
         $egresado = User::find($id);
-        return view('egresado.show', ['user' => $egresado]);
+        $laboral = $egresado->getEmpleos();
+        $educacion = $egresado->educacion;
+        $resumenHistorial = [];
+        foreach($laboral as $trabajo) {
+            $resumenHistorial[date('Y-m', strtotime($trabajo->inicio))][] = $trabajo;
+        }
+        foreach($educacion as $capacitacion) {
+            $resumenHistorial[date('Y-m', strtotime($capacitacion->inicio))][] = $capacitacion;
+        }
+        ksort($resumenHistorial);
+        return view('egresado.show', ['user' => $egresado, 'usuario_logeado' => $this->getUser(), 'historial' => $resumenHistorial]);
     }
 
     public function editar_perfil($id = null){

@@ -1,6 +1,7 @@
 <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
     <div class="navbar-vertical-content scrollbar">
         <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
+            @if(!auth()->user()->hasRole('egresado'))
             <li class="nav-item">
                 <a class="nav-link dropdown-indicator" href="#dashboard" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="dashboard">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">Dashboard</span>
@@ -15,6 +16,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
             @if(auth()->user()->hasRole('administrador'))
                 <x-nav_admin/>
             @endif

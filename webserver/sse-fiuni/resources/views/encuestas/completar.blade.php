@@ -11,7 +11,6 @@
                     <div class="row py-2">
                             <div class="col-xxl-7 col-lg-6 d-inline-flex justify-content-start">
                                 <h5 class="edit_titulo_pergunta">{{ $pregunta->pregunta }}</h5>
-                                <input name="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" type="text" class="d-none input_titulo_pregunta" value="{{ $pregunta->pregunta}}"/>
                             </div>
                             @if($pregunta->requerido)
                                 <div class="float-end col-xxl-5 col-lg-6">
@@ -29,14 +28,18 @@
                         @if(in_array($pregunta->tipo_pregunta, ['seleccion_multiple', 'seleccion_multiple_justificacion']))
                             <input type="checkbox" name="{{ $pregunta->id }}[]" class="float-left" value="{{$opcion->id }}"/>
                         @elseif(in_array($pregunta->tipo_pregunta, ['seleccion', 'seleccion_justificacion']))
-                            <input type="radio" name="{{ $pregunta->id }}" class="float-left" value="{{$opcion->id  }}"/>
+                            <input type="radio" name="{{ $pregunta->id }}[]" class="float-left" value="{{$opcion->id  }}"/>
                         @endif
                         <label class="form-check-label mb-0" for="flexCheckDefault">{{ $opcion->opcion }}</label>
                     </div>
                     @endforeach
-                    @if($pregunta->tipo_pregunta == 'pregunta' || $pregunta->justificacion)
-                        <input type="text" name="{{ $pregunta->id }}_justificacion" class="float-left col-12 p-2 mt-4 form-control" placeholder="<?= ($pregunta->justificacion) ? 'Justificacion de Respuesta' : 'Respuesta';?>"/>
+                    @if($pregunta->tipo_pregunta == 'pregunta')
+                        <input type="text" name="{{ $pregunta->id }}" class="float-left col-12 p-2 mt-4 form-control" placeholder="<?= ($pregunta->justificacion) ? 'Justificacion de Respuesta' : 'Respuesta';?>"/>
                     @endif
+                    @if($pregunta->justificacion)
+                        <input type="text" name="{{ $pregunta->id }}[justificacion]" class="float-left col-12 p-2 mt-4 form-control" placeholder="<?= ($pregunta->justificacion) ? 'Justificacion de Respuesta' : 'Respuesta';?>"/>
+                    @endif
+
                 </div>
             </div>
         @endforeach
