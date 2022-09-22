@@ -9,6 +9,11 @@ use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Models\Carreras;
 use App\Models\Laboral;
+
+use App\Models\Encuestas;
+use App\Models\Preguntas;
+use App\Models\OpcionesPregunta;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -146,5 +151,63 @@ class DatabaseSeeder extends Seeder
         Laboral::create(['empresa' => 'Integradevs']);
         Laboral::create(['empresa' => 'Borealis']);
         Laboral::create(['empresa' => 'MoV']);
+
+        $encuestaEmpleador = Encuestas::create([
+            'nombre' => 'Encuesta Empelador 2022',
+            'tipo' => 'empleador'
+        ]);
+
+        $encuestaEgresados = Encuestas::create([
+            'nombre' => 'Encuesta Egresado 2022',
+            'tipo' => 'egresado'
+        ]);
+        // tipo de preguntas disponibles  => 'pregunta','seleccion_multiple','seleccion_multiple_justificacion','seleccion','seleccion_justificacion'
+        //si la pregunta no es de tipo pregunta simple incluir el valor 'opciones' => []
+        $preguntas = [
+                        [
+                            'pregunta' => 'Pregunta simple',
+                            'requerido' => 1,
+                            'justificacion' => '',
+                            'encuesta_id' => $encuestaEgresados->id,
+                            'tipo_pregunta' => 'pregunta'
+                        ],
+                        [
+                            'pregunta' => 'Pregunta seleccion multiple',
+                            'requerido' => 1,
+                            'justificacion' => '',
+                            'encuesta_id' => $encuestaEgresados->id,
+                            'tipo_pregunta' => 'seleccion_multiple',
+                            'opciones' => [
+                                'si',
+                                'no'
+                            ]
+                        ]
+                    ];
+        foreach ($preguntas as $key => $pregunta) {
+            if ($pregunta['tipo_pregunta'] !== 'pregunta') {
+                    $datos_para_nueva_pregunta = [
+                        'pregunta' => $pregunta['pregunta'],
+                        'tipo_pregunta' => $pregunta['tipo_pregunta'],
+                        'encuesta_id' => $pregunta['encuesta_id'],
+                        'requerido' =>  $pregunta['requerido'] == 'on' ? 1 : 0
+                    ];
+                    $opciones = $pregunta['opciones'];
+                    $pregunta = Preguntas::create($datos_para_nueva_pregunta);
+                    foreach($opciones as $key => $opcion) {
+                        OpcionesPregunta::create([
+                            'pregunta_id' => $pregunta->id,
+                            'encuesta_id' => $pregunta->encuesta_id,
+                            'opcion' => $opcion
+                        ]);
+                    }
+            } else {
+                $pregunta = Preguntas::create([
+                    'pregunta' => $pregunta['pregunta'],
+                    'tipo_pregunta' => $pregunta['tipo_pregunta'],
+                    'encuesta_id' => $pregunta['encuesta_id'],
+                    'requerido' => $pregunta['requerido']
+                ]);
+            }
+        }
     }
 }

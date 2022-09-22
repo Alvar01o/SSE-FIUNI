@@ -25,6 +25,7 @@ class OpcionesPregunta extends Migration
             CREATE TRIGGER `preguntas_ad` AFTER DELETE ON `preguntas` FOR EACH ROW
             BEGIN
                 delete from opciones_preguntas where pregunta_id = OLD.id;
+                delete from respuesta_preguntas where pregunta_id = OLD.id;
             END
         ');
     }

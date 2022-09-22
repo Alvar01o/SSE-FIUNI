@@ -17,6 +17,7 @@ class RespuestaPreguntas extends Migration
             $table->id();
             $table->string('respuesta');
             $table->integer('pregunta_id');
+            $table->integer('egresado_id');
             $table->integer('encuesta_id');
             $table->json('opciones');
             $table->timestamps();

@@ -87,55 +87,43 @@ class EncuestasController extends Controller
                     $ks[] = $k;
                 }
             }
-            $preguntas = Preguntas::find($ks);
+
+            $preguntas = Preguntas::where('encuesta_id', '=', $encuesta->id)->get();
             $respuestas = RespuestaPreguntas::where('encuesta_id', '=', $encuesta->id)->get();
             $parsed = [];
             foreach($respuestas as $resp) {
                 $parsed[$resp->id] = $resp;
             }
-            var_dump($parsed);die;
+
             foreach ($preguntas  as $pregunta) {
                 if ($pregunta->tipo_pregunta == Preguntas::TIPO_PREGUNTA) {
                     $respuesta_nueva = RespuestaPreguntas::create([
                         'pregunta_id' => $pregunta->id,
                         'encuesta_id' => $encuesta->id,
+                        'egresado_id' => $this->getUser()->id,
                         'respuesta' => $request->input($pregunta->id),
                         'opciones' => '[]'
                     ]);
-                } elseif ($pregunta->tipo_pregunta == Preguntas::TIPO_SELECCION_SIMPLE_JUSTIFICACION) {
-                    $respuesta = $request->input($pregunta->id);
-                    $justificacion = isset($respuesta['justificacion']) ? $respuesta['justificacion'] : '';
-                    if(isset($respuesta['justificacion'])) {
-                        unset($respuesta['justificacion']);
-                    }
-                    $opciones = $respuesta;
-                    if (!is_array($respuesta)) {
-                        $opciones = [$respuesta];
-                    }
-
-                    $justificacion = isset($request->input($pregunta->id)['justificacion']) ? $request->input($pregunta->id)['justificacion'] : '';
-                    $respuesta_nueva = RespuestaPreguntas::create([
-                        'pregunta_id' => $pregunta->id,
-                        'encuesta_id' => $encuesta->id,
-                        'opciones' => json_encode($opciones),
-                        'respuesta' => $justificacion
-                    ]);
                 } else {
                     $respuesta = $request->input($pregunta->id);
-                    $justificacion = isset($respuesta['justificacion']) ? $respuesta['justificacion'] : '';
-                    if(isset($respuesta['justificacion'])) {
-                        unset($respuesta['justificacion']);
+                    if ($respuesta) {
+                        $justificacion = (isset($respuesta['justificacion']) && !is_null($respuesta['justificacion'])) ? $respuesta['justificacion'] : '';
+                        if(array_key_exists('justificacion', $respuesta)) {
+                            unset($respuesta['justificacion']);
+                        }
+                        $opciones = $respuesta;
+                        if (!is_array($respuesta)) {
+                            $opciones = [$respuesta];
+                        }
+
+                        $respuesta_nueva = RespuestaPreguntas::create([
+                            'pregunta_id' => $pregunta->id,
+                            'encuesta_id' => $encuesta->id,
+                            'egresado_id' => $this->getUser()->id,
+                            'opciones' => json_encode($opciones),
+                            'respuesta' => $justificacion
+                        ]);
                     }
-                    $opciones = $respuesta;
-                    if (!is_array($respuesta)) {
-                        $opciones = [$respuesta];
-                    }
-                    $respuesta_nueva = RespuestaPreguntas::create([
-                        'pregunta_id' => $pregunta->id,
-                        'encuesta_id' => $encuesta->id,
-                        'opciones' => json_encode($opciones),
-                        'respuesta' => $justificacion
-                    ]);
                 }
             }
             return redirect('/encuestas/completar/'.$encuesta->id);
@@ -147,6 +135,7 @@ class EncuestasController extends Controller
     public function completar($id, Request $request)
     {
         $encuesta = Encuestas::find($id);
+
         if ($this->getUser()->asignadoA($encuesta->id)) {
             return view('encuestas.completar', ['encuesta' => $encuesta]);
         } else {
