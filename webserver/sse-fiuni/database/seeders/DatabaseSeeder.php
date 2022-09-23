@@ -167,21 +167,32 @@ class DatabaseSeeder extends Seeder
                         [
                             'pregunta' => 'Pregunta simple',
                             'requerido' => 1,
-                            'justificacion' => '',
+                            'justificacion' => 0,
                             'encuesta_id' => $encuestaEgresados->id,
                             'tipo_pregunta' => 'pregunta'
                         ],
                         [
                             'pregunta' => 'Pregunta seleccion multiple',
                             'requerido' => 1,
-                            'justificacion' => '',
+                            'justificacion' => 0,
                             'encuesta_id' => $encuestaEgresados->id,
                             'tipo_pregunta' => 'seleccion_multiple',
                             'opciones' => [
                                 'si',
                                 'no'
                             ]
-                        ]
+                            ],
+                        [
+                            'pregunta' => 'Medio para obtener el primer empleo',
+                            'requerido' => 1,
+                            'justificacion' => 1,
+                            'encuesta_id' => $encuestaEgresados->id,
+                            'tipo_pregunta' => 'seleccion_multiple_justificacion',
+                            'opciones' => [
+                                'si',
+                                'no'
+                            ]
+                        ]                        
                     ];
         foreach ($preguntas as $key => $pregunta) {
             if ($pregunta['tipo_pregunta'] !== 'pregunta') {
@@ -189,7 +200,8 @@ class DatabaseSeeder extends Seeder
                         'pregunta' => $pregunta['pregunta'],
                         'tipo_pregunta' => $pregunta['tipo_pregunta'],
                         'encuesta_id' => $pregunta['encuesta_id'],
-                        'requerido' =>  $pregunta['requerido'] == 'on' ? 1 : 0
+                        'justificacion' => $pregunta['justificacion'],
+                        'requerido' => $pregunta['requerido']
                     ];
                     $opciones = $pregunta['opciones'];
                     $pregunta = Preguntas::create($datos_para_nueva_pregunta);
