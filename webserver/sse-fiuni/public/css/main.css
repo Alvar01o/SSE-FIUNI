@@ -61,6 +61,17 @@ tbody#sm_options_table > tr > td {
   width: 155px;
 }
 
+.icon-encuesta {
+  font-size: 24px;
+}
+form.form_edicacion_encuesta > input {
+  border: none;
+  width: 78%;
+}
+
+.bi:hover {
+  font-size: larger;
+}
 svg.eliminar_pregunta:hover {
   font-size: larger;
 }

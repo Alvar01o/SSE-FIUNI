@@ -76,7 +76,7 @@ if (isset($_GET['seccion'])) {
             <div class="kanban-items-container border bg-white dark__bg-1000 rounded-2 py-3 mb-3" style="max-height: none;">
             <div class="py-3"><h3>Vista Previa</h3></div>
             @foreach ($encuesta->preguntas as $pregunta_id => $pregunta)
-                <div class="card mb-3 kanban-item shadow rounded dark__bg-1100">
+                <div class="card mb-3 shadow rounded dark__bg-1100">
                     <div class="card-body pt-2 col-md-12 pregunta_cont_{{ $pregunta->id }}">
                         <div class="row py-2">
                             <div class="col-xxl-7 col-lg-6 d-inline-flex justify-content-start">

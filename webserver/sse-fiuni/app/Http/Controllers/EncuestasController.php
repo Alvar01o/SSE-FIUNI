@@ -74,7 +74,32 @@ class EncuestasController extends Controller
         }
     }
 
-
+    public function update(Request $request, $id) {
+        $validator = Validator::make($request->only(['nombre']), [
+            'nombre' => 'required|string'
+        ]);
+        if (!$validator->fails()) {
+            $encuesta = Encuestas::find($id);
+            if ($encuesta) {
+                $encuesta->nombre = $request->input('nombre');
+                $encuesta->save();
+                return response()->json([
+                    'status' => 'success',
+                    'msg' => 'Encuesta Actualizada correctamente'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => 'Error al encontrar la Encuesta'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'msg' => 'Nombre de Encuesta invalido.'
+            ]);
+        }
+    }
 
     public function guardarRespuestas($id, Request $request)
     {
@@ -94,7 +119,6 @@ class EncuestasController extends Controller
             foreach($respuestas as $resp) {
                 $parsed[$resp->id] = $resp;
             }
-
             foreach ($preguntas  as $pregunta) {
                 if ($pregunta->tipo_pregunta == Preguntas::TIPO_PREGUNTA) {
                     $respuesta_nueva = RespuestaPreguntas::create([
@@ -111,11 +135,13 @@ class EncuestasController extends Controller
                         if(array_key_exists('justificacion', $respuesta)) {
                             unset($respuesta['justificacion']);
                         }
+                        if (!$justificacion && empty($respuesta)) {
+                            continue;
+                        }
                         $opciones = $respuesta;
                         if (!is_array($respuesta)) {
                             $opciones = [$respuesta];
                         }
-
                         $respuesta_nueva = RespuestaPreguntas::create([
                             'pregunta_id' => $pregunta->id,
                             'encuesta_id' => $encuesta->id,
@@ -137,7 +163,7 @@ class EncuestasController extends Controller
         $encuesta = Encuestas::find($id);
 
         if ($this->getUser()->asignadoA($encuesta->id)) {
-            return view('encuestas.completar', ['encuesta' => $encuesta]);
+            return view('encuestas.completar', ['encuesta' => $encuesta, 'user' => $this->getUser()]);
         } else {
             return view('error_permisos');
         }
@@ -159,7 +185,7 @@ class EncuestasController extends Controller
             return redirect('encuestas')
                         ->withErrors($validator);
         } else {
-            Encuestas::create([
+            $encuesta = Encuestas::create([
                 'nombre' => $request->input('nombre'),
                 'tipo' => $request->input('tipo')
             ]);
@@ -203,17 +229,6 @@ class EncuestasController extends Controller
             $carreras = Carreras::get();
         }
         return view('encuestas.show', ['encuesta' => $encuesta, 'egresados' => $users, 'carreras' => $carreras, 'asignados' => $asignados]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -306,7 +321,7 @@ class EncuestasController extends Controller
     public function asignados() {
         $user = $this->getUser();
         $encuestas = Encuestas::join('encuesta_users', 'encuestas.id', '=', 'encuesta_users.encuesta_id')->where('encuesta_users.user_id', '=', $user->id)->get();
-       return view('encuestas.asignados', ['encuestas' => $encuestas ? $encuestas : []]);
+       return view('encuestas.asignados', ['encuestas' => $encuestas ? $encuestas : [], 'user' => $this->getUser()]);
     }
 
     public function addPregunta(Request $request)

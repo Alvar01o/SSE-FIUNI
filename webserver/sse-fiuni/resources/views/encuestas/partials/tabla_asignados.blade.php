@@ -32,7 +32,7 @@
                     <div class="avatar avatar-xl">
                         <img class="rounded-circle" src="{{ $user->getFirstMediaUrl('avatars', 'small_avatar') }}" alt="">
                     </div>
-                    <div class="ms-2">{{ $user->getName() }}</div>
+                    <div class="ms-2"><a href="/egresado/{{$user->id}}">{{ $user->getName() }}</a></div>
                 </div>
             </td>
             <td class="text-nowrap">{{ $user->apellido }}</td>

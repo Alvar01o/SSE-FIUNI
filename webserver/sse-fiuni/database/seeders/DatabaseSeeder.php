@@ -172,16 +172,18 @@ class DatabaseSeeder extends Seeder
                             'tipo_pregunta' => 'pregunta'
                         ],
                         [
-                            'pregunta' => 'Pregunta seleccion multiple',
+                            'pregunta' => 'Calidad de los docentes',
                             'requerido' => 1,
                             'justificacion' => 0,
                             'encuesta_id' => $encuestaEgresados->id,
                             'tipo_pregunta' => 'seleccion_multiple',
                             'opciones' => [
-                                'si',
-                                'no'
+                                'Excelente',
+                                'Muy Buena',
+                                'Buena',
+                                'Regular'
                             ]
-                            ],
+                        ],
                         [
                             'pregunta' => 'Medio para obtener el primer empleo',
                             'requerido' => 1,
@@ -189,10 +191,37 @@ class DatabaseSeeder extends Seeder
                             'encuesta_id' => $encuestaEgresados->id,
                             'tipo_pregunta' => 'seleccion_multiple_justificacion',
                             'opciones' => [
-                                'si',
-                                'no'
+                                'Contacto através de la F.I.U.N.I. y/o la U.N.I.',
+                                'Contactos personales',
+                                'Pasantía',
+                                'Medios masivos de comunicación (Redes sociales, Noticias, etc.)'
                             ]
-                        ]                        
+                        ],
+                        [
+                            'pregunta' => 'Idioma que utiliza en su trabajo',
+                            'requerido' => 0,
+                            'justificacion' => 1,
+                            'encuesta_id' => $encuestaEgresados->id,
+                            'tipo_pregunta' => 'seleccion_multiple_justificacion',
+                            'opciones' => [
+                                'Español',
+                                'Guaraní',
+                                'Portugués',
+                                'Inglés',
+                                'Otro'
+                            ]
+                        ],
+                        [
+                            'pregunta' => 'Condición de Trabajo',
+                            'requerido' => 0,
+                            'justificacion' => 1,
+                            'encuesta_id' => $encuestaEgresados->id,
+                            'tipo_pregunta' => 'seleccion',
+                            'opciones' => [
+                                'Contratado',
+                                'Nombrado'
+                            ]
+                        ]
                     ];
         foreach ($preguntas as $key => $pregunta) {
             if ($pregunta['tipo_pregunta'] !== 'pregunta') {

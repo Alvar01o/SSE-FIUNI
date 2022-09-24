@@ -33,13 +33,23 @@
                 <tr class="border-bottom border-200 encuesta_cnt_{{$encuesta->id}}">
                     <td>
                         <div class="d-flex align-items-center position-relative">
-                            <div class="flex-1 ms-3">
+                            <div class="flex-1 ms-3 desc_encuesta">
                             @if (request()->route()->getName() == 'ver_por_rol')
                                 @if(request()->tipo)
-                                <h6 class="mb-1 fw-semi-bold text-nowrap"><a class="text-900 stretched-link" href="{{ '/encuestas/'.request()->tipo.'/'.$encuesta->id}}">{{ $encuesta->nombre}}</a></h6>
+                                <h6 class="mb-1 fw-semi-bold text-nowrap">
+                                    <a class="form_edicion_tg_{{$encuesta->id}} text-900 stretched-link" href="{{ '/encuestas/'.request()->tipo.'/'.$encuesta->id}}">{{ $encuesta->nombre}}</a>
+                                    <form id="form_edicion_{{$encuesta->id}}" class="submit_prevent_form d-none">
+                                        <input type="text" name="nombre_encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" value="<?= $encuesta->nombre; ?>" class="form-control">
+                                    </form>
+                                </h6>
                                 @endif
                             @else
-                                <h6 class="mb-1 fw-semi-bold text-nowrap"><a class="text-900 stretched-link" href="{{ '/encuestas/'.$encuesta->id}}">{{ $encuesta->nombre; }}</a></h6>
+                                <h6 class="mb-1 fw-semi-bold text-nowrap desc_encuesta">
+                                    <a class="form_edicion_tg_{{$encuesta->id}} encuesta_edit text-900 stretched-link" href="{{ '/encuestas/'.$encuesta->id}}">{{ $encuesta->nombre; }}</a>
+                                    <form id="form_edicion_{{$encuesta->id}}" class="d-none">
+                                        <input type="text" name="nombre_encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" value="<?= $encuesta->nombre; ?>" class="form-control">
+                                    </form>
+                                </h6>
                             @endif
                             <p class="fw-semi-bold mb-0 text-500">{{ ucfirst($encuesta->tipo); }}</p>
                             </div>
@@ -59,6 +69,8 @@
                     <td class="align-middle text-center fw-semi-bold">
                         <i id="encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi-trash px-2 border  float-end  eliminar_encuesta" title="Eliminar Encuesta"></i>
                         <a href="/encuestas?duplicar={{$encuesta->id}}" onclick="confirm('Seguro que desea duplicar esta encuesta?')"><i class="bi bi-folder-plus px-2 border float-end duplicar_encuesta" data-id="{{$encuesta->id}}" title="Duplicar Encuesta"></i></a>
+                        <i id="edit_encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi bi-pencil px-2 border float-end edit_encuesta" title="Editar"></i>
+                        <i id="guardar_encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi bi-check px-2 border float-end guardar_nombre_encuesta d-none" title="Guardar"></i>
                     </td>
                 </tr>
                 @endforeach
@@ -71,8 +83,41 @@
     </div>
     <script>
         jQuery(document).ready(function() {
+            jQuery('.submit_prevent_form').on('submit', function(e) {
+                e.preventDefault();
+            });
+            jQuery('.edit_encuesta').on('click', function(e) {
+                let element = jQuery(e.currentTarget);
+                let id = '#form_edicion_'+element.attr('data-id');
+                let id_others = '.form_edicion_tg_'+element.attr('data-id');
+                jQuery(id).toggleClass('d-none');
+                jQuery(id_others).toggleClass('d-none');
+                jQuery('#guardar_encuesta_' + element.attr('data-id')).toggleClass('d-none')
+                jQuery('#edit_encuesta_' + element.attr('data-id')).toggleClass('d-none')
+            })
+            jQuery('.guardar_nombre_encuesta').on('click', function(e){
+                let element = jQuery(e.currentTarget);
+                let id = element.attr('data-id');
+                let nuevo_nombre = jQuery('input[name="nombre_encuesta_'+id+'"]').val();
+                console.log(nuevo_nombre);
+                jQuery.ajax({
+                    method: "put",
+                    url: "/encuestas/" + id,
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        nombre: nuevo_nombre
+
+                    }
+                }).done(function(response) {
+                    let id = '#form_edicion_'+element.attr('data-id');
+                    let id_others = '.form_edicion_tg_'+element.attr('data-id');
+                    jQuery(id).toggleClass('d-none');
+                    jQuery(id_others).toggleClass('d-none');
+                    jQuery('#guardar_encuesta_' + element.attr('data-id')).toggleClass('d-none')
+                    jQuery('#edit_encuesta_' + element.attr('data-id')).toggleClass('d-none')
+                });
+            })
             jQuery('.eliminar_encuesta').each(function(k,e) {
-                console.log(e);
                 jQuery(e).on('click', function(el) {
                     let encuesta_id = jQuery(el.currentTarget).attr('data-id');
                     if (confirm('Seguro que desea eliminar completamente esta encuesta?')) {

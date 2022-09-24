@@ -12,6 +12,7 @@ class RespuestaPreguntas extends Model
         'respuesta',
         'pregunta_id',
         'encuesta_id',
-        'opciones'
+        'opciones',
+        'egresado_id'
     ];
 }

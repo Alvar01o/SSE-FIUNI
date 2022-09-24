@@ -51,6 +51,34 @@ class Encuestas extends Model
         }
     }
 
+    public function status(User $user, $encuesta_id) {
+        $encuesta = Encuestas::find($encuesta_id);
+        $preguntas = $encuesta->preguntas()->getResults()->all();
+        $respuestas = $encuesta->respuestas($user);
+        $cantidad_preguntas_requeridas = 0;
+        $cantidad_respuestas_requeridas = 0;
+        foreach ($preguntas as $pregunta) {
+            if ($pregunta->requerido) {
+                $cantidad_preguntas_requeridas++;
+                if (isset($respuestas[$pregunta->id])) {
+                    $cantidad_respuestas_requeridas++;
+                }
+            }
+        }
+        $porcentaje_completo = ($cantidad_respuestas_requeridas) ? ($cantidad_respuestas_requeridas/$cantidad_preguntas_requeridas) * 100 : 0;
+        return ['porcentaje' => $porcentaje_completo , 'status' => (($porcentaje_completo == 100) ? 'Completo' : (($porcentaje_completo == 0) ? 'Pendiente' : 'En progreso'))];
+    }
+
+    public function respuestas(User $user)
+    {
+        $respuestas = RespuestaPreguntas::where('encuesta_id', '=', $this->id)->where('egresado_id', '=', $user->id)->get();
+        $parse = [];
+        foreach($respuestas as $respuesta) {
+            $parse[$respuesta->pregunta_id] = $respuesta;
+        }
+        return $parse ? $parse : [];
+    }
+
     public function existeUsuarioAsignado($user_id, $devolver_usuario = false) {
         if (!empty($this->_id_de_usuarios_asignados)) {
             if (in_array($user_id, $this->_id_de_usuarios_asignados)) {
