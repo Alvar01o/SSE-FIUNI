@@ -67,10 +67,13 @@
                     </td>
                     <td class="align-middle text-center fw-semi-bold">{{ date('Y-m-d', strtotime($encuesta->created_at));}}</td>
                     <td class="align-middle text-center fw-semi-bold">
+                        <a href="/reporte_encuesta/{{$encuesta->id}}"><i class="bi bi-file-earmark-ruled float-end px-2 border" title="Reporte de Encuesta"></i></a>
+
                         <i id="encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi-trash px-2 border  float-end  eliminar_encuesta" title="Eliminar Encuesta"></i>
                         <a href="/encuestas?duplicar={{$encuesta->id}}" onclick="confirm('Seguro que desea duplicar esta encuesta?')"><i class="bi bi-folder-plus px-2 border float-end duplicar_encuesta" data-id="{{$encuesta->id}}" title="Duplicar Encuesta"></i></a>
                         <i id="edit_encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi bi-pencil px-2 border float-end edit_encuesta" title="Editar"></i>
                         <i id="guardar_encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi bi-check px-2 border float-end guardar_nombre_encuesta d-none" title="Guardar"></i>
+
                     </td>
                 </tr>
                 @endforeach

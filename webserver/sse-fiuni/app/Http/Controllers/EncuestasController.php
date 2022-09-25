@@ -114,20 +114,30 @@ class EncuestasController extends Controller
             }
 
             $preguntas = Preguntas::where('encuesta_id', '=', $encuesta->id)->get();
-            $respuestas = RespuestaPreguntas::where('encuesta_id', '=', $encuesta->id)->get();
+            $respuestas = RespuestaPreguntas::where('encuesta_id', '=', $encuesta->id)->where('egresado_id', '=', $this->getUser()->id)->get();
             $parsed = [];
             foreach($respuestas as $resp) {
-                $parsed[$resp->id] = $resp;
+                $parsed[$resp->pregunta_id] = $resp;
             }
             foreach ($preguntas  as $pregunta) {
                 if ($pregunta->tipo_pregunta == Preguntas::TIPO_PREGUNTA) {
-                    $respuesta_nueva = RespuestaPreguntas::create([
+                    if (!$request->input($pregunta->id)) {
+                        continue;
+                    }
+                    $data = [
                         'pregunta_id' => $pregunta->id,
                         'encuesta_id' => $encuesta->id,
                         'egresado_id' => $this->getUser()->id,
-                        'respuesta' => $request->input($pregunta->id),
+                        'respuesta' => $request->input($pregunta->id) ? $request->input($pregunta->id) : '',
                         'opciones' => '[]'
-                    ]);
+                    ];
+                    // error por aca al guardar - se duplica
+                    if (isset($parsed[$pregunta->id])) {
+                        $respuesta_existente = $parsed[$pregunta->id];
+                        $respuesta_existente->update($data);
+                    } else {
+                        $respuesta_nueva = RespuestaPreguntas::create($data);
+                    }
                 } else {
                     $respuesta = $request->input($pregunta->id);
                     if ($respuesta) {
@@ -142,13 +152,19 @@ class EncuestasController extends Controller
                         if (!is_array($respuesta)) {
                             $opciones = [$respuesta];
                         }
-                        $respuesta_nueva = RespuestaPreguntas::create([
+                        $data = [
                             'pregunta_id' => $pregunta->id,
                             'encuesta_id' => $encuesta->id,
                             'egresado_id' => $this->getUser()->id,
                             'opciones' => json_encode($opciones),
-                            'respuesta' => $justificacion
-                        ]);
+                            'respuesta' => $justificacion  ?  $justificacion : ''
+                        ];
+                        if (isset($parsed[$pregunta->id])) {
+                            $respuesta_existente = $parsed[$pregunta->id];
+                            $respuesta_existente->update($data);
+                        } else {
+                            $respuesta_nueva = RespuestaPreguntas::create($data);
+                        }
                     }
                 }
             }

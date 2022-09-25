@@ -69,6 +69,16 @@ class Encuestas extends Model
         return ['porcentaje' => $porcentaje_completo , 'status' => (($porcentaje_completo == 100) ? 'Completo' : (($porcentaje_completo == 0) ? 'Pendiente' : 'En progreso'))];
     }
 
+    public function respuestasById($id)
+    {
+        $respuestas = RespuestaPreguntas::where('encuesta_id', '=', $this->id)->where('egresado_id', '=', $id)->get();
+        $parse = [];
+        foreach($respuestas as $respuesta) {
+            $parse[$respuesta->pregunta_id] = $respuesta;
+        }
+        return $parse ? $parse : [];
+    }
+
     public function respuestas(User $user)
     {
         $respuestas = RespuestaPreguntas::where('encuesta_id', '=', $this->id)->where('egresado_id', '=', $user->id)->get();

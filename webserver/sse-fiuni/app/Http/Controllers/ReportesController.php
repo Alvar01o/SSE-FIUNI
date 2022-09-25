@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Exports\EncuestasExport;
+use Maatwebsite\Excel\Facades\Excel;
 class ReportesController extends Controller
 {
     /**
@@ -20,6 +21,10 @@ class ReportesController extends Controller
         }
     }
 
+
+    public function reporte_encuesta($id, Request $request) {
+        return (new EncuestasExport($id))->download('Reporte_Encuesta_'.date('d-m-Y:h').'.xlsx');
+    }
     /**
      * Show the form for creating a new resource.
      *
