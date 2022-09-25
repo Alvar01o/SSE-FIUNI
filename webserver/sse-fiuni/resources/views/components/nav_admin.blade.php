@@ -78,7 +78,7 @@
             <hr class="mb-0 navbar-vertical-divider" />
         </div>
     </div>
-    <a class="nav-link" href="#" role="button" data-bs-toggle="" aria-expanded="false">
+    <a class="nav-link" href="/reportes" role="button" data-bs-toggle="" aria-expanded="false">
         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-chart-bar"></span></span><span class="nav-link-text ps-1">Generar Reportes</span>
         </div>
     </a>
