@@ -153,7 +153,7 @@ class DatabaseSeeder extends Seeder
         Laboral::create(['empresa' => 'MoV']);
 
         $encuestaEmpleador = Encuestas::create([
-            'nombre' => 'Encuesta Empelador 2022',
+            'nombre' => 'Encuesta Empleador 2022',
             'tipo' => 'empleador'
         ]);
 

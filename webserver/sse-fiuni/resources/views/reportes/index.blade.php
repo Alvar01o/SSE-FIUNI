@@ -19,7 +19,7 @@
         @endif
     </div>
     @endforeach
-    <h3 class="py-4">Encuestas Empelador</h3>
+    <h3 class="py-4">Encuestas Empleador</h3>
     @foreach($encuestas_empleador as $em)
     <div class="card overflow-hidden" style="width: 20rem;">
     <div class="card-body">

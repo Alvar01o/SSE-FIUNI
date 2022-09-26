@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Encuestas;
+use App\Models\Preguntas;
+use App\Models\OpcionesPregunta;
+use App\Models\RespuestaPreguntas;
 use App\Exports\EncuestasExport;
+
 use Maatwebsite\Excel\Facades\Excel;
 class ReportesController extends Controller
 {
@@ -37,25 +41,40 @@ class ReportesController extends Controller
     }
 
 
-    public function reporte_pregutna($id, Request $request) {
+    public function reporte_pregunta($id, Request $request) {
         $pregunta = Preguntas::find($id);
         if ($pregunta) {
             $todas_las_respuestas = RespuestaPreguntas::where('pregunta_id', '=', $id)->where('encuesta_id', '=', $pregunta->encuesta_id)->get();
             $data = [];
-            if ($pregunta->tipo_pregunta == '' ) {
+            if ($pregunta->tipo_pregunta == 'pregunta') {
+                $data['type'] = 'pregunta';
+                $data['respuestas'] = 0;
+                foreach($todas_las_respuestas as $respuesta) {
+                    if(isset($data['respuestas'])) {
+                        $data['respuestas']++;
+                    }
+                }
+            } else {
+                $data['type'] = $pregunta->tipo_pregunta;
+                $opciones = OpcionesPregunta::where('encuesta_id', '=', $pregunta->encuesta_id)->where('pregunta_id', '=', $pregunta->id)->get();
+                foreach($opciones as $opcion) {
+                    $data['opciones'][$opcion->opcion] =  0;
+                }
 
+                foreach($todas_las_respuestas as $respuesta) {
+                    $opciones_seleccionadas = json_decode($respuesta->opciones);
+                    foreach($opciones_seleccionadas as $seleccion) {
+                        if ($opciones->find($seleccion)) {
+                            $data['opciones'][$opciones->find($seleccion)->opcion]++;
+                        }
+                    }
+                }
             }
-
-            foreach($todas_las_respuestas as $respuesta) {
-
-            }
-
-            return response()->json([
-                'status' => 'success',
-                'msg' => 'Encuesta Actualizada correctamente'
-            ]);
+            $data['status'] = 'success';
+            return response()->json($data);
         } else {
-            //error
+            $data['status'] = 'error';
+            return response()->json($data);
         }
     }
 

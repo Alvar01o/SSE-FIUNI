@@ -81,6 +81,6 @@ Route::group(['middleware' => ['sessionChecked']], function () {
     Route::get('/reporte_encuestas_completas/{id}', [ReportesController::class, 'reporte_encuestas_completas'])->name('reporte_encuestas_completas');
 
     Route::get('/reportes/encuesta/{id}', [ReportesController::class, 'encuesta'])->name('reporte_por_preguntas');
-    Route::get('/reporte_pregunta/encuesta/{id}', [ReportesController::class, 'encuesta'])->name('reporte_por_preguntas');
+    Route::get('/reporte_pregunta/{id}', [ReportesController::class, 'reporte_pregunta'])->name('reporte_pregunta');
 
 });

@@ -4,7 +4,7 @@
 
 <div class="list-group mt-5">
 @foreach($encuesta->preguntas as $pregunta)
-<a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#report_pregunta" aria-current="true">
+<a href="#" class="list-group-item list-group-item-action trigger-chart" data-id="{{$pregunta->id}}" data-bs-toggle="modal" data-bs-target="#report_pregunta" aria-current="true">
     <div class="d-flex w-100 justify-content-between">
          <h5 class="mb-1">{{$pregunta->pregunta}}</h5>
     </div>
@@ -33,24 +33,19 @@
     </div>
   </div>
 </div>
-</div>
-@endsection
 <script>
     jQuery(document).ready(function(){
-        jQuery.ajax({
-                method: "put",
-                url: "/encuestas/" + id,
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    nombre: nuevo_nombre
-                }
+        jQuery('.trigger-chart').on('click', function(e) {
+            let id = jQuery(e.currentTarget).attr('data-id')
+            jQuery.ajax({
+                method: "get",
+                url: "/reporte_pregunta/" + id
             }).done(function(response) {
-                let id = '#form_edicion_'+element.attr('data-id');
-                let id_others = '.form_edicion_tg_'+element.attr('data-id');
-                jQuery(id).toggleClass('d-none');
-                jQuery(id_others).toggleClass('d-none');
-                jQuery('#guardar_encuesta_' + element.attr('data-id')).toggleClass('d-none')
-                jQuery('#edit_encuesta_' + element.attr('data-id')).toggleClass('d-none')
+                console.log(response)
             });
+        })
     })
 </script>
+
+</div>
+@endsection
