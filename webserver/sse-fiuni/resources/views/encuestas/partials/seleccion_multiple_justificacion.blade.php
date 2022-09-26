@@ -8,7 +8,7 @@
             <div class="float-left col-9"><h2>Seleccion Multiple con justificacion</h2></div>
             <div class="float-right col-3 pt-3 form-check form-switch">
                 <label class=" form-check-label" for="flexCheckDefault">Requerido</label>
-                <input class=" form-check-input" id="flexCheckDefault" name="requerido" type="checkbox"/>
+                <input class=" form-check-input" id="flexCheckDefault" checked="checked" name="requerido" type="checkbox"/>
             </div>
         </div>
         <div class="mb-4">

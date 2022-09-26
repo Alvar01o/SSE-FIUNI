@@ -36,8 +36,37 @@ class ReportesController extends Controller
         }
     }
 
+
+    public function reporte_pregutna($id, Request $request) {
+        $pregunta = Preguntas::find($id);
+        if ($pregunta) {
+            $todas_las_respuestas = RespuestaPreguntas::where('pregunta_id', '=', $id)->where('encuesta_id', '=', $pregunta->encuesta_id)->get();
+            $data = [];
+            if ($pregunta->tipo_pregunta == '' ) {
+
+            }
+
+            foreach($todas_las_respuestas as $respuesta) {
+
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'msg' => 'Encuesta Actualizada correctamente'
+            ]);
+        } else {
+            //error
+        }
+    }
+
     public function reporte_encuesta($id, Request $request) {
-        return (new EncuestasExport($id))->download('Reporte_Encuesta_'.date('d-m-Y:h').'.xlsx');
+        $encuesta = Encuestas::find($id);
+        return (new EncuestasExport($id))->download($encuesta->nombre.' - '.date('d-m-Y:h').'.xlsx');
+    }
+
+    public function reporte_encuestas_completas($id, Request $request) {
+        $encuesta = Encuestas::find($id);
+        return (new EncuestasExport($id, 1))->download($encuesta->nombre.' - '.date('d-m-Y:h').'.xlsx');
     }
     /**
      * Show the form for creating a new resource.

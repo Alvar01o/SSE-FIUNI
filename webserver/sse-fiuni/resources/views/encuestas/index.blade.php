@@ -99,7 +99,6 @@
                 let element = jQuery(e.currentTarget);
                 let id = element.attr('data-id');
                 let nuevo_nombre = jQuery('input[name="nombre_encuesta_'+id+'"]').val();
-                console.log(nuevo_nombre);
                 jQuery.ajax({
                     method: "put",
                     url: "/encuestas/" + id,

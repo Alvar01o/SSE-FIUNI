@@ -78,5 +78,9 @@ Route::group(['middleware' => ['sessionChecked']], function () {
     Route::delete('/encuestas/eliminar_pregunta/{encuesta_id}/{pregunta_id}', [EncuestasController::class, 'eliminarPregunta'])->name('eliminar_pregunta');
     Route::put('/encuestas/actualizar_pregunta/{id}', [EncuestasController::class, 'actualizarPregunta'])->name('actualizar_pregunta');
     Route::get('/reporte_encuesta/{id}', [ReportesController::class, 'reporte_encuesta'])->name('descargar_reporte_encuesta');
+    Route::get('/reporte_encuestas_completas/{id}', [ReportesController::class, 'reporte_encuestas_completas'])->name('reporte_encuestas_completas');
+
     Route::get('/reportes/encuesta/{id}', [ReportesController::class, 'encuesta'])->name('reporte_por_preguntas');
+    Route::get('/reporte_pregunta/encuesta/{id}', [ReportesController::class, 'encuesta'])->name('reporte_por_preguntas');
+
 });
