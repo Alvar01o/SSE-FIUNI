@@ -104,7 +104,16 @@ svg.eliminar_pregunta:hover {
 .duplicar_encuesta:hover {
   font-size: large !important;
 }
+.bg-pendiente {
+  background-color: #c4c4c4 !important;
+}
 
 .toast-body {
   font-weight: 700;
+}
+.fa-pencil-alt {
+  color: #4747b4a8 !important;
+}
+.fa-trash-alt {
+  color: #f53b3bc7 !important;
 }

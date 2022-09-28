@@ -76,7 +76,7 @@ const echartsPieChartInit = () => {
       ],
       tooltip: {
         trigger: 'item',
-        padding: [7, 10],
+        padding: [7, 10], 
         backgroundColor: utils.getGrays()['100'],
         borderColor: utils.getGrays()['300'],
         textStyle: { color: utils.getColors().dark },

@@ -46,8 +46,9 @@ class ReportesController extends Controller
         if ($pregunta) {
             $todas_las_respuestas = RespuestaPreguntas::where('pregunta_id', '=', $id)->where('encuesta_id', '=', $pregunta->encuesta_id)->get();
             $data = [];
+            $data['titulo'] = $pregunta->pregunta;
             if ($pregunta->tipo_pregunta == 'pregunta') {
-                $data['type'] = 'pregunta';
+                $data['tipo'] = 'pregunta';
                 $data['respuestas'] = 0;
                 foreach($todas_las_respuestas as $respuesta) {
                     if(isset($data['respuestas'])) {
@@ -55,12 +56,11 @@ class ReportesController extends Controller
                     }
                 }
             } else {
-                $data['type'] = $pregunta->tipo_pregunta;
+                $data['tipo'] = $pregunta->tipo_pregunta;
                 $opciones = OpcionesPregunta::where('encuesta_id', '=', $pregunta->encuesta_id)->where('pregunta_id', '=', $pregunta->id)->get();
                 foreach($opciones as $opcion) {
                     $data['opciones'][$opcion->opcion] =  0;
                 }
-
                 foreach($todas_las_respuestas as $respuesta) {
                     $opciones_seleccionadas = json_decode($respuesta->opciones);
                     foreach($opciones_seleccionadas as $seleccion) {

@@ -39,6 +39,6 @@ class Preguntas extends Migration
     public function down()
     {
         Schema::dropIfExists('preguntas');
-        DB::unprepared('DROP TRIGGER `encuestas_ad`');
+        DB::unprepared('DROP TRIGGER IF EXISTS `encuestas_ad`');
     }
 }

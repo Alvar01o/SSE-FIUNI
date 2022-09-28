@@ -58,11 +58,17 @@
                     <td class="align-middle text-center fw-semi-bold">{{$encuesta->preguntas()->count()}}</td>
                     <td class="align-middle text-center fw-semi-bold">{{$encuesta->encuestaUsers()->count()}}</td>
                     <td class="align-middle pe-card">
-                        <div class="d-flex align-items-center">
-                            <div class="progress me-3 rounded-3 bg-200" style="height: 5px;width:80px">
-                            <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="fw-semi-bold ms-2">0%</div>
+                    <?php
+                        $estado_report = $encuesta->statusEgresados($encuesta->encuesta_id);
+                        $estado = $estado_report['estado'];
+                        $total_pendientes = $estado['Pendiente'] ? round(($estado['Pendiente'] / $estado_report['total_usuarios_asignados']) * 100) : 0;
+                        $total_progreso = $estado['progreso'] ? round(($estado['progreso'] / $estado_report['total_usuarios_asignados']) * 100) : 0 ;
+                        $total_completo = $estado['Completo'] ? round(($estado['Completo'] / $estado_report['total_usuarios_asignados']) * 100) : 0;
+                    ?>
+                    <div class="progress" style="height:4px">
+                            <div class="progress-bar bg-pendiente" title="<?= $estado['Pendiente'];?> PENDIETE" role="progressbar" style="width: <?= $total_pendientes?>%" aria-valuenow="<?= $total_pendientes?>" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" title="<?= $estado['progreso'];?> EN PROGRESO" role="progressbar" style="width: <?= $total_progreso?>%" aria-valuenow="<?= $total_progreso?>" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" title="<?= $estado['Completo'];?> COMPLETO" style="width: <?= $total_completo?>%" aria-valuenow="<?= $total_completo?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </td>
                     <td class="align-middle text-center fw-semi-bold">{{ date('Y-m-d', strtotime($encuesta->created_at));}}</td>

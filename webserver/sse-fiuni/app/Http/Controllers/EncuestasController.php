@@ -244,7 +244,7 @@ class EncuestasController extends Controller
             $users = $users->paginate(30);
             $carreras = Carreras::get();
         }
-        return view('encuestas.show', ['encuesta' => $encuesta, 'egresados' => $users, 'carreras' => $carreras, 'asignados' => $asignados]);
+        return view('encuestas.show', ['encuesta' => $encuesta, 'egresados' => $users, 'carreras' => $carreras, 'asignados' => $asignados, 'estado' => $encuesta->statusEgresados()]);
     }
 
     /**

@@ -28,9 +28,9 @@
     <script src="{{asset('js/choices/choices.min.js')}}"></script>
     <script src="{{asset('js/flatpickr.js')}}"></script>
     <script src="{{asset('js/typeahead.js')}}"></script>
-
     <script src="{{asset('js/es.js')}}"></script>
 
+    <script src="{{asset('vendors/echarts/echarts.min.js')}}"></script>
 
     <!-- ===============================================-->
     <!--    Stylesheets-->

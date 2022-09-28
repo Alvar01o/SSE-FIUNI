@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 class Encuestas extends Model
 {
     use HasFactory;
@@ -49,6 +50,46 @@ class Encuestas extends Model
                 return false;
             }
         }
+    }
+
+
+    public function statusEgresados($encuesta_id = null ) {
+
+        if (is_null($encuesta_id)) {
+            $encuesta_id = $this->id;
+        }
+
+        $preguntas = Preguntas::where('encuesta_id', '=', $encuesta_id)->where('requerido', '=', 1)->count();
+        $respuesta_preguntas_requeridas = RespuestaPreguntas::select(['respuesta_preguntas.egresado_id as egresado_id', DB::raw('count(*) as preguntas_requeridas')])
+        ->join('preguntas', 'preguntas.id', '=', 'respuesta_preguntas.pregunta_id')
+        ->where('preguntas.encuesta_id', '=', $encuesta_id)
+        ->where('preguntas.requerido', '=', 1)
+        ->groupBy('egresado_id')->get();
+        $usuarios_asignados = $this->getUsuariosAsignados();
+        $cantidad_por_estado = [
+            'Pendiente' => 0,
+            'progreso' => 0,
+            'Completo' => 0
+        ];
+
+        $pr = [];
+        foreach($respuesta_preguntas_requeridas as $r) {
+            $pr[$r->egresado_id]  = $r->preguntas_requeridas;
+        }
+
+        foreach($usuarios_asignados as $usuario) {
+            if(isset($pr[$usuario->user_id])) {
+                $usuario_con_respuestas = $pr[$usuario->user_id];
+                if ($usuario_con_respuestas == $preguntas) {
+                    $cantidad_por_estado['Completo']++;
+                } elseif ($usuario_con_respuestas > 0 ) {
+                    $cantidad_por_estado['progreso']++;
+                }
+            } else {
+                $cantidad_por_estado['Pendiente']++;
+            }
+        }
+        return ['usuarios' => $pr, 'estado' => $cantidad_por_estado, 'total_preguntas_requeridas' => $preguntas, 'total_usuarios_asignados' => $usuarios_asignados->count()];
     }
 
     public function status(User $user, $encuesta_id) {

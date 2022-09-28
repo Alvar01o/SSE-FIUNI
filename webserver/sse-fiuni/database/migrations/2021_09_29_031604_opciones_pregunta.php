@@ -38,7 +38,7 @@ class OpcionesPregunta extends Migration
     public function down()
     {
         Schema::dropIfExists('opciones_preguntas');
-        DB::unprepared('DROP TRIGGER `preguntas_ad`');
+        DB::unprepared('DROP TRIGGER IF EXISTS `preguntas_ad`');
 
     }
 }
