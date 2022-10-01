@@ -51,7 +51,7 @@ class EncuestasController extends Controller
                 return redirect('encuestas');
             }
         }
-        $encuestas = Encuestas::where('tipo', '=', $tipo)->get();
+        $encuestas = Encuestas::where('tipo', '=', $tipo)->orderByDesc('updated_at')->get();
         return view('encuestas.index', ['encuestas' => $encuestas, 'tipo' => $tipo]);
     }
 
@@ -168,7 +168,27 @@ class EncuestasController extends Controller
                     }
                 }
             }
+            // si esta completo redireccionar a mensaje
+            $status = $encuesta->status($this->getUser(), $encuesta->id);
+            if ($status['porcentaje'] == 100) {
+                return redirect('/encuestas/completo/'.$encuesta->id);
+            }
             return redirect('/encuestas/completar/'.$encuesta->id);
+        } else {
+            return view('error_permisos');
+        }
+    }
+
+    public function completo($id, Request $request)
+    {
+        $encuesta = Encuestas::find($id);
+        if ($this->getUser()->asignadoA($encuesta->id)) {
+            $status = $encuesta->status($this->getUser(), $encuesta->id);
+            if ($status['porcentaje'] == 100) {
+                return view('encuesta_completa', ['encuesta' => $encuesta, 'user' => $this->getUser()]);
+            } else {
+                return redirect('/encuestas/completar/'.$encuesta->id);
+            }
         } else {
             return view('error_permisos');
         }
@@ -351,6 +371,11 @@ class EncuestasController extends Controller
             'encuesta_id' => 'required|integer'
         ]);
         $pregunta = NULL;
+        $encuesta = Encuestas::find(intval($request->input('encuesta_id')));
+        if ($encuesta->bloqueado()) {
+            return view('error_permisos');
+        }
+
         if ($validator->fails()) {
             return redirect("/encuestas/{$request->input('encuesta_id')}")
                         ->withErrors($validator);

@@ -7,13 +7,13 @@
 <form method="POST" action="/egresado" class="eliminarEgresadoForm d-inline needs-validation" novalidate>
     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
     <div class="mb-3">
-        <input class="form-control" value="{{ $user->nombre }}" type="text" autocomplete="on" minlength="3" maxlength="30" placeholder="Nombre" name="nombre" required/>
+        <input class="form-control" value="{{ $user->nombre }}" type="text" autocomplete="on" minlength="3" maxlength="50" placeholder="Nombre" name="nombre" required/>
         <div class="invalid-feedback">
             Campo Requerido.
         </div>
     </div>
     <div class="mb-3">
-        <input class="form-control" value="{{ $user->apellido }}" type="text" autocomplete="on" minlength="3" maxlength="30" placeholder="Apellido" name="apellido" required/>
+        <input class="form-control" value="{{ $user->apellido }}" type="text" autocomplete="on" minlength="3" maxlength="50" placeholder="Apellido" name="apellido" required/>
         <div class="invalid-feedback">
             Campo Requerido.
         </div>

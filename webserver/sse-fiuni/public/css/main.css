@@ -60,8 +60,18 @@ tbody#sm_options_table > tr > td {
   max-width: 155px;
   width: 155px;
 }
+.descargar_reporte_cont {
+  max-width: 340px;
+  width: 340px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
 .descargar_reporte_cont:hover,
 .descargar_reporte_cont:hover > a {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  max-width: 340px;
+  width: 340px;
   background-color: #840101;
   color: white !important;
 }
@@ -107,6 +117,10 @@ svg.eliminar_pregunta:hover {
 .bg-pendiente {
   background-color: #c4c4c4 !important;
 }
+.requerido_pendiente {
+  border: 1px solid red;
+  box-shadow: 4px 3px 8px #f537376b;
+}
 
 .toast-body {
   font-weight: 700;
@@ -116,4 +130,9 @@ svg.eliminar_pregunta:hover {
 }
 .fa-trash-alt {
   color: #f53b3bc7 !important;
+}
+.filtro {
+  border: 1px solid #cccccc42;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }

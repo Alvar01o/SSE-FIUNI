@@ -16,9 +16,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.index', [
-            1, 2, 3
-        ]);
+        if (!$this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
+            return view('error_permisos');
+        }
+        $carreras = Carreras::all();
+        return view('admin.index', ['carreras' => $carreras, 'user' => $this->getUser()]);
     }
 
     public function lista(Request $request)

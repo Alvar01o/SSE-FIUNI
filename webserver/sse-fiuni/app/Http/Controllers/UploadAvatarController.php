@@ -19,7 +19,7 @@ class UploadAvatarController extends Controller
         $request->validate([
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
-        $user_id = $request->input('user_id');
+        $user_id = intval($request->input('user_id'));
         if ($user_id !== $this->getUser()->id && !$this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
             return view('error_permisos');
         } else {

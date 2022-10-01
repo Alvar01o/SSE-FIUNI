@@ -72,6 +72,7 @@ Route::group(['middleware' => ['sessionChecked']], function () {
     Route::get('/encuestas/duplicar/{id_pregunta}', [EncuestasController::class, 'duplicar'])->name('duplicarPregunta');
     Route::post('/encuestas/add_usuarios/{id}', [EncuestasController::class, 'addUsuarios'])->name('addUsuarios');
     Route::get('/encuestas/completar/{id}', [EncuestasController::class, 'completar'])->name('completar');
+    Route::get('/encuestas/completo/{id}', [EncuestasController::class, 'completo'])->name('completo');
     Route::resource('encuestas', EncuestasController::class);
     Route::get('/encuestas/empleador/{id}', [EncuestasController::class, 'show'])->name('encuestas_empleador');
     Route::get('/encuestas/lista/{tipo}', [EncuestasController::class, 'index'])->name('ver_por_rol');
@@ -82,5 +83,6 @@ Route::group(['middleware' => ['sessionChecked']], function () {
 
     Route::get('/reportes/encuesta/{id}', [ReportesController::class, 'encuesta'])->name('reporte_por_preguntas');
     Route::get('/reporte_pregunta/{id}', [ReportesController::class, 'reporte_pregunta'])->name('reporte_pregunta');
+    Route::get('/reportes_empleador', [ReportesController::class, 'reportes_empleador'])->name('reporte_por_preguntas_empleador');
 
 });

@@ -15,9 +15,16 @@ if (isset($_GET['seccion'])) {
 </ul>
 <div class="tab-content p-3" id="myTabContent">
 <div class="tab-pane fade <?= $tabUsuarios ? '' : 'active show';?>" id="tab-preguntas" role="tabpanel" aria-labelledby="preguntas-tab">
-  <div class="card theme-wizard mb-5">
+    @if ($encuesta->bloqueado())
+        <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading fw-semi-bold">Ya no es posible editar esta Encuesta.</h4>
+        <p>Las Encuestas que ya han sido contestadas por algun Egresados no pueden ser modificadas.</p>
+        <p class="mb-0">Si desea realizar una encuesta similar puede Duplicar esta Encuesta <a href="/encuestas">en la lista de Encuesta</a></p>
+        </div>
+    @endif
+    <div class="card theme-wizard mb-5">
         <div class="card-header bg-light pt-3 pb-2">
-            <ul class="nav justify-content-between nav-wizard">
+            <ul class="nav justify-content-between nav-wizard <?= ($encuesta->bloqueado()) ? 'd-none' : '';?>">
                 <li class="nav-item"><a class="nav-link active fw-semi-bold" href="#step-tab1" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><svg class="svg-inline--fa fa-lock fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="lock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path></svg><!-- <span class="fas fa-lock"></span> Font Awesome fontawesome.com --></span></span><span class="d-none d-md-block mt-1 fs--1">Seleccione tipo de Pregunta</span></a></li>
                 <li class="nav-item"><a class="nav-link fw-semi-bold" href="#step-tab2" data-bs-toggle="tab" data-wizard-step="data-wizard-step"><span class="nav-item-circle-parent"><span class="nav-item-circle"><svg class="svg-inline--fa fa-user fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg><!-- <span class="fas fa-user"></span> Font Awesome fontawesome.com --></span></span><span class="d-none d-md-block mt-1 fs--1">Complete pregunta</span></a></li>
             </ul>
@@ -42,13 +49,6 @@ if (isset($_GET['seccion'])) {
                 @include('encuestas.partials.seleccion_justificacion')
                 <hr/>
             </div>
-            <div class="tab-pane text-center px-sm-3 px-md-5" role="tabpanel" aria-labelledby="step-tab4" id="step-tab4">
-                <div class="wizard-lottie-wrapper">
-                <div class="lottie wizard-lottie mx-auto my-3" data-options="{&quot;path&quot;:&quot;../../assets/img/animated-icons/celebration.json&quot;}"></div>
-                </div>
-                <h4 class="mb-1">Your account is all set!</h4>
-                <p>Now you can access to your account</p><a class="btn btn-primary px-5 my-3" href="../../modules/forms/wizard.html">Start Over</a>
-            </div>
             </div>
         </div>
         <div class="card-footer bg-light">
@@ -58,7 +58,7 @@ if (isset($_GET['seccion'])) {
                     <button id="prev_btn" class="btn btn-link ps-0 d-none" type="button"><svg class="svg-inline--fa fa-chevron-left fa-w-10 me-2" data-fa-transform="shrink-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.3125em 0.5em;"><g transform="translate(160 256)"><g transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" transform="translate(-160 -256)"></path></g></g></svg><!-- <span class="fas fa-chevron-left me-2" data-fa-transform="shrink-3"></span> Font Awesome fontawesome.com -->Prev</button>
                 </li>
                 <li class="next">
-                    <button class="btn btn-primary px-5 px-sm-6" id="nextStep" type="submit">Siguiente<svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-2" data-fa-transform="shrink-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.3125em 0.5em;"><g transform="translate(160 256)"><g transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" transform="translate(-160 -256)"></path></g></g></svg><!-- <span class="fas fa-chevron-right ms-2" data-fa-transform="shrink-3"> </span> Font Awesome fontawesome.com --></button>
+                    <button class="btn btn-primary px-5 px-sm-6" <?= $encuesta->bloqueado() ? 'disabled' : ''; ?> id="nextStep" type="submit">Siguiente<svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-2" data-fa-transform="shrink-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="" style="transform-origin: 0.3125em 0.5em;"><g transform="translate(160 256)"><g transform="translate(0, 0)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" transform="translate(-160 -256)"></path></g></g></svg><!-- <span class="fas fa-chevron-right ms-2" data-fa-transform="shrink-3"> </span> Font Awesome fontawesome.com --></button>
                 </li>
             </ul>
             </div>
@@ -80,20 +80,28 @@ if (isset($_GET['seccion'])) {
                     <div class="card-body pt-2 col-md-12 pregunta_cont_{{ $pregunta->id }}">
                         <div class="row py-2">
                             <div class="col-xxl-7 col-lg-6 d-inline-flex justify-content-start">
-                                <h5 class="edit_titulo_pergunta">{{ $pregunta->pregunta }}</h5>
+                                    @if (!$encuesta->bloqueado())
+                                        <h5 class="edit_titulo_pergunta">{{ $pregunta->pregunta }}</h5>
+                                    @else
+                                        <h5 class="">{{ $pregunta->pregunta }}</h5>
+                                    @endif
                                 <input name="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" type="text" class="d-none input_titulo_pregunta" value="{{ $pregunta->pregunta}}"/>
                             </div>
                             @if($pregunta->requerido)
                                 <div class="float-end col-xxl-5 col-lg-6">
                                     <span class="badge bg-danger float-end">Obligatorio</span>
-                                    <i id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="bi-trash px-2 border  float-end  eliminar_pregunta" title="Eliminar Pregunta"></i>
-                                    <a href="/encuestas/duplicar/{{$pregunta->id}}"><i class="bi bi-folder-plus px-2 border float-end duplicar_pregunta" data-id="6" title="Duplicar Pregunta"></i></a>
+                                    @if (!$encuesta->bloqueado())
+                                        <i id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="bi-trash px-2 border  float-end  eliminar_pregunta" title="Eliminar Pregunta"></i>
+                                        <a href="/encuestas/duplicar/{{$pregunta->id}}"><i class="bi bi-folder-plus px-2 border float-end duplicar_pregunta" data-id="6" title="Duplicar Pregunta"></i></a>
+                                    @endif
                                     <span class="badge rounded-pill badge-soft-info pt-2 float-end" title="Tipo de Pregunta">[{{ ucfirst(str_replace('_', ' ', $pregunta->tipo_pregunta)) }}]</span>
                                 </div>
                             @else
                                 <div class="float-end col-xxl-5 col-lg-6">
-                                    <i id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="bi-trash px-2 border  float-end  eliminar_pregunta" title="Eliminar Pregunta"></i>
-                                    <a href="/encuestas/duplicar/{{$pregunta->id}}"><i class="bi bi-folder-plus px-2 border float-end duplicar_pregunta" data-id="6" title="Duplicar Pregunta"></i></a>
+                                    @if (!$encuesta->bloqueado())
+                                        <i id="pregunta_{{$pregunta->id}}" data-id="{{$pregunta->id}}" class="bi-trash px-2 border  float-end  eliminar_pregunta" title="Eliminar Pregunta"></i>
+                                        <a href="/encuestas/duplicar/{{$pregunta->id}}"><i class="bi bi-folder-plus px-2 border float-end duplicar_pregunta" data-id="6" title="Duplicar Pregunta"></i></a>
+                                    @endif
                                     <span class="badge rounded-pill badge-soft-info pt-2 float-end" title="Tipo de Pregunta">[{{ ucfirst(str_replace('_', ' ', $pregunta->tipo_pregunta)) }}]</span>
                                 </div>
                             @endif
@@ -289,6 +297,7 @@ jQuery(document).ready(function() {
     jQuery('#resetear_seleccionados').on('click', function() {
         checker.resetSeleccionados();
     })
+
     jQuery('.edit_titulo_pergunta').on('click', function(element) {
         let w = jQuery(element.currentTarget).width()
         jQuery(element.currentTarget).toggleClass('d-none');

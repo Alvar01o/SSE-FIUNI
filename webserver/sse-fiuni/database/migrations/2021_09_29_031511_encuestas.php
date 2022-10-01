@@ -16,6 +16,7 @@ class Encuestas extends Migration
         Schema::create('encuestas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->integer('bloqueado')->default(0);
             $table->enum('tipo', ['empleador', 'egresado']);
             $table->timestamps();
         });

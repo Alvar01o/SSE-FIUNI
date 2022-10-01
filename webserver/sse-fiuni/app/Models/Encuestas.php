@@ -93,6 +93,9 @@ class Encuestas extends Model
     }
 
     public function status(User $user, $encuesta_id) {
+        if (!$encuesta_id) {
+            $encuesta_id = $this->id;
+        }
         $encuesta = Encuestas::find($encuesta_id);
         $preguntas = $encuesta->preguntas()->getResults()->all();
         $respuestas = $encuesta->respuestas($user);
@@ -128,6 +131,10 @@ class Encuestas extends Model
             $parse[$respuesta->pregunta_id] = $respuesta;
         }
         return $parse ? $parse : [];
+    }
+
+    public function bloqueado() {
+        return RespuestaPreguntas::where('encuesta_id', '=', $this->id)->limit(1)->count() || $this->bloqueado;
     }
 
     public function existeUsuarioAsignado($user_id, $devolver_usuario = false) {

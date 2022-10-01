@@ -1,14 +1,26 @@
 @extends('layouts.admin')
 @section('content')
     <h1 class="p-4">{{ $encuesta->nombre }}</h1>
+    <div class="alert alert-success border-2 d-flex align-items-center d-none" id="completado_con_exito" role="alert">
+    <div class="bg-success me-3 icon-item"><span class="fas fa-check-circle text-white fs-3"></span></div>
+    <p class="mb-0 flex-1">Ya completaste las preguntas requeridas, la encuesta esta completa!</p>
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="alert alert-danger border-2 d-flex align-items-center d-none" id="mensaje_de_error" role="alert">
+        <div class="bg-danger me-3 icon-item"><span class="fas fa-times-circle text-white fs-3"></span></div>
+        <p class="mb-0 flex-1">Todavia existen preguntas requeridas por contestar.</p>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="list-group">
-    <?php $respuestas = $encuesta->respuestas($user); ?>
+    <?php $respuestas = $encuesta->respuestas($user);?>
     <form action="/encuestas/guardar_respuestas/{{ $encuesta->id }}" method="post">
         <input type="hidden" name="_method" value="POST">
         <input type="hidden" name="_token" value="{{ csrf_token() }}" required/>
+        <?php $mostrarError = false;?>
         @foreach ($encuesta->preguntas as $pregunta)
         <?php $respuesta = isset($respuestas[$pregunta->id]) ? $respuestas[$pregunta->id] : [];?>
-            <div class="list-group-item flex-column align-items-start p-3 p-sm-4">
+            <div class="list-group-item flex-column {{!empty($respuestas) && !$respuesta && $pregunta->requerido ? 'requerido_pendiente' : '' }} align-items-start p-3 p-sm-4">
+                <?php $mostrarError = !empty($respuestas) && !$respuesta && $pregunta->requerido ? true : $mostrarError;?>
                 <div class="card-body pt-2">
                     <div class="row py-2">
                             <div class="col-xxl-7 col-lg-6 d-inline-flex justify-content-start">
@@ -46,9 +58,24 @@
                 </div>
             </div>
         @endforeach
+        <?php $finalizado = $respuestas && !$mostrarError ? true : false;?>
         <div class="row">
             <button class="btn btn-primary">Finalizar</button>
         </div>
-<form>
-    </div>
+    <form>
+        @if($finalizado)
+            <script>
+                jQuery(document).ready(function() {
+                    jQuery('#completado_con_exito').toggleClass('d-none')
+                })
+            </script>
+        @endif
+        @if($mostrarError)
+            <script>
+                jQuery(document).ready(function() {
+                    jQuery('#mensaje_de_error').toggleClass('d-none')
+                })
+            </script>
+        @endif
+</div>
 @endsection

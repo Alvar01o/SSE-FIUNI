@@ -12,6 +12,12 @@ class Carreras extends Model
         'carrera'
     ];
 
+    public function usuariosCount()
+    {
+        $users = User::where('carrera_id', $this->id)->get();
+        return $users->count();
+    }
+
     public function tieneUsuarios() {
         $siEncuentraAlmenosUno = false;
         $users = User::where('carrera_id', $this->id)->get();

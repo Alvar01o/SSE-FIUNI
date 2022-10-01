@@ -72,14 +72,18 @@
 <li class="nav-item">
     <!-- label-->
     <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
-        <div class="col-auto navbar-vertical-label">Reportes
+        <div class="col-auto navbar-vertical-label">Generar Reportes
         </div>
         <div class="col ps-0">
             <hr class="mb-0 navbar-vertical-divider" />
         </div>
     </div>
     <a class="nav-link" href="/reportes" role="button" data-bs-toggle="" aria-expanded="false">
-        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-chart-bar"></span></span><span class="nav-link-text ps-1">Generar Reportes</span>
+        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-chart-bar"></span></span><span class="nav-link-text ps-1">Reportes Egresados</span>
+        </div>
+    </a>
+    <a class="nav-link" href="/reportes_empleador" role="button" data-bs-toggle="" aria-expanded="false">
+        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-chart-bar"></span></span><span class="nav-link-text ps-1">Reportes Empleador</span>
         </div>
     </a>
 </li>

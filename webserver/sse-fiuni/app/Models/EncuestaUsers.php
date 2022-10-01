@@ -14,4 +14,10 @@ class EncuestaUsers extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function encuesta()
+    {
+        return $this->belongsTo(Encuestas::class);
+    }
+
 }

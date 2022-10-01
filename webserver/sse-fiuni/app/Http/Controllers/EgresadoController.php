@@ -21,7 +21,7 @@ class EgresadoController extends Controller
     public function lista(Request $request)
     {
         if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
-            $users = User::role('egresado');
+            $users = User::role('egresado')->orderByDesc('created_at');
             if ($request->input('carrera_id')) {
                 $users->where('carrera_id', '=', $request->input('carrera_id'));
             }
@@ -46,9 +46,7 @@ class EgresadoController extends Controller
      */
     public function index()
     {
-        return view('egresado.index', [
-            1, 2, 3
-        ]);
+        return view('egresado.index', ['user' => $this->getUser()]);
     }
 
     /**
@@ -91,8 +89,6 @@ class EgresadoController extends Controller
             ]);
             $password = $request->input('password');
         }
-
-
         if($validator->fails()) {
             return redirect('/egresado/lista')
                         ->withErrors($validator);
@@ -120,6 +116,9 @@ class EgresadoController extends Controller
     public function show($id)
     {
         $egresado = User::find($id);
+        if (!$egresado) {
+            return redirect('/');
+        }
         $usuario_logeado = $this->getUser();
         if ($usuario_logeado->id !== $egresado->id && !$usuario_logeado->hasRole(User::ROLE_ADMINISTRADOR))
         {
@@ -165,13 +164,13 @@ class EgresadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($id !== $this->getUser()->id && !$this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
+        if (intval($id) !== $this->getUser()->id && !$this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
             return view('error_permisos');
         } else {
             $user = User::find($id);
             $validator = Validator::make($request->all(), [
-                'nombre' => 'required|string|between:3,30',
-                'apellido' => 'required|string|between:3,30',
+                'nombre' => 'required|string|between:3,50',
+                'apellido' => 'required|string|between:3,50',
                 'ci' => ['required', 'numeric', 'min:500000', 'max:3000000000', Rule::unique('users')->ignore($user->id)], //'required|numeric|min:500000|max:3000000000|unique:App\Models\User,ci',
                 'email' => 'required|email|between:7,100',
                 'carrera_id' => 'sometimes|exists:App\Models\Carreras,id',
@@ -230,6 +229,9 @@ class EgresadoController extends Controller
             $id  = $this->getUser()->id;
         }
         $egresado = User::find($id);
+        if (!$egresado) {
+            return redirect('/');
+        }
         $laboral = $egresado->getEmpleos();
         $educacion = $egresado->educacion;
         $resumenHistorial = [];

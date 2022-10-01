@@ -31,7 +31,7 @@
             <div class="toggle-icon-wrapper">
               <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
             </div><a class="navbar-brand" href="/">
-              <div class="d-flex align-items-center py-3"><img class="me-2" src="{{ asset('/img/FIUNI3.png') }}" width="80" height="80"/><span class="d-inline-block align-top"></span></a>
+              <div class="d-flex align-items-center py-3"><img class="me-2" src="{{ asset('/img/FIUNI3.png') }}" width="40" height="40"/><span class="d-inline-block align-top"></span></a>
               </div>
             </a>
           </div>

@@ -65,6 +65,12 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Carreras::class);
     }
 
+    public function getEncuestasAsignadas() {
+        $encuestas = EncuestaUsers::select(['encuestas.nombre', 'encuesta_users.*'])
+        ->where('user_id', '=', $this->id)->join('encuestas', 'encuestas.id', '=', 'encuesta_users.encuesta_id')->get();
+        return $encuestas;
+    }
+
     public function asignadoA($encuesta_id){
         $encuesta_user = EncuestaUsers::where('encuesta_id', '=', $encuesta_id)->where('user_id', '=', $this->id)->first();
         return $encuesta_user;

@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 @section('content')
-<h1>Reportes Por Preguntas</h1>
+<h1>Reportes de preguntas en la encuesta: </h1>
+<h3>{{$encuesta->nombre}}</h3>
+
 
 <div class="list-group mt-5">
 @foreach($encuesta->preguntas as $pregunta)

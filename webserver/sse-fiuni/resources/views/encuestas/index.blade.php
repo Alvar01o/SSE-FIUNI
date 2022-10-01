@@ -75,7 +75,9 @@
                     <td class="align-middle text-center fw-semi-bold">
                         <i id="encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi-trash px-2 border  float-end  eliminar_encuesta" title="Eliminar Encuesta"></i>
                         <a href="/encuestas?duplicar={{$encuesta->id}}" onclick="confirm('Seguro que desea duplicar esta encuesta?')"><i class="bi bi-folder-plus px-2 border float-end duplicar_encuesta" data-id="{{$encuesta->id}}" title="Duplicar Encuesta"></i></a>
-                        <i id="edit_encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi bi-pencil px-2 border float-end edit_encuesta" title="Editar"></i>
+                        @if(!$encuesta->bloqueado())
+                            <i id="edit_encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi bi-pencil px-2 border float-end edit_encuesta" title="Editar"></i>
+                        @endif
                         <i id="guardar_encuesta_{{$encuesta->id}}" data-id="{{$encuesta->id}}" class="bi bi-check px-2 border float-end guardar_nombre_encuesta d-none" title="Guardar"></i>
                     </td>
                 </tr>
@@ -125,7 +127,7 @@
             jQuery('.eliminar_encuesta').each(function(k,e) {
                 jQuery(e).on('click', function(el) {
                     let encuesta_id = jQuery(el.currentTarget).attr('data-id');
-                    if (confirm('Seguro que desea eliminar completamente esta encuesta?')) {
+                    if (confirm('Seguro que desea eliminar completamente esta encuesta, y todos los datos relacionada a ella?')) {
                         jQuery('div.toast-body').html(`<div class="spinner-border spinner-border-sm" role="status">
                                                             <span class="visually-hidden">Loading...</span>
                                                         </div>`);
