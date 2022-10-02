@@ -30,7 +30,7 @@ class EncuestasController extends Controller
                 DB::beginTransaction();
                 try {
                     //duplicar encuesta
-                    $nuevaEncuesta = $encuesta->replicate()->fill(['nombre' => $encuesta->nombre." - Copia ".date('d/m/Y')]);
+                    $nuevaEncuesta = $encuesta->replicate()->fill(['nombre' => $encuesta->nombre." - Copia ".date('d/m/Y'), 'bloqueado' => 0]);
                     $nuevaEncuesta->save();
                     //duplicar preguntas
                     foreach($encuesta->preguntas as $pregunta) {
@@ -53,6 +53,18 @@ class EncuestasController extends Controller
         }
         $encuestas = Encuestas::where('tipo', '=', $tipo)->orderByDesc('updated_at')->get();
         return view('encuestas.index', ['encuestas' => $encuestas, 'tipo' => $tipo]);
+    }
+
+
+    public function bloquear_encuesta($id, Request $request) {
+        $encuesta = Encuestas::find($id);
+        if ($encuesta) {
+            $encuesta->bloqueado = 1;
+            $encuesta->save();
+            return redirect('/encuestas');
+        } else {
+            return view('error_permisos');
+        }
     }
 
     public function duplicar($id_pregunta){

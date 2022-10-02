@@ -18,6 +18,7 @@ class Encuestas extends Model
 
     protected $fillable = [
         'nombre',
+        'bloqueado',
         'tipo'
     ];
 

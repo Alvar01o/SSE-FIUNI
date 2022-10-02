@@ -66,6 +66,9 @@ tbody#sm_options_table > tr > td {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+.bloquear_encuesta {
+  cursor: pointer;
+}
 .descargar_reporte_cont:hover,
 .descargar_reporte_cont:hover > a {
   padding-top: 0.5rem;

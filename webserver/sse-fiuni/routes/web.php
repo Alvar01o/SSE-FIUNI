@@ -66,9 +66,11 @@ Route::group(['middleware' => ['sessionChecked']], function () {
     Route::get('/elimiar_dato_laboral/{id}', [EgresadoController::class, 'elimiar_dato_laboral'])->name('perfil.elimiar_dato_laboral');
     Route::get('/elimiar_educacion/{id}', [EgresadoController::class, 'elimiar_educacion'])->name('perfil.elimiar_educacion');
 
-    // encues=
     Route::post('/encuestas/add_pregunta', [EncuestasController::class, 'addPregunta'])->name('addPregunta');
     Route::get('/encuestas/asignados', [EncuestasController::class, 'asignados'])->name('asignados');
+
+    Route::get('/bloquear_encuesta/{id}', [EncuestasController::class, 'bloquear_encuesta'])->name('bloquear_encuesta');
+
     Route::get('/encuestas/duplicar/{id_pregunta}', [EncuestasController::class, 'duplicar'])->name('duplicarPregunta');
     Route::post('/encuestas/add_usuarios/{id}', [EncuestasController::class, 'addUsuarios'])->name('addUsuarios');
     Route::get('/encuestas/completar/{id}', [EncuestasController::class, 'completar'])->name('completar');

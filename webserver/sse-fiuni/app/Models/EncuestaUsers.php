@@ -11,6 +11,7 @@ class EncuestaUsers extends Model
     protected $fillable = [
         'user_id',
         'encuesta_id',
+        'notificado',
         'created_at',
         'updated_at'
     ];

@@ -36,6 +36,8 @@ class User extends Authenticatable implements HasMedia
         'carrera_id',
         'email',
         'password',
+        'ingreso',
+        'egreso',
         'token_invitacion'
     ];
 

@@ -11,6 +11,8 @@ services:
     volumes:
       - ./:/mainroot
       - ./jobserver/sse-fiuni-jobs:/var/www/html/jobs
+      - ./webserver/sse-fiuni/app/Models:/var/www/html/jobs/app/Models
+      - ./webserver/sse-fiuni/config:/var/www/html/jobs/config
     depends_on:
       - db
     extra_hosts:

@@ -1,4 +1,14 @@
 jQuery(document).ready(function () {
+  jQuery('.bloquear_encuesta').on('click', function () {
+    if (
+      confirm(
+        'Desea Habilitar esta encuesta y enviar invitaciones a los Egresados asignados?',
+      )
+    ) {
+      location.pathname = '/bloquear_encuesta/2'
+    }
+  })
+
   if (jQuery('#ingreso').length) {
     flatpickr('#ingreso', {
       locale: 'es', // locale for this instance only
