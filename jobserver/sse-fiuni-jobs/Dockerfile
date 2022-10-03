@@ -60,3 +60,7 @@ RUN apt-get -y install apache2-dev
 
 #supervisord commandsapt-cache show
 RUN apt-get -y install supervisor
+#copy configuration
+COPY ./supervisord.conf /etc/supervisord.conf
+RUN apt-get -y install mlocate
+RUN service supervisor start
