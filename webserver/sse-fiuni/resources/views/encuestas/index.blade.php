@@ -23,6 +23,7 @@
                     <th>Nombre de Encuesta</th>
                     <th class="text-center">Preguntas asignadas</th>
                     <th class="text-center">Usuarios asignados</th>
+                    <th class="text-center">Habilitado</th>
                     <th class="">Completo (%)</th>
                     <th class="text-center">Creado</th>
                     <th class="text-center"></th>
@@ -57,6 +58,13 @@
                     </td>
                     <td class="align-middle text-center fw-semi-bold">{{$encuesta->preguntas()->count()}}</td>
                     <td class="align-middle text-center fw-semi-bold">{{$encuesta->encuestaUsers()->count()}}</td>
+                    <td class="align-middle text-center fw-semi-bold">
+                        @if($encuesta->bloqueado())
+                            <span class="badge badge-soft-success">Si</span>
+                        @else
+                            <span class="badge badge-soft-danger bloquear_encuesta">No</span>
+                        @endif
+                    </td>
                     <td class="align-middle pe-card">
                     <?php
                         $estado_report = $encuesta->statusEgresados($encuesta->encuesta_id);

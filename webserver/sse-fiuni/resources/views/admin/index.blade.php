@@ -14,7 +14,7 @@
                     <div class="col pe-4">
                     <h6 class="fs--2 text-600">{{$carrera->carrera}}</h6>
                     <div class="progress" style="height:5px">
-                        <div class="progress-bar rounded-3 bg-primary" role="progressbar" style="width: 50% " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar rounded-3 bg-primary" role="progressbar" style="width: {{round(($carrera->usuariosCount() / $total_users) * 100)}}% " aria-valuenow="{{round(($carrera->usuariosCount() / $total_users) * 100)}}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     </div>
                     <div class="col-auto text-end">

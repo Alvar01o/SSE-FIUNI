@@ -8,6 +8,9 @@
             </div>
             <div class="card-body fs--1">
                 <div class="row">
+                @if(!count($user->getEncuestasAsignadas()))
+                <h3>No se asignaron Encuestas aun.</h3>
+                @endif
                 @foreach ($user->getEncuestasAsignadas() as $index => $encuesta)
                 <div class="col-md-6 h-100">
                     <div class="d-flex btn-reveal-trigger">

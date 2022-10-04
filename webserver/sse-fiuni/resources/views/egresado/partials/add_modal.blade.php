@@ -47,11 +47,19 @@
             <div class="row gx-2">
                 <div class="mb-3 col-sm-6">
                     <label class="form-label" for="ingreso">Año Ingreso</label>
-                    <input class="form-control datetimepicker" id="ingreso" type="text" placeholder="YYYY-MM-DD" name="ingreso" data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true}' required/>
+                    <select class="form-select js-choice" name="ingreso" id="ingreso" size="1" name="organizerSingle" data-options='{"removeItemButton":true,"placeholder":true}'>
+                        @foreach(range(1996, 2100) as $y)
+                        <option value="{{$y}}">{{$y}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-3 col-sm-6">
                     <label class="form-label" for="egreso">Año Egreso</label>
-                    <input class="form-control datetimepicker" id="egreso" type="text" placeholder="YYYY-MM-DD" name="egreso" data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true}' required/>
+                    <select class="form-select js-choice" name="egreso" id="egreso" size="1" name="organizerSingle" data-options='{"removeItemButton":true,"placeholder":true}'>
+                        @foreach(range(1996, 2100) as $y)
+                        <option value="{{$y}}">{{$y}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="row gx-2">

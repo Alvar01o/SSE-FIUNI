@@ -1,4 +1,4 @@
-FROM php:7.3.29-apache
+FROM php:7.4.29-apache
 
 RUN apt-get -y update --fix-missing
 RUN apt-get upgrade -y
@@ -21,12 +21,13 @@ RUN apt-get -y install zlib1g-dev
 RUN docker-php-ext-install zip
 
 RUN apt-get -y install libicu-dev
+RUN apt-get -y install libonig-dev
 RUN docker-php-ext-install -j$(nproc) intl
 
 RUN docker-php-ext-install mbstring
 
 RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install -j$(nproc) gd
 
 RUN docker-php-ext-install bcmath
@@ -42,7 +43,7 @@ RUN docker-php-ext-install sysvsem
 RUN docker-php-ext-install sysvshm
 
 RUN docker-php-ext-install gettext
-RUN docker-php-ext-install wddx
+#RUN docker-php-ext-install wddx
 
 RUN apt-get -y install libxslt1-dev python-dev
 RUN docker-php-ext-install xsl
@@ -56,5 +57,10 @@ RUN docker-php-ext-configure opcache --enable-opcache && docker-php-ext-install 
 
 #add apache-dev
 RUN apt-get -y install apache2-dev
-#add apache-dev
-RUN apt-get -y install apache2-dev
+
+#supervisord commandsapt-cache show
+RUN apt-get -y install supervisor
+#copy configuration
+COPY ./supervisord.conf /etc/supervisord.conf
+RUN apt-get -y install mlocate
+RUN service supervisor start

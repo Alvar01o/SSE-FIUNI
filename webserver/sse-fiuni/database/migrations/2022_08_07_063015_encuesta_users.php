@@ -17,6 +17,7 @@ class EncuestaUsers extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('encuesta_id');
+            $table->integer('notificado')->default(0);
             $table->timestamps();
         });
 
