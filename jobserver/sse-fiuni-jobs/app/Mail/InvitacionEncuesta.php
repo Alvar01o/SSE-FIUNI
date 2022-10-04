@@ -29,6 +29,6 @@ class InvitacionEncuesta extends Mailable
      */
     public function build()
     {
-        return $this->view('invitaciones', ['encuesta' => $this->encuesta]);
+        return $this->view('activacion', ['encuesta' => $this->encuesta]);
     }
 }

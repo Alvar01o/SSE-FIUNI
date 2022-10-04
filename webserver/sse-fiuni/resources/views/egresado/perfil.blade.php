@@ -155,7 +155,7 @@
         </div>
         </div>
     </div>
-    <div class="col-lg-4 ps-lg-2">
+    <div class="col-lg-4 ps-lg-2 ">
         <div class="sticky-sidebar">
         <div class="card mb-3">
             <div class="card-header">

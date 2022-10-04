@@ -66,6 +66,9 @@ tbody#sm_options_table > tr > td {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+.eliminarEgresadoForm {
+  cursor: pointer;
+}
 .bloquear_encuesta {
   cursor: pointer;
 }

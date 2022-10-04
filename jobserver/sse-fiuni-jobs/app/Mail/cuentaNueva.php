@@ -6,19 +6,19 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-
+use App\Models\User;
 class cuentaNueva extends Mailable
 {
     use Queueable, SerializesModels;
-
+    protected $user;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -28,6 +28,6 @@ class cuentaNueva extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('activacion', ['user' => $this->user]);
     }
 }

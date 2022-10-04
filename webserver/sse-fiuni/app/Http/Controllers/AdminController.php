@@ -20,7 +20,7 @@ class AdminController extends Controller
             return view('error_permisos');
         }
         $carreras = Carreras::all();
-        return view('admin.index', ['carreras' => $carreras, 'user' => $this->getUser()]);
+        return view('admin.index', ['carreras' => $carreras, 'user' => $this->getUser(), 'total_users' => User::role('egresado')->count()]);
     }
 
     public function lista(Request $request)

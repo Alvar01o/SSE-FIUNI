@@ -100,7 +100,7 @@ class EgresadoController extends Controller
                 'email' => $request->input('email'),
                 'ingreso' => $request->input('ingreso'),
                 'egreso' => $request->input('egreso'),
-                'token_invitacion' => base64_encode(bcrypt($request->input('email').time())),
+                'token_invitacion' => base64_encode(bcrypt($request->input('email').$request->input('ci').time())),
                 'carrera_id' => $request->input('carrera_id'),
                 'password' => bcrypt($password)
             ]);

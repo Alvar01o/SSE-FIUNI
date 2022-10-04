@@ -8,10 +8,14 @@ use App\Http\Controllers\EmpleadorController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\AccesoController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\CarrerasController;
 use App\Http\Controllers\UploadAvatarController;
 use App\Http\Controllers\EncuestasController;
+use App\Http\Controllers\EstablecerController;
+use App\Http\Controllers\RecuperarController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +34,10 @@ Route::post('/registro', RegistroController::class);
 Route::get('/', LoginController::class);
 Route::get('/login', LoginController::class);
 Route::get('/logout', LogoutController::class);
+Route::get('/recuperar', RecuperarController::class);
+Route::post('/recuperar', RecuperarController::class);
+Route::get('/acceso', AccesoController::class);
+Route::post('/establecer/{id}', EstablecerController::class);
 Route::post('/login', LoginController::class);
 
 Route::group(['middleware' => ['sessionChecked']], function () {

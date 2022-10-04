@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\cuentaNueva;
 class Activacion extends Command
 {
     /**
@@ -37,6 +39,12 @@ class Activacion extends Command
      */
     public function handle()
     {
+        $usuarios = User::role('egresado')->where('notificado', '=', 0)->limit(20)->get();
+        foreach ($usuarios as $key => $usuario_nuevo) {
+            Mail::to($usuario_nuevo->email)->send(new cuentaNueva($usuario_nuevo));
+            $usuario_nuevo->notificado = 1;
+            $usuario_nuevo->save();
+        }
         return 0;
     }
 }

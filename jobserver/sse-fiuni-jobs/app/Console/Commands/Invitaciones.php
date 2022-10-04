@@ -44,7 +44,7 @@ class Invitaciones extends Command
         $invitaciones = Encuestas::select(['users.*', 'encuestas.nombre as nombre_encuesta', 'encuestas.id as encuesta_id'])->where('bloqueado', '=', 1)
         ->join('encuesta_users', 'encuesta_users.encuesta_id', '=', 'encuestas.id')
         ->join('users', 'encuesta_users.user_id', '=', 'users.id')
-        ->where('encuesta_users.notificado', '=', 0)->get();
+        ->where('encuesta_users.notificado', '=', 0)->limit(20)->get();
         $receptores = [];
         $usuarios = [];
         foreach ($invitaciones as $key => $usuarios_encuesta) {

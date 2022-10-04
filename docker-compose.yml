@@ -14,7 +14,6 @@ services:
       - ./webserver/sse-fiuni/app/Models:/var/www/html/jobs/app/Models
       - ./webserver/sse-fiuni/config:/var/www/html/jobs/config
       - ./jobserver/sse-fiuni-jobs/conf.d:/etc/supervisor/conf.d
-   # entrypoint: [ "bash", "-c", "service supervisor start"]
     depends_on:
       - db
     extra_hosts:

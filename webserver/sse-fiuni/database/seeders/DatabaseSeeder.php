@@ -96,61 +96,61 @@ class DatabaseSeeder extends Seeder
         ]);
         $user->assignRole(User::ROLE_EMPLEADOR);
         //final de usuarios de prueba
-        echo "Creando Egresados de prueba!!.. \n";
-        for ($i=0; $i < 30; $i++) {
-            $FourDigitRandomNumber = rand(1231,9999);
-            //usuario - Egresado para pruebas
-            $user = User::create([
-                    'nombre' => "Egresado de Informatica - {$FourDigitRandomNumber}",
-                    'apellido' => "#{$FourDigitRandomNumber}",
-                    'carrera_id' => $carrera1->id,
-                    'egreso' => rand(2018, 2022),
-                    'ci' => $FourDigitRandomNumber,
-                    'email' => "egresado{$FourDigitRandomNumber}@informatica.com",
-                    'token_invitacion' => base64_encode(bcrypt("egresado{$FourDigitRandomNumber}@informatica.com".time())),
-                    'password' => bcrypt('egresado'),
-            ]);
-            $user->assignRole(User::ROLE_EGRESADO);
-            //usuario - Egresado para pruebas
-            $user = User::create([
-                    'nombre' => "Egresado de Electromecanica - {$FourDigitRandomNumber}",
-                    'apellido' => "#{$FourDigitRandomNumber}",
-                    'carrera_id' => $carrera2->id,
-                    'egreso' => rand(2018, 2022),
-                    'ci' => $FourDigitRandomNumber,
-                    'email' => "egresado{$FourDigitRandomNumber}@electro.com",
-                    'token_invitacion' => base64_encode(bcrypt("egresado{$FourDigitRandomNumber}@electro.com".time())),
-                    'password' => bcrypt('egresado'),
-            ]);
-            $user->assignRole(User::ROLE_EGRESADO);
-            //usuario - Egresado para pruebas
-            $user = User::create([
-                    'nombre' => "Egresado de Civil - {$FourDigitRandomNumber}",
-                    'apellido' => "#{$FourDigitRandomNumber}",
-                    'carrera_id' => $carrera3->id,
-                    'ci' => $FourDigitRandomNumber,
-                    'egreso' => rand(2018, 2022),
-                    'email' => "egresado{$FourDigitRandomNumber}@civil.com",
-                    'token_invitacion' => base64_encode(bcrypt("egresado{$FourDigitRandomNumber}@civil.com".time())),
-                    'password' => bcrypt('egresado'),
-            ]);
-            $user->assignRole(User::ROLE_EGRESADO);
-
-            //usuario - Empleador para pruebas
-            $user = User::create([
-                    'nombre' => base64_encode($FourDigitRandomNumber),
-                    'apellido' => base64_encode($FourDigitRandomNumber),
-                    'ci' => $FourDigitRandomNumber,
-                    'confirmado' => true,
-                    'email' => 'empleador'.$FourDigitRandomNumber.'@gmail.com',
-                    'password' => bcrypt('empleador'),
-            ]);
-            $user->assignRole(User::ROLE_EMPLEADOR);
-        }
-        Laboral::create(['empresa' => 'inventiva']);
-        Laboral::create(['empresa' => 'Integradevs']);
-        Laboral::create(['empresa' => 'Borealis']);
-        Laboral::create(['empresa' => 'MoV']);
+//        echo "Creando Egresados de prueba!!.. \n";
+//        for ($i=0; $i < 30; $i++) {
+//            $FourDigitRandomNumber = rand(1231,9999);
+//            //usuario - Egresado para pruebas
+//            $user = User::create([
+//                    'nombre' => "Egresado de Informatica - {$FourDigitRandomNumber}",
+//                    'apellido' => "#{$FourDigitRandomNumber}",
+//                    'carrera_id' => $carrera1->id,
+//                    'egreso' => rand(2018, 2022),
+//                    'ci' => $FourDigitRandomNumber,
+//                    'email' => "egresado{$FourDigitRandomNumber}@informatica.com",
+//                    'token_invitacion' => base64_encode(bcrypt("egresado{$FourDigitRandomNumber}@informatica.com".time())),
+//                    'password' => bcrypt('egresado'),
+//            ]);
+//            $user->assignRole(User::ROLE_EGRESADO);
+//            //usuario - Egresado para pruebas
+//            $user = User::create([
+//                    'nombre' => "Egresado de Electromecanica - {$FourDigitRandomNumber}",
+//                    'apellido' => "#{$FourDigitRandomNumber}",
+//                    'carrera_id' => $carrera2->id,
+//                    'egreso' => rand(2018, 2022),
+//                    'ci' => $FourDigitRandomNumber,
+//                    'email' => "egresado{$FourDigitRandomNumber}@electro.com",
+//                    'token_invitacion' => base64_encode(bcrypt("egresado{$FourDigitRandomNumber}@electro.com".time())),
+//                    'password' => bcrypt('egresado'),
+//            ]);
+//            $user->assignRole(User::ROLE_EGRESADO);
+//            //usuario - Egresado para pruebas
+//            $user = User::create([
+//                    'nombre' => "Egresado de Civil - {$FourDigitRandomNumber}",
+//                    'apellido' => "#{$FourDigitRandomNumber}",
+//                    'carrera_id' => $carrera3->id,
+//                    'ci' => $FourDigitRandomNumber,
+//                    'egreso' => rand(2018, 2022),
+//                    'email' => "egresado{$FourDigitRandomNumber}@civil.com",
+//                    'token_invitacion' => base64_encode(bcrypt("egresado{$FourDigitRandomNumber}@civil.com".time())),
+//                    'password' => bcrypt('egresado'),
+//            ]);
+//            $user->assignRole(User::ROLE_EGRESADO);
+//
+//            //usuario - Empleador para pruebas
+//            $user = User::create([
+//                    'nombre' => base64_encode($FourDigitRandomNumber),
+//                    'apellido' => base64_encode($FourDigitRandomNumber),
+//                    'ci' => $FourDigitRandomNumber,
+//                    'confirmado' => true,
+//                    'email' => 'empleador'.$FourDigitRandomNumber.'@gmail.com',
+//                    'password' => bcrypt('empleador'),
+//            ]);
+//            $user->assignRole(User::ROLE_EMPLEADOR);
+//        }
+//        Laboral::create(['empresa' => 'inventiva']);
+//        Laboral::create(['empresa' => 'Integradevs']);
+//        Laboral::create(['empresa' => 'Borealis']);
+//        Laboral::create(['empresa' => 'MoV']);
 
         $encuestaEmpleador = Encuestas::create([
             'nombre' => 'Encuesta Empleador 2022',
