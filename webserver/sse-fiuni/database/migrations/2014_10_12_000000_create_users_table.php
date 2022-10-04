@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
                     $table->integer('carrera_id')->default(0);
                     $table->string('password');
                     $table->string('token_invitacion')->nullable();
+                    $table->boolean('recuperar')->default(false);
                     $table->boolean('notificado')->default(false);
                     $table->boolean('confirmado')->default(false);
                     $table->rememberToken();

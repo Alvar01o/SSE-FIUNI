@@ -14,7 +14,10 @@ class RecuperarController extends Controller
      */
     public function __invoke(Request $request)
     {
-
-        return view('recuperar');
+        if ($request->isMethod('post')) {
+            var_dump($request);die;
+        } else {
+            return view('recuperar');
+        }
     }
 }
