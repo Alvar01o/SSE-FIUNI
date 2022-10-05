@@ -62,8 +62,8 @@ class DatabaseSeeder extends Seeder
 
         //usuario - administrador para pruebas
         $user = User::create([
-                'nombre' => 'Admin',
-                'apellido' => '#1',
+                'nombre' => 'Administrador',
+                'apellido' => 'FIUNI',
                 'ci' => 0000001,
                 'confirmado' => true,
                 'email' => 'admin@gmail.com',
@@ -74,12 +74,34 @@ class DatabaseSeeder extends Seeder
 
         //usuario - Egresado para pruebas
         $user = User::create([
-                'nombre' => 'Egresado',
-                'apellido' => '#1',
-                'ci' => 0000002,
+                'nombre' => 'Juan',
+                'apellido' => 'Perez',
+                'ci' => 5433233,
                 'confirmado' => true,
                 'carrera_id' => $carrera1->id,
                 'email' => 'egresado@gmail.com',
+                'password' => bcrypt('egresado'),
+        ]);
+        $user->assignRole(User::ROLE_EGRESADO);
+        //usuario - Egresado para pruebas
+        $user = User::create([
+                'nombre' => 'Carlos',
+                'apellido' => 'Gomez',
+                'ci' => 3456668,
+                'confirmado' => true,
+                'carrera_id' => $carrera1->id,
+                'email' => 'egresado2@gmail.com',
+                'password' => bcrypt('egresado'),
+        ]);
+        $user->assignRole(User::ROLE_EGRESADO);
+        //usuario - Egresado para pruebas
+        $user = User::create([
+                'nombre' => 'Lorena',
+                'apellido' => 'Del Puerto',
+                'ci' => 3456667,
+                'confirmado' => true,
+                'carrera_id' => $carrera1->id,
+                'email' => 'loredelpuerto@gmail.com',
                 'password' => bcrypt('egresado'),
         ]);
 
@@ -88,13 +110,27 @@ class DatabaseSeeder extends Seeder
         //usuario - Empleador para pruebas
         $user = User::create([
                 'nombre' => 'Empleador',
-                'apellido' => '#1',
-                'ci' => 0000003,
+                'apellido' => 'Egresado',
+                'ci' => 3256667,
                 'confirmado' => true,
                 'email' => 'empleador@gmail.com',
                 'password' => bcrypt('empleador'),
         ]);
+
         $user->assignRole(User::ROLE_EMPLEADOR);
+
+        //usuario - Empleador para pruebas
+        $user = User::create([
+                'nombre' => 'Alvaro',
+                'apellido' => 'Mercado',
+                'ci' => 3456664,
+                'confirmado' => true,
+                'carrera_id' => $carrera1->id,
+                'email' => 'alvar01omer@gmail.com',
+                'password' => bcrypt('egresado'),
+        ]);
+
+        $user->assignRole(User::ROLE_EGRESADO);
         //final de usuarios de prueba
 //        echo "Creando Egresados de prueba!!.. \n";
 //        for ($i=0; $i < 30; $i++) {
@@ -194,7 +230,8 @@ class DatabaseSeeder extends Seeder
                                 'Contacto através de la F.I.U.N.I. y/o la U.N.I.',
                                 'Contactos personales',
                                 'Pasantía',
-                                'Medios masivos de comunicación (Redes sociales, Noticias, etc.)'
+                                'Medios masivos de comunicación (Redes sociales, Noticias, etc.)',
+                                'Otro'
                             ]
                         ],
                         [
@@ -219,7 +256,8 @@ class DatabaseSeeder extends Seeder
                             'tipo_pregunta' => 'seleccion',
                             'opciones' => [
                                 'Contratado',
-                                'Nombrado'
+                                'Nombrado',
+                                'Otro'
                             ]
                         ]
                     ];

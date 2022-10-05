@@ -25,11 +25,15 @@ class EstablecerController extends Controller
                         ->withErrors($validator)
                         ->withInput();
             } else {
-                $usuario->password = bcrypt($request->input('password'));
-                $usuario->confirmado = 1;
-                $usuario->token_invitacion = '';
-                $usuario->save();
-                return redirect('/');
+                if ($usuario->token_invitacion) {
+                    $usuario->password = bcrypt($request->input('password'));
+                    $usuario->confirmado = 1;
+                    $usuario->token_invitacion = '';
+                    $usuario->save();
+                    return redirect('/');
+                } else {
+                    return view('error_permisos');
+                }
             }
         } else {
             return view('error_permisos');
