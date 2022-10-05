@@ -1,4 +1,5 @@
-version: "3"services:
+version: "3"
+services:
   sse-jobs:
     dns: 8.8.8.8
     build:
