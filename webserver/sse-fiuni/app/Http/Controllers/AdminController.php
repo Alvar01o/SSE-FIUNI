@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Carreras;
+use App\Models\Encuestas;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 class AdminController extends Controller
@@ -20,7 +21,8 @@ class AdminController extends Controller
             return view('error_permisos');
         }
         $carreras = Carreras::all();
-        return view('admin.index', ['carreras' => $carreras, 'user' => $this->getUser(), 'total_users' => User::role('egresado')->count()]);
+        $encuestas = Encuestas::limit(5)->get();
+        return view('admin.index', ['carreras' => $carreras, 'user' => $this->getUser(), 'total_users' => User::role('egresado')->count(), 'encuestas' => $encuestas]);
     }
 
     public function lista(Request $request)

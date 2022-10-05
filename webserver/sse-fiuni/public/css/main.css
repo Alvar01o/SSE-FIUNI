@@ -69,6 +69,9 @@ tbody#sm_options_table > tr > td {
 .eliminarEgresadoForm {
   cursor: pointer;
 }
+.dashboard-encuesta_carreras {
+  max-height: 201px !important;
+}
 .bloquear_encuesta {
   cursor: pointer;
 }

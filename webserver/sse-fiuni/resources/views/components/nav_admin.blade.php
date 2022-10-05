@@ -79,11 +79,11 @@
         </div>
     </div>
     <a class="nav-link" href="/reportes" role="button" data-bs-toggle="" aria-expanded="false">
-        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-chart-bar"></span></span><span class="nav-link-text ps-1">Reportes Egresados</span>
+        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-chart-bar"></span></span><span class="nav-link-text ps-1">Reportes de Egresados</span>
         </div>
     </a>
     <a class="nav-link" href="/reportes_empleador" role="button" data-bs-toggle="" aria-expanded="false">
-        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-chart-bar"></span></span><span class="nav-link-text ps-1">Reportes Empleador</span>
+        <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-chart-bar"></span></span><span class="nav-link-text ps-1">Reportes de Empleadores</span>
         </div>
     </a>
 </li>

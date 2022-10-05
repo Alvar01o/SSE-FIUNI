@@ -6,19 +6,19 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-
+use App\Models\User;
 class RecuperarContrasena extends Mailable
 {
     use Queueable, SerializesModels;
-
+    protected $usuario = null;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $usuario)
     {
-        //
+        $this->usuario = $usuario;
     }
 
     /**
@@ -28,6 +28,6 @@ class RecuperarContrasena extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('recuperar', ['user' => $this->usuario]);
     }
 }

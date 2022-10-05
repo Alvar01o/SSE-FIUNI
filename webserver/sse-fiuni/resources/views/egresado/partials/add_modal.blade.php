@@ -48,6 +48,7 @@
                 <div class="mb-3 col-sm-6">
                     <label class="form-label" for="ingreso">Año Ingreso</label>
                     <select class="form-select js-choice" name="ingreso" id="ingreso" size="1" name="organizerSingle" data-options='{"removeItemButton":true,"placeholder":true}'>
+                        <option value=""></option>
                         @foreach(range(1996, 2100) as $y)
                         <option value="{{$y}}">{{$y}}</option>
                         @endforeach
@@ -56,6 +57,7 @@
                 <div class="mb-3 col-sm-6">
                     <label class="form-label" for="egreso">Año Egreso</label>
                     <select class="form-select js-choice" name="egreso" id="egreso" size="1" name="organizerSingle" data-options='{"removeItemButton":true,"placeholder":true}'>
+                        <option value=""></option>
                         @foreach(range(1996, 2100) as $y)
                         <option value="{{$y}}">{{$y}}</option>
                         @endforeach
