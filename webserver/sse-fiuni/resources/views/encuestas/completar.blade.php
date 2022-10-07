@@ -62,20 +62,20 @@
         <div class="row">
             <button class="btn btn-primary">Finalizar</button>
         </div>
-    <form>
-        @if($finalizado)
-            <script>
-                jQuery(document).ready(function() {
-                    jQuery('#completado_con_exito').toggleClass('d-none')
-                })
-            </script>
-        @endif
-        @if($mostrarError)
-            <script>
-                jQuery(document).ready(function() {
-                    jQuery('#mensaje_de_error').toggleClass('d-none')
-                })
-            </script>
-        @endif
+    </form>
+    @if($finalizado)
+        <script>
+            jQuery(document).ready(function() {
+                jQuery('#completado_con_exito').toggleClass('d-none')
+            })
+        </script>
+    @endif
+    @if($mostrarError)
+        <script>
+            jQuery(document).ready(function() {
+                jQuery('#mensaje_de_error').toggleClass('d-none')
+            })
+        </script>
+    @endif
 </div>
 @endsection

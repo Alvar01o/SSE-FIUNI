@@ -12,6 +12,7 @@ class EncuestaUsers extends Model
         'user_id',
         'encuesta_id',
         'notificado',
+        'invitacion_empleadores',
         'created_at',
         'updated_at'
     ];
@@ -19,6 +20,11 @@ class EncuestaUsers extends Model
     public function encuesta()
     {
         return $this->belongsTo(Encuestas::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

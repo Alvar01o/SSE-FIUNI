@@ -257,9 +257,8 @@ class EncuestasController extends Controller
         $users = [];
         $carreras = [];
         if ($this->getUser()->hasPermissionTo('Administrar Egresados')) {
-            $users = [];
             if ($name == 'encuestas_empleador') {
-                $users = User::role('empleador');
+                $users = User::role(User::ROLE_EMPLEADOR);
             } else {
                 $users = User::role('egresado');
             }
@@ -342,6 +341,7 @@ class EncuestasController extends Controller
             'users' => 'required|array'
         ]);
         $encuesta = Encuestas::find($id);
+        $roleAsignados = User::ROLE_EGRESADO;
         //add validation
         if (!$validator->fails()) {
             $users = $request->input('users');
@@ -355,11 +355,19 @@ class EncuestasController extends Controller
             foreach ($users as $key => $value) {
                 // si existe en encuesta pasar
                 if (!\array_key_exists($value, $usuarios_assignados)) {
-                    $agregar_usuarios[] = ['user_id' => $value, 'encuesta_id' => $encuesta->id, 'created_at' => date('Y-m-d H:i:s', time()), 'updated_at' => date('Y-m-d H:i:s', time())];
+                    $datos = ['user_id' => $value, 'encuesta_id' => $encuesta->id, 'created_at' => date('Y-m-d H:i:s', time()), 'updated_at' => date('Y-m-d H:i:s', time())];
+                    if (User::find($value)->hasRole(User::ROLE_EMPLEADOR)) {
+                        $datos['invitacion_empleadores'] =  base64_encode(bcrypt($encuesta->id.$value.time()));
+                    }
+                    $agregar_usuarios[] = $datos;
                 }
             }
             EncuestaUsers::insert($agregar_usuarios);
-            return redirect("/encuestas/{$id}?seccion=asignados");
+            if ($roleAsignados == User::ROLE_EMPLEADOR) {
+                return redirect("/encuestas/empleador/{$id}?seccion=asignados");
+            } else {
+                return redirect("/encuestas/{$id}?seccion=asignados");
+            }
         } else {
             return redirect("/encuestas/{$id}")
                 ->withErrors($validator);

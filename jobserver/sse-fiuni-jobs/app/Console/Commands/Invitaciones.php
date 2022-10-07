@@ -32,7 +32,7 @@ class Invitaciones extends Command
     public function __construct()
     {
         parent::__construct();
-    }
+    } 
 
     /**
      * Execute the console command.
@@ -57,6 +57,7 @@ class Invitaciones extends Command
         foreach ($usuarios as $key => $usr) {
             $usr->save();
         }
+        // enviar a empeladores
         return 0;
     }
 }
