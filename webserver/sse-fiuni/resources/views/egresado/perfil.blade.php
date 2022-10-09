@@ -164,6 +164,7 @@
             <div class="card-body bg-light">
             <form class="row needs-validation" method="POST" action="/cambiarpassword/{{ $user->id }}" novalidate>
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                @if(!auth()->user()->hasRole('administrador'))
                 <div class="mb-3">
                 <label class="form-label" for="old-password">Contraseña Actual</label>
                 <input class="form-control" id="old-password" name="old_password" type="password" required />
@@ -171,6 +172,7 @@
                     Campo Requerido.
                 </div>
                 </div>
+                @endif
                 <div class="mb-3">
                 <label class="form-label" for="password" name="password">Nueva Contraseña</label>
                 <input class="form-control" id="password" name="password" type="password" required />

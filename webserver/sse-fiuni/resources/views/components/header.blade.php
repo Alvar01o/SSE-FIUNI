@@ -21,8 +21,7 @@
     <meta name="msapplication-TileImage" content="{{asset('img/favicons/mstile-150x150.png')}}">
     <meta name="theme-color" content="#ffffff">
     <script src="{{asset('js/config.js')}}"></script>
-    <script src="{{asset('js/jQuery.js')}}"></script>
-    <script src="{{asset('js/jQuery.js')}}"></script>
+    <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
     <script src="{{asset('vendors/overlayscrollbars/OverlayScrollbars.min.js')}}"></script>
     <script src="{{asset('js/choices/choices.min.js')}}"></script>

@@ -61,7 +61,12 @@ class EncuestasController extends Controller
         if ($encuesta) {
             $encuesta->bloqueado = 1;
             $encuesta->save();
-            return redirect('/encuestas');
+            if ($encuesta->tipo == 'empleador') {
+                return redirect('/encuestas/lista/empleador');
+            } else {
+                return redirect('/encuestas');
+            }
+
         } else {
             return view('error_permisos');
         }

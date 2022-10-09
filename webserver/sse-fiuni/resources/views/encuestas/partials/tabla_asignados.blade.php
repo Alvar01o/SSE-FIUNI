@@ -60,7 +60,7 @@
             </td><td
             class="text-nowrap">{{ $user->ci }}</td>
             @if($user->hasRole('egresado'))
-            <td class="text-nowrap">{{ $user->carrera ? $user->carrera->carrera : '' }}</td>
+            <td class="text-nowrap">{{ $user->carrera ? $user->carrera->carrera : '' }} </td>
             @else
             <td class="text-nowrap"></td>
             @endif

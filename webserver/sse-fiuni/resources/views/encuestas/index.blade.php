@@ -62,7 +62,7 @@
                         @if($encuesta->bloqueado())
                             <span class="badge badge-soft-success">Si</span>
                         @else
-                            <span class="badge badge-soft-danger bloquear_encuesta">No</span>
+                            <span class="badge badge-soft-danger bloquear_encuesta" data-id="{{$encuesta->id}}">No</span>
                         @endif
                     </td>
                     <td class="align-middle pe-card">
