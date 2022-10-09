@@ -29,6 +29,11 @@ class InvitacionEncuesta extends Mailable
      */
     public function build()
     {
-        return $this->view('activacion', ['encuesta' => $this->encuesta]);
+        if ($this->encuesta->tipo == 'empleador') {
+        return $this->view('invitacion_empleador', ['encuesta' => $this->encuesta])->subject('Sistema de Seguimiento de Egresados - Invitacion a Encuesta de Empleador.');
+        } else {
+        return $this->view('invitaciones', ['encuesta' => $this->encuesta])->subject('Sistema de Seguimiento de Egresados - Invitacion a Encuesta.');
+        }
+
     }
 }

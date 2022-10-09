@@ -188,8 +188,11 @@ let checker = (function() {
             }
         }).done(function( msg ) {
             resetSeleccionados();
-            location.href = '/encuestas/{{ $encuesta->id }}?seccion=asignados';
-            jQuery('#enviar_usuarios').attr('disabled', false);
+            if (location.href.includes('encuestas/empleador')) {
+                location.href = '/encuestas/empleador/{{ $encuesta->id }}?seccion=asignados';
+            } else {
+                location.href = '/encuestas/{{ $encuesta->id }}?seccion=asignados';
+            }
         });
     }
 

@@ -1,11 +1,12 @@
 jQuery(document).ready(function () {
-  jQuery('.bloquear_encuesta').on('click', function () {
+  jQuery('.bloquear_encuesta').on('click', function (e) {
     if (
       confirm(
         'Desea Habilitar esta encuesta y enviar invitaciones a los Egresados asignados?',
       )
     ) {
-      location.pathname = '/bloquear_encuesta/2'
+      let id = jQuery(e.currentTarget).data('id')
+      location.pathname = '/bloquear_encuesta/' + id
     }
   })
 

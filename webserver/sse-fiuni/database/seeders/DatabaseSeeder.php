@@ -125,12 +125,11 @@ class DatabaseSeeder extends Seeder
                 'apellido' => 'Mercado',
                 'ci' => 3456664,
                 'confirmado' => true,
-                'carrera_id' => $carrera1->id,
                 'email' => 'alvar01omer@gmail.com',
                 'password' => bcrypt('egresado'),
         ]);
 
-        $user->assignRole(User::ROLE_EGRESADO);
+        $user->assignRole(User::ROLE_EMPLEADOR);
         //final de usuarios de prueba
 //        echo "Creando Egresados de prueba!!.. \n";
 //        for ($i=0; $i < 30; $i++) {
@@ -192,6 +191,94 @@ class DatabaseSeeder extends Seeder
             'nombre' => 'Encuesta Empleador 2022',
             'tipo' => 'empleador'
         ]);
+
+        $preguntasEmpleador = [
+                        [
+                            'pregunta' => 'La mayor parte de los egresados o pasantes de la Facultad de Ingeniería de la UNI, que trabajan en su Empresa realizan trabajos de tipo. (puede marcar más de uno)',
+                            'requerido' => 1,
+                            'justificacion' => 1,
+                            'encuesta_id' => $encuestaEmpleador->id,
+                            'tipo_pregunta' => 'seleccion_multiple_justificacion',
+                            'opciones' => [
+                                'Trabajo profesional',
+                                'Trabajo de investigación',
+                                'Trabajo de asesoría',
+                                'Otro'
+                            ]
+                        ],
+                        [
+                            'pregunta' => '¿De qué manera selecciona su personal?',
+                            'requerido' => 1,
+                            'justificacion' => 1,
+                            'encuesta_id' => $encuestaEmpleador->id,
+                            'tipo_pregunta' => 'seleccion_multiple_justificacion',
+                            'opciones' => [
+                                'Por referencia',
+                                'Mirando su currículum',
+                                'Por un examen sicotécnico',
+                                'Otro'
+                            ]
+                        ],
+                        [
+                            'pregunta' => 'La formación teórica – practica recibida durante la carrera es la adecuada para el desempeño profesional',
+                            'requerido' => 1,
+                            'justificacion' => 0,
+                            'encuesta_id' => $encuestaEmpleador->id,
+                            'tipo_pregunta' => 'seleccion',
+                            'opciones' => [
+                                '1',
+                                '2',
+                                '3',
+                                '4',
+                                '5',
+                            ]
+                        ],
+                        [
+                            'pregunta' => 'Posee facilidad de expresión escrita',
+                            'requerido' => 1,
+                            'justificacion' => 0,
+                            'encuesta_id' => $encuestaEmpleador->id,
+                            'tipo_pregunta' => 'seleccion',
+                            'opciones' => [
+                                '1',
+                                '2',
+                                '3',
+                                '4',
+                                '5',
+                            ]
+                        ],
+                    ];
+
+
+        foreach ($preguntasEmpleador as $key => $pregunta) {
+            if ($pregunta['tipo_pregunta'] !== 'pregunta') {
+                    $datos_para_nueva_pregunta = [
+                        'pregunta' => $pregunta['pregunta'],
+                        'tipo_pregunta' => $pregunta['tipo_pregunta'],
+                        'encuesta_id' => $pregunta['encuesta_id'],
+                        'justificacion' => $pregunta['justificacion'],
+                        'requerido' => $pregunta['requerido']
+                    ];
+                    $opciones = $pregunta['opciones'];
+                    $pregunta = Preguntas::create($datos_para_nueva_pregunta);
+                    foreach($opciones as $key => $opcion) {
+                        OpcionesPregunta::create([
+                            'pregunta_id' => $pregunta->id,
+                            'encuesta_id' => $pregunta->encuesta_id,
+                            'opcion' => $opcion
+                        ]);
+                    }
+            } else {
+                $pregunta = Preguntas::create([
+                    'pregunta' => $pregunta['pregunta'],
+                    'tipo_pregunta' => $pregunta['tipo_pregunta'],
+                    'encuesta_id' => $pregunta['encuesta_id'],
+                    'requerido' => $pregunta['requerido']
+                ]);
+            }
+        }
+
+
 
         $encuestaEgresados = Encuestas::create([
             'nombre' => 'Encuesta Egresado 2022',

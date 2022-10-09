@@ -28,6 +28,6 @@ class cuentaNueva extends Mailable
      */
     public function build()
     {
-        return $this->view('activacion', ['user' => $this->user]);
+        return $this->view('activacion', ['user' => $this->user])->subject('Sistema de Seguimiento de Egresados - Activacion de Cuenta.');
     }
 }

@@ -28,6 +28,6 @@ class RecuperarContrasena extends Mailable
      */
     public function build()
     {
-        return $this->view('recuperar', ['user' => $this->usuario]);
+        return $this->view('recuperar', ['user' => $this->usuario])->subject('Sistema de Seguimiento de Egresados - Re-establecer Contraseña.');
     }
 }

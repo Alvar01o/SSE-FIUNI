@@ -40,10 +40,12 @@ class Recuperar extends Command
     public function handle()
     {
         $usuario = User::role('egresado')->where('recuperar', '=', 1)->get()->first();
-        Mail::to($usuario->email)->send(new RecuperarContrasena($usuario));
-        $usuario->recuperar = 0;
-        $usuario->save();
-        $this->info("Se envio correo de recuperacion al usuario: {$usuario}!");
+        if ($usuario) {
+            Mail::to($usuario->email)->send(new RecuperarContrasena($usuario));
+            $usuario->recuperar = 0;
+            $usuario->save();
+            $this->info("Se envio correo de recuperacion al usuario: {$usuario}!");
+        }
         return 0;
     }
 }

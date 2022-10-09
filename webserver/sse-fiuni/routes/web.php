@@ -16,6 +16,7 @@ use App\Http\Controllers\UploadAvatarController;
 use App\Http\Controllers\EncuestasController;
 use App\Http\Controllers\EstablecerController;
 use App\Http\Controllers\RecuperarController;
+use App\Http\Controllers\EncuestaEmpleador;
 
 
 /*
@@ -41,6 +42,9 @@ Route::get('/actualizar_contrasena', RecuperarContrasenaController::class);
 Route::get('/acceso', AccesoController::class);
 Route::post('/establecer/{id}', EstablecerController::class);
 Route::post('/login', LoginController::class);
+//rutas empleador
+Route::get('/encuesta_empleador', EncuestaEmpleador::class)->name('encuesta_empleador');
+
 
 Route::group(['middleware' => ['sessionChecked']], function () {
     /**

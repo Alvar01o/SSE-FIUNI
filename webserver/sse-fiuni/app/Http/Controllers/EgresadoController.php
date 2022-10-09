@@ -269,19 +269,26 @@ class EgresadoController extends Controller
                     'password' => 'Error en la validacion de contraseña.1'
                 ]);
             } else {
-                if (Hash::check($request->input('old_password'), $user->password)) {
+                //SI ES ADMIN - CAMBIAR DIRECTAMETE
+                if($this->getUser()->hasRole(User::ROLE_ADMINISTRADOR)) {
                     $user->password = bcrypt($request->input('password'));
                     $user->save();
                     return back();
                 } else {
-                    return back()->withErrors([
-                        'password' => 'Error en la validacion de contraseña.2'
-                    ]);
+                    if (Hash::check($request->input('old_password'), $user->password)) {
+                        $user->password = bcrypt($request->input('password'));
+                        $user->save();
+                        return back();
+                    } else {
+                        return back()->withErrors([
+                            'password' => 'Error en la validacion de contraseña.'
+                        ]);
+                    }
                 }
             }
         } else {
             return back()->withErrors([
-                'password' => 'Error en la validacion de contraseña.3'
+                'password' => 'Error en la validacion de contraseña.'
             ]);
         }
     }

@@ -22,6 +22,7 @@
         <th scope="col">Correo</th>
         <th scope="col">Estado</th>
         <th scope="col">C.I.</th>
+
         <th scope="col">Carrera</th>
       </tr>
     </thead>
@@ -58,7 +59,11 @@
                 @endif
             </td><td
             class="text-nowrap">{{ $user->ci }}</td>
-            <td class="text-nowrap">{{ $user->carrera->carrera }}</td>
+            @if($user->hasRole('egresado'))
+            <td class="text-nowrap">{{ $user->carrera ? $user->carrera->carrera : '' }} </td>
+            @else
+            <td class="text-nowrap"></td>
+            @endif
         </tr>
     @endforeach
     </tbody>
