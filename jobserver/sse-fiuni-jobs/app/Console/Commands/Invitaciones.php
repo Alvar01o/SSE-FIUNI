@@ -62,11 +62,7 @@ class Invitaciones extends Command
             }
             $encaso_que_sea_de_empleadores[$usuarios_encuesta->id] = $usuarios_encuesta;
         }
-        $this->info("Receptores:". json_encode($receptores));
         if ($receptores) {
-        $this->info("tipo:". $tipo_encuesta);
-        $this->info("emp:". json_encode($encaso_que_sea_de_empleadores));
-
             if ($tipo_encuesta == 'egresado') {
                 Mail::to($receptores)->send(new InvitacionEncuesta($usuarios_encuesta));
                 foreach ($usuarios as $key => $usr) {
