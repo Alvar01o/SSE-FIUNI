@@ -331,12 +331,20 @@ var validadorWizard = (function () {
         jQuery('#step-tab2').toggleClass('active')
         stepGlobal++
         jQuery('li.previous > button').toggleClass('d-none')
-        jQuery('#nextStep').html('Agregar pregunta a encuesta')
+        jQuery('#nextStep').html(`
+<div class="spinner-border text-light d-none final_spinner" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+<div class="pl-3 final_text_s">Agregar pregunta a encuesta</div>
+`)
       } else if (stepGlobal == 2) {
         if (
           jQuery('#' + jQuery('#selector_de_tipo').val() + ' > form:valid')
             .length
         ) {
+          jQuery('.final_text_s').toggleClass('d-none');
+          jQuery('#nextStep').attr('disabled', 'disabled');
+          jQuery('.final_spinner').toggleClass('d-none');
           jQuery('#' + selected + ' > form').submit()
         } else {
           jQuery(

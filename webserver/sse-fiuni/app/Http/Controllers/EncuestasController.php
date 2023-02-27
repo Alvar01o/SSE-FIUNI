@@ -48,7 +48,10 @@ class EncuestasController extends Controller
                 } catch(\Exception $e) {
                     DB::rollBack();
                 }
-                return redirect('encuestas');
+                return redirect('/encuestas/lista/empleador');
+            }
+            if ($nuevaEncuesta->tipo == 'empleador') {
+
             }
         }
         $encuestas = Encuestas::where('tipo', '=', $tipo)->orderByDesc('updated_at')->get();
@@ -242,7 +245,12 @@ class EncuestasController extends Controller
                 'nombre' => $request->input('nombre'),
                 'tipo' => $request->input('tipo')
             ]);
-            return redirect()->intended('encuestas');
+            if ($request->input('tipo') == 'empleador') {
+                return redirect()->intended('encuestas/lista/empleador');
+            } else {
+                return redirect()->intended('encuestas');
+            }
+
         }
     }
 
@@ -397,13 +405,20 @@ class EncuestasController extends Controller
         ]);
         $pregunta = NULL;
         $encuesta = Encuestas::find(intval($request->input('encuesta_id')));
+        $tipo = $encuesta->tipo;
         if ($encuesta->bloqueado()) {
             return view('error_permisos');
         }
 
         if ($validator->fails()) {
-            return redirect("/encuestas/{$request->input('encuesta_id')}")
-                        ->withErrors($validator);
+            if ($tipo == 'empleador') {
+                return redirect("/encuestas/empleador/{$request->input('encuesta_id')}")
+                            ->withErrors($validator);
+            }  else {
+                return redirect("/encuestas/{$request->input('encuesta_id')}")
+                            ->withErrors($validator);
+            }
+
         } else {
             if ($request->input('tipo_pregunta') !== 'pregunta') {
                 $validadorOpciones = Validator::make($request->only(['opcion']),
@@ -412,8 +427,14 @@ class EncuestasController extends Controller
                         'justificacion' => 'sometimes|required|array'
                     ]);
                 if ($validadorOpciones->fails()) {
-                    return redirect("/encuestas/{$request->input('encuesta_id')}")
-                                ->withErrors($validadorOpciones);
+                    if ($tipo == 'empleador') {
+                        return redirect("/encuestas/empleador/{$request->input('encuesta_id')}")
+                                        ->withErrors($validadorOpciones);
+                    }  else {
+                            return redirect("/encuestas/{$request->input('encuesta_id')}")
+                                        ->withErrors($validadorOpciones);
+                    }
+
                 } else {
                     $justificacion = false;
                     $opciones = $request->input('opcion');
@@ -437,7 +458,12 @@ class EncuestasController extends Controller
                             'opcion' => $opcion
                         ]);
                     }
-                    return redirect()->intended("/encuestas/{$pregunta->encuesta_id}");
+                    if ($tipo == 'empleador') {
+                        return redirect()->intended("/encuestas/empleador/{$pregunta->encuesta_id}");
+                    }  else {
+                        return redirect()->intended("/encuestas/{$pregunta->encuesta_id}");
+                    }
+
                 }
             } else {
                 $pregunta = Preguntas::create([
@@ -446,7 +472,12 @@ class EncuestasController extends Controller
                     'encuesta_id' => $request->input('encuesta_id'),
                     'requerido' => $request->input('requerido') == 'on' ? 1 : 0
                 ]);
-                return redirect()->intended("/encuestas/{$pregunta->encuesta_id}");
+                    if ($tipo == 'empleador') {
+                        return redirect()->intended("/encuestas/empleador/{$pregunta->encuesta_id}");
+                    }  else {
+                        return redirect()->intended("/encuestas/{$pregunta->encuesta_id}");
+                    }
+
             }
 
         }

@@ -21,7 +21,7 @@ class AdminController extends Controller
             return view('error_permisos');
         }
         $carreras = Carreras::all();
-        $encuestas = Encuestas::limit(5)->get();
+        $encuestas = Encuestas::where('tipo', '=', 'egresado')->limit(5)->get();
         return view('admin.index', ['carreras' => $carreras, 'user' => $this->getUser(), 'total_users' => User::role('egresado')->count(), 'encuestas' => $encuestas]);
     }
 

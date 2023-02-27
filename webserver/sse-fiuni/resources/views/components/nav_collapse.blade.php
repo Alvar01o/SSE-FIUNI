@@ -8,7 +8,7 @@
                     </div>
                 </a>
                 <ul class="nav collapse show" id="dashboard">
-                    <li class="nav-item"><a class="nav-link active" href="#" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link active" href="/" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Inicio</span>
                         </div>
                         </a>

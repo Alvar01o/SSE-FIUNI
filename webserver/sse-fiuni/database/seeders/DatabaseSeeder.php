@@ -90,6 +90,7 @@ class DatabaseSeeder extends Seeder
                 'apellido' => 'Mercado',
                 'ci' => 3456664,
                 'confirmado' => true,
+                'carrera_id' => $ing_informatica->id,
                 'email' => 'alvar01omer@gmail.com',
                 'password' => bcrypt('egresado'),
         ]);
