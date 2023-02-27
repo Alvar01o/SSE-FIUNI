@@ -48,10 +48,9 @@ class EncuestasController extends Controller
                 } catch(\Exception $e) {
                     DB::rollBack();
                 }
-                return redirect('/encuestas/lista/empleador');
             }
             if ($nuevaEncuesta->tipo == 'empleador') {
-
+                return redirect('/encuestas/lista/empleador');
             }
         }
         $encuestas = Encuestas::where('tipo', '=', $tipo)->orderByDesc('updated_at')->get();
