@@ -5,6 +5,7 @@ services:
     build:
       context: ./jobserver/sse-fiuni-jobs/
     restart: "no"
+    command: ["supervisord", "-n", "-c", "/etc/supervisord.conf"]
     ports:
       - "8081:80"
     volumes:
@@ -40,7 +41,8 @@ services:
     extra_hosts:
       - "sse.loc:127.0.0.1"
   db:
-    image: mariadb
+    build:
+      context: ./docker-entrypoint-initdb.d/
     restart: "no"
     ports: #quitar eso para restringir el acceso externo en produccion
       - 3306:3306

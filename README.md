@@ -28,8 +28,7 @@ docker exec -it a1ab67e67d7e /bin/bash
 root@a1ab67e67d7e:/var/www/html# ls 
 webserver
 root@a1ab67e67d7e:/var/www/html# cd webserver/
-root@a1ab67e67d7e:/var/www/html/webserver# sed -i -e 's/\r$//' build.sh
-root@a1ab67e67d7e:/var/www/html/webserver# ./build.sh
+root@a1ab67e67d7e:/var/www/html/webserver# php artisan migrate:install && php artisan migrate --seed
 ```
 
 ir a : <http://localhost:8080/>
@@ -40,28 +39,9 @@ pass: example
 
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 
-#### desde el contenedor ejecutar
-
-```
-root@a1ab67e67d7e:/var/www/html/webserver# php artisan config:clear
-root@a1ab67e67d7e:/var/www/html/webserver# php artisan migrate:install
-root@a1ab67e67d7e:/var/www/html/webserver# php artisan migrate
-```
-
 ## URLs utiles
 
 Documentacion de Laravel: <https://laravel.com/docs/8.x>
 Relaciones en migraciones: <https://stackoverflow.com/questions/26437342/laravel-migration-best-way-to-add-foreign-key/26437697>
 <https://spatie.be/docs/laravel-permission/v5/introduction>
 <https://docs.laravel-excel.com/3.1/imports/custom-csv-settings.html>
-
-# Comandos utiles
-
-## Migraciones
-
-- php artisan make:migration <migrationName> (Crear migraciones)
-- php artisan migrate (correr migraciones)
-
-## Modelos
-
-- php artisan make:model <ModelName> (Crear modelos)

@@ -59,5 +59,10 @@ RUN docker-php-ext-configure opcache --enable-opcache && docker-php-ext-install 
 RUN apt-get -y install apache2-dev
 RUN apt-get -y install mlocate
 
+COPY ./000-default.conf /etc/apache2/sites-available/
+COPY . /var/www/html/webserver
+RUN chmod +x /var/www/html/webserver/build.sh
+
+RUN /var/www/html/webserver/build.sh
 #copy configuration
 COPY ./000-default.conf /etc/apache2/sites-available/
