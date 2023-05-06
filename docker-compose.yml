@@ -19,14 +19,14 @@ services:
     extra_hosts:
       - "ssej.loc:127.0.0.1"
   sse-web:
-    deploy:
- #      resources:
- #       limits:
- #         cpus: '2'
- #         memory: 2048M
- #       reservations:
- #         cpus: '1'
- #         memory: 1024M
+#    deploy:
+#      resources:
+#       limits:
+#         cpus: '2'
+#         memory: 2048M
+#       reservations:
+#         cpus: '1'
+#         memory: 1024M
     dns: 8.8.8.8
     build:
       context: ./webserver/sse-fiuni/
