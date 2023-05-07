@@ -58,11 +58,23 @@ RUN docker-php-ext-configure opcache --enable-opcache && docker-php-ext-install 
 #add apache-dev
 RUN apt-get -y install apache2-dev
 RUN apt-get -y install mlocate
+RUN groupadd -r sse && useradd -r -g sse sse
 
-COPY ./000-default.conf /etc/apache2/sites-available/
-COPY . /var/www/html/webserver
-RUN chmod +x /var/www/html/webserver/build.sh
+RUN chown -R sse:sse /var/www/html/
 
-RUN /var/www/html/webserver/build.sh
+USER sse
+
+COPY --chown=sse:sse . /var/www/html/webserver
+
+WORKDIR /var/www/html/webserver
+
+RUN composer install
+RUN composer dump-autoload --optimize
+RUN chmod 777 -R storage
+COPY --chown=sse:sse .env.example .env
+RUN php artisan key:generate
+RUN chmod 777 -R storage/
+RUN php artisan storage:link
+RUN php artisan config:clear
 #copy configuration
 COPY ./000-default.conf /etc/apache2/sites-available/
