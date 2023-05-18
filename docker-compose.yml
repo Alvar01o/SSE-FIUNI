@@ -1,6 +1,6 @@
 version: "3"
 services:
-  sse-jobs:
+  sse-fiuni-jobs:
     dns: 8.8.8.8
     build:
       context: ./jobserver/sse-fiuni-jobs/
@@ -14,10 +14,10 @@ services:
       - ./webserver/sse-fiuni/config:/var/www/html/jobs/config
       - ./jobserver/sse-fiuni-jobs/conf.d:/etc/supervisor/conf.d
     depends_on:
-      - db
+      - db-fiuni
     extra_hosts:
       - "ssej.loc:127.0.0.1"
-  sse-web:
+  sse-fiuni-web:
     dns: 8.8.8.8
     build:
       context: ./webserver/sse-fiuni/
@@ -26,12 +26,12 @@ services:
       - "80:80"
     volumes:
       - ./:/mainroot
-      - ./webserver/sse-fiuni:/var/www/html/webserver
+      - webapp:/var/www/html/webserver
     depends_on:
-      - db
+      - db-fiuni
     extra_hosts:
       - "sse.loc:127.0.0.1"
-  db:
+ c:
     image: mariadb
     restart: "no"
     ports: #quitar eso para restringir el acceso externo en produccion
@@ -39,10 +39,17 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
 
-  adminer:
+  adminer-fiuni:
     image: adminer
     restart: "no"
     ports:
       - 8080:8080
     depends_on:
-      - db
+      - db-fiuni
+volumes:
+  webapp:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './webserver/sse-fiuni/'

@@ -1,6 +1,8 @@
 FROM php:7.4.29-apache
 
-RUN apt-get -y update --fix-missing
+RUN sed -i 's/deb.debian.org/ftp.us.debian.org/g' /etc/apt/sources.list && \
+    apt-get -y update --fix-missing
+
 RUN apt-get upgrade -y
 
 # Install useful tools
