@@ -82,7 +82,7 @@ class EncuestasExport implements FromQuery, WithMapping, WithHeadings, ShouldAut
             $data->apellido,
             $data->email,
             $data->ci,
-            $this->_carreras->find($data->carrera_id)->carrera,
+            ($this->_carreras->find($data->carrera_id)) ? $this->_carreras->find($data->carrera_id)->carrera : '-',
             $data->ingreso,
             $data->egreso
         ];

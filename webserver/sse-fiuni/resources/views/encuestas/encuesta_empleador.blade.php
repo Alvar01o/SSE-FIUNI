@@ -14,7 +14,7 @@
     </div>
     <div class="list-group">
         <?php $respuestas = $encuesta->respuestas($user);?>
-        <form action="/encuestas/guardar_respuestas/{{ $encuesta->id }}" method="post">
+        <form action="{{ route('encuesta_empleador', ['invitacion' => $invitacion]) }}" method="post">
             <input type="hidden" name="_method" value="POST">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" required/>
             <?php $mostrarError = false;?>
@@ -61,7 +61,7 @@
             @endforeach
             <?php $finalizado = $respuestas && !$mostrarError ? true : false;?>
             <div class="row">
-                <button class="btn btn-primary">Finalizar</button>
+                <button class="btn btn-primary" type="submit">Finalizar</button>
             </div>
         </form>
         @if($finalizado)

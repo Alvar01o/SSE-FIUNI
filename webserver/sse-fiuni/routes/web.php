@@ -44,7 +44,7 @@ Route::post('/establecer/{id}', EstablecerController::class);
 Route::post('/login', LoginController::class);
 //rutas empleador
 Route::get('/encuesta_empleador', EncuestaEmpleador::class)->name('encuesta_empleador');
-
+Route::post('/encuesta_empleador', EncuestaEmpleador::class)->name('encuesta_empleador');
 
 Route::group(['middleware' => ['sessionChecked']], function () {
     /**

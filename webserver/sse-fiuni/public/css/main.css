@@ -145,3 +145,6 @@ svg.eliminar_pregunta:hover {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+.footer {
+  position: relative;
+}
