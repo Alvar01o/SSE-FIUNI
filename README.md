@@ -29,6 +29,7 @@ root@a1ab67e67d7e:/var/www/html# ls
 webserver
 root@a1ab67e67d7e:/var/www/html# cd webserver/
 root@a1ab67e67d7e:/var/www/html/webserver# sed -i -e 's/\r$//' build.sh
+root@a1ab67e67d7e:/var/www/html/webserver# chmod a+x ./build.sh
 root@a1ab67e67d7e:/var/www/html/webserver# ./build.sh
 ```
 
